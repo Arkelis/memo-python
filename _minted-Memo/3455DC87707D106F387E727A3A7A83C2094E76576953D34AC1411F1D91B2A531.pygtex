@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{MaClasse}\PYG{p}{:}
+    \PYG{n}{CONSTANTE} \PYG{o}{=} \PYG{o}{...}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{att1}\PYG{p}{,} \PYG{n}{att2}\PYG{p}{):}
+        \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Constructeur\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{attribut\PYGZus{}1} \PYG{o}{=} \PYG{n}{att1}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{attribut\PYGZus{}2} \PYG{o}{=} \PYG{n}{att2}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{attribut\PYGZus{}3} \PYG{o}{=} \PYG{n}{CONSTANTE}
+\end{Verbatim}

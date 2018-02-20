@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{MaClasse}\PYG{p}{:}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+         \PYG{o}{\PYGZlt{}}\PYG{n}{contenu}\PYG{o}{\PYGZgt{}}
+
+    \PYG{k}{def} \PYG{n+nf}{methode}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{arg1}\PYG{p}{,} \PYG{n}{arg2}\PYG{p}{):}
+         \PYG{o}{\PYGZlt{}}\PYG{n}{contenu}\PYG{o}{\PYGZgt{}}
+\end{Verbatim}

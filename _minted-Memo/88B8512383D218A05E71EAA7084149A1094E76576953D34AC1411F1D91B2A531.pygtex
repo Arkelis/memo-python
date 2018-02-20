@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Mere}\PYG{p}{:}
+    \PYG{o}{\PYGZlt{}}\PYG{n}{contenu}\PYG{o}{\PYGZgt{}}
+
+\PYG{k}{class} \PYG{n+nc}{Fille}\PYG{p}{(}\PYG{n}{Mere}\PYG{p}{):}
+    \PYG{o}{\PYGZlt{}}\PYG{n}{contenu}\PYG{o}{\PYGZgt{}}
+\end{Verbatim}

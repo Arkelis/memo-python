@@ -27,6 +27,28 @@
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{myblue}{rgb}{0,0,1}
 
+\usepackage{titlesec}
+\usepackage{titletoc}
+\setcounter{tocdepth}{2}
+
+
+\titlecontents
+	{section}
+	[0em]
+	{\bfseries\addvspace{0.5em}}
+	{\bfseries{\thecontentslabel.\ }}
+	{}
+	{\hfill\bfseries\contentspage}
+	[\addvspace{0pt}]
+	
+\titlecontents
+	{subsection}
+	[1em]
+	{\addvspace{0.25em}}
+	{\thecontentslabel.\ }
+	{}
+	{\hfill\contentspage}
+	[\addvspace{0pt}]
 
 \begin{document}
 \begin{center}

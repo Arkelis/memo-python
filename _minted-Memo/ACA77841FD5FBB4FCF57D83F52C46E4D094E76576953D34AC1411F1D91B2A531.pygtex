@@ -1,0 +1,19 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{turtle}
+
+\PYG{n}{Terrain} \PYG{o}{=} \PYG{n}{turtle}\PYG{o}{.}\PYG{n}{Screen}\PYG{p}{()}
+\PYG{n}{Terrain}\PYG{o}{.}\PYG{n}{bgcolor}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}black\PYGZdq{}}\PYG{p}{)}
+
+\PYG{n}{Tortue} \PYG{o}{=} \PYG{n}{turtle}\PYG{o}{.}\PYG{n}{Turtle}\PYG{p}{()}
+\PYG{n}{Tortue}\PYG{o}{.}\PYG{n}{speed}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}
+\PYG{n}{Tortue}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}turtle\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{Tortue}\PYG{o}{.}\PYG{n}{color}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}white\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{50}\PYG{p}{):}
+    \PYG{k}{for} \PYG{n}{e} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{):}
+        \PYG{n}{Tortue}\PYG{o}{.}\PYG{n}{forward}\PYG{p}{(}\PYG{l+m+mi}{100}\PYG{p}{)}
+        \PYG{n}{Tortue}\PYG{o}{.}\PYG{n}{right}\PYG{p}{(}\PYG{l+m+mi}{90}\PYG{p}{)}
+    \PYG{n}{Tortue}\PYG{o}{.}\PYG{n}{right}\PYG{p}{(}\PYG{l+m+mi}{360}\PYG{o}{/}\PYG{l+m+mi}{50}\PYG{p}{)}
+
+\PYG{n}{Terrain}\PYG{o}{.}\PYG{n}{exitonclick}\PYG{p}{()}
+\end{Verbatim}
