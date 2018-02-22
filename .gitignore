@@ -5,3 +5,7 @@
 *.ind
 *.idx
 *.toc
+*.fdb_latexmk
+*.yaml
+*.fls
+*.xdv

@@ -1,5 +1,5 @@
 \documentclass[a4paper, 10pt]{article}
-\usepackage[francais]{babel}
+\usepackage[french]{babel}
 \usepackage[left = 3 cm, right = 3 cm, top = 2 cm, bottom = 2 cm]{geometry}
 \usepackage{python}
 \usepackage{makeidx}
@@ -10,11 +10,11 @@
 \usepackage{color}
 %\rmfamily % To load Latin Modern Roman and enable the following NFSS declarations.
 % Declare that Latin Modern Roman (lmr) should take
-% its bold (b) and bold extended (bx) weight, and small capital (sc) shape, 
+% its bold (b) and bold extended (bx) weight, and small capital (sc) shape,
 % from the corresponding Computer Modern Roman (cmr) font, for the T1 font encoding.
 %\DeclareFontShape{T1}{lmr}{b}{sc}{<->ssub*cmr/bx/sc}{}
 %\DeclareFontShape{T1}{lmr}{bx}{sc}{<->ssub*cmr/bx/sc}{}
-\usepackage[colorlinks=true]{hyperref} 
+\usepackage[colorlinks=true]{hyperref}
 \hypersetup{urlcolor=blue,linkcolor=black,citecolor=black,colorlinks=true}
 \usepackage{sectsty}
 \allsectionsfont{\bfseries\sffamily}
@@ -26,7 +26,6 @@
 \usepackage{minted}
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{myblue}{rgb}{0,0,1}
-
 \usepackage{titlesec}
 \usepackage{titletoc}
 \setcounter{tocdepth}{2}
@@ -40,7 +39,7 @@
 	{}
 	{\hfill\bfseries\contentspage}
 	[\addvspace{0pt}]
-	
+
 \titlecontents
 	{subsection}
 	[1em]
@@ -51,6 +50,7 @@
 	[\addvspace{0pt}]
 
 \begin{document}
+
 \begin{center}
         {\Huge{\sc\bfseries{Mémo Python}}}\\[20pt]
         \includegraphics[scale=0.1]{python.png}
@@ -82,7 +82,7 @@
 	\end{enumerate}
         \item Chaîne de caractères (\href{https://docs.python.org/fr/3/library/string.html?highlight=str#module-string}{\code{str}})
 		\item Séquences binaires (\href{https://docs.python.org/fr/3/library/stdtypes.html#binary-sequence-types-bytes-bytearray-memoryview}{\code{bytes, bytearray, memoryview}})
-		\item Ensemble (\href{https://docs.python.org/fr/3/library/stdtypes.html#set-types-set-frozenset}{\code{set}} (muable), \href{https://docs.python.org/fr/3/library/stdtypes.html#set-types-set-frozenset}{\code{frozenset}} (non muable)) 
+		\item Ensemble (\href{https://docs.python.org/fr/3/library/stdtypes.html#set-types-set-frozenset}{\code{set}} (muable), \href{https://docs.python.org/fr/3/library/stdtypes.html#set-types-set-frozenset}{\code{frozenset}} (non muable))
 		\item Dictionnaire (\href{https://docs.python.org/fr/3/library/stdtypes.html#mapping-types-dict}{\code{dict}})
 \end{enumerate}
 La liste n'est pas exhaustive, des compléments sur les types natifs sont disponibles dans la documentation.
@@ -122,7 +122,7 @@ class MaClasse:
         self.attribut_2 = att2
         self.attribut_3 = CONSTANTE
 \end{minted}
-Ici, les deux premiers attributs sont personnalisables lors de la création des objets alors que le dernier est commun à tous. \code{CONSTANTE} est une variable de classe\index{variable de classe}. Pour créer un objet on écrit simplement: 
+Ici, les deux premiers attributs sont personnalisables lors de la création des objets alors que le dernier est commun à tous. \code{CONSTANTE} est une variable de classe\index{variable de classe}. Pour créer un objet on écrit simplement:
 \begin{minted}[fontsize = \footnotesize, frame = single]{python}
 objet = MaClasse(att1, att2)
 \end{minted}
@@ -133,7 +133,7 @@ Les méthodes se définissent comme des fonctions, elles agissent en général s
 class MaClasse:
     def __init__(self):
          <contenu>
-    
+
     def methode(self, arg1, arg2):
          <contenu>
 \end{minted}
@@ -156,7 +156,7 @@ class Fille(Mere):
     <contenu>
 \end{minted}
 
-Il est possible d'écraser une méthode héritée en la redéfinissant dans la classe fille. Si on veut accéder à une méthode héritée alors qu'on l'a redéfinie dans la classe fille, on utilise la fonction \code{super()} qui permet d'appeler la méthode de la classe mère de la classe présente (sans l'argument self). 
+Il est possible d'écraser une méthode héritée en la redéfinissant dans la classe fille. Si on veut accéder à une méthode héritée alors qu'on l'a redéfinie dans la classe fille, on utilise la fonction \code{super()} qui permet d'appeler la méthode de la classe mère de la classe présente (sans l'argument self).
 
 \paragraph{Exemple}
 \begin{minted}[frame = single, fontsize = \footnotesize]{python}
@@ -170,7 +170,7 @@ class Bibliotheque(Meuble):
         super().__init__(couleur, materiau)
         self.nb_livres = n
 \end{minted}
-On peut utiliser deux fonctions pour vérifier l'héritage: \code{isinstance} renvoie \code{True} si l'objet est une instance de la classe ou de ses classes filles ; \code{issubclass} permet de voir si une classe est fille d'une autre.   
+On peut utiliser deux fonctions pour vérifier l'héritage: \code{isinstance} renvoie \code{True} si l'objet est une instance de la classe ou de ses classes filles ; \code{issubclass} permet de voir si une classe est fille d'une autre.
 
 \begin{Verbatim}[frame = single, fontsize = \footnotesize]
 >>> bibli = Bibliotheque('blanc', 'vert', 150)
@@ -246,7 +246,7 @@ class MaClasse:
     def __setattr__(self, attribut, valeur):
         object.__setattr__(self, attribut, valeur)
         print("L'attribut a été changé !")
-        # Il est nécessaire d'appeler la méthode par défaut, car appeler self.__setattr__ 
+        # Il est nécessaire d'appeler la méthode par défaut, car appeler self.__setattr__
         # donnerait une récursivité infinie. En fait, on ne sait à ce stade pas comment
         # Python change concrètement la valeur de l'attribut.
 \end{minted}
@@ -295,7 +295,7 @@ Les surcharges d'opérateur permettent de faire des opérations arithmétiques a
         \hline
         \multicolumn{1}{|c|} {\bf Méthode} & {\bf Appel}\\
         \hline
-        \code{\_\_add\_\_}\index{\code{\_\_add\_\_}} & \code{objet1 + objet2}\\ 
+        \code{\_\_add\_\_}\index{\code{\_\_add\_\_}} & \code{objet1 + objet2}\\
         \hline
         \code{\_\_sub\_\_}\index{\code{\_\_sub\_\_}} & \code{objet1 - objet2}\\
         \hline
@@ -305,14 +305,14 @@ Les surcharges d'opérateur permettent de faire des opérations arithmétiques a
         \hline
         \code{\_\_floordiv\_\_}\index{\code{\_\_floordiv\_\_}} & \code{objet1 // objet2}\\
         \hline
-        \code{\_\_mod\_\_}\index{\code{\_\_mod\_\_}} & \code{objet1 \% objet2}\\ 
+        \code{\_\_mod\_\_}\index{\code{\_\_mod\_\_}} & \code{objet1 \% objet2}\\
         \hline
 \end{tabular}
 \end{center}
 Les deux objets ne sont pas nécessairement du même type ! Cependant, cette opération n'est pas symétrique : le code \code{objet + 5} par exemple exécute \code{objet.\_\_add\_\_(5)}, alors que \code{5 + objet} exécute \code{int.\_\_add\_\_(5)}. Pour que l'opération soit symétrique, il faut aussi définir ces fonctions avec le préfixe \code{r} (par exemple \code{\_\_radd\_\_}).
 \subsection{Méthodes statiques et méthodes de classes}
 \subsubsection{Méthode statique}\index{méthode statique}
-Les méthodes que l'on a vues jusqu'à maintenant agissent sur les instances des classes : elles prennent toujours en premier argument le mot clé \code{self} qui renvoie à l'instance elle même. Lorsque l'on appelle une telle méthode sur une instance comme ceci: 
+Les méthodes que l'on a vues jusqu'à maintenant agissent sur les instances des classes : elles prennent toujours en premier argument le mot clé \code{self} qui renvoie à l'instance elle même. Lorsque l'on appelle une telle méthode sur une instance comme ceci:
 \mintinline[fontsize=\small]{python}
 {instance.methode(<arguments>)},
 Python exécute en fait \code{Classe.methode(instance, <arguments>)}.\bigskip
@@ -322,7 +322,7 @@ En fait, ces deux objets sont différents. \code{Classe.methode} est une simple 
 \paragraph{Exemple}
 \begin{minted}[frame=single, fontsize=\footnotesize]{python}
 class Maths:
-    
+
     def addition(x, y):
         return x + y
 
@@ -352,7 +352,7 @@ class Personne:
     def __init__(self, nom, age):
         self.nom = nom
         self.age = age
-    
+
     @staticmethod
     def par_date_de_naissance(nom, date):
         return Personne(nom, 2018-date)
@@ -380,14 +380,14 @@ Pour avoir \code{homme1} de type \code{Homme}, il faut redéfinir la méthode st
 
 \subsection{Propriétés}\index{propriété}\index{accesseur}\index{mutateur}\index{destructeur}
  Les propriétés représentent en Python le principe d'encapsulation. Elles sont utiles si on souhaite contrôler l'accès à un attribut ou si on veut que le changement d'une valeur d'un attribut engendre des modifications sur d'autres attributs. Les propriétés sont un cas particulier des descripteurs.
- 
+
 \subsubsection{Définition d'une propriété}
- 
+
 On crée les propriétés en utilisant des décorateurs. Elles contiennent un accesseur, un mutateur, un destructeur et une aide (docstring de l'accesseur).\bigskip
 
 Les propriétés sont aussi un moyen de simuler des attributs privés: pour simuler un attribut privé, on précède son nom d'un souligné. Ainsi, on appelle cet attribut sans le souligné dans le code g\^ace aux propriétés. Par convention, on n'agit pas sur les attributs qui commencent par un souligné en Python.
- 
-\paragraph{Exemple} 
+
+\paragraph{Exemple}
 \begin{minted}[fontsize = \footnotesize, frame = single]{python}
 class MaClasse:
     def __init__(self):
@@ -403,7 +403,7 @@ class MaClasse:
     def attribut(self, valeur):
         print("Modification de l'attribut")
         self._attribut = valeur
-    
+
     @attribut.deleter
     def attribut(self):
         print('Adieu :(')
@@ -436,7 +436,7 @@ class Attribut:
     def __get__(self, inst, insttype):
         print("Accès à l'attribut")
         return inst._attribut
- 
+
     def __set__(self, inst, valeur):
         print("Modification de l'attribut")
         inst._attribut = valeur
@@ -575,7 +575,7 @@ Terrain.exitonclick()
 # 2 : Abandonner | Recommencer | Ignorer
 # 3 : Oui | Non | Annuler
 # 4 : Oui | Non
-# 5 : Recommencer | Annuler 
+# 5 : Recommencer | Annuler
 # 6 : Annuler | Recommencer | Continuer
 
 # To also change icon, add these values to previous number
@@ -610,7 +610,5 @@ ctypes.windll.user32.MessageBoxW(0, "That's an error", "Warning!", 16)
 
 
 %\addcontentsline{toc}{section}{Index}
-\printindex 
+\printindex
 \end{document}
-
-
