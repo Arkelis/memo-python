@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nd}{@decorateur}
+\PYG{k}{def} \PYG{n+nf}{fonction}\PYG{p}{():}
+    \PYG{k}{pass}
+\end{Verbatim}

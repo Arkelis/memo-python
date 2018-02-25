@@ -15,7 +15,7 @@
 %\DeclareFontShape{T1}{lmr}{b}{sc}{<->ssub*cmr/bx/sc}{}
 %\DeclareFontShape{T1}{lmr}{bx}{sc}{<->ssub*cmr/bx/sc}{}
 \usepackage[colorlinks=true]{hyperref}
-\hypersetup{urlcolor=blue,linkcolor=black,citecolor=black,colorlinks=true}
+\hypersetup{urlcolor=blue,linkcolor=black,citecolor=blue,colorlinks=true}
 \usepackage{sectsty}
 \allsectionsfont{\bfseries\sffamily}
 \usepackage{caption}
@@ -57,11 +57,11 @@
         \vspace{20pt}
 \end{center}
 \tableofcontents
+\hypersetup{linkcolor=blue}
 
 \part{Fonctionnalités Python}
 \section{Constantes et types natifs}
  Quelques constantes sont définies par Python comme \code{True}\index{\code{True}} et \code{False}\index{\code{False}}. De la même manière, quelques classes sont définies par défaut, appeléss types natifs, comme:
-
 \begin{enumerate}
 		\item Types booléens
 		\begin{enumerate}
@@ -110,14 +110,14 @@ class MaClasse(ClasseMere):
     <contenu>
 \end{minted}
 
-\subsubsection{Constructeur}\index{constructeur}\index{\code{\_\_init\_\_}}
+\subsubsection{Initialiseur}\index{initialiseur}\index{\code{\_\_init\_\_}}
 
-Le constructeur est une méthode spéciale appelée {\footnotesize\verb|__init__|} et prend en argument \code{self}\index{\code{self}} (toutes les méthodes de la classe prennent en argument \code{self} qui est en fait l'instance en question) et tous les paramètres nécessaires à la création de l'instance. Le constructeur est appelé automatiquement lors que l'on crée l'objet.
+L'initialiseur est une méthode spéciale appelée {\footnotesize\verb|__init__|}, il prend en argument \code{self}\index{\code{self}} (toutes les méthodes de la classe prennent en argument \code{self} qui est en fait l'instance en question) et tous les paramètres nécessaires à l'initialisation de l'instance. Il ne s'agit pas du constructeur (même si on l'appelle parfois ainsi par abus de langage) : il ne crée  pas à proprement parler l'instance, mais agit sur celle-ci lorsqu'elle vient d'être créée. Le \og véritable \fg{} constructeur est la méthode \code{\_\_new\_\_}, il n'est en général pas nécessaire de l'implémenter, sauf par exemple lorsque l'on crée des \hyperref[sec:metaclasses]{métaclasses} ou si l'on veut créer des classes qui héritent des types natifs. L'initialiseur est appelé automatiquement lors que l'on crée l'objet (après le constructeur).
 \begin{minted}[fontsize = \footnotesize, frame = single]{python}
 class MaClasse:
     CONSTANTE = ...
     def __init__(self, att1, att2):
-        """Constructeur"""
+        """Initialiseur"""
         self.attribut_1 = att1
         self.attribut_2 = att2
         self.attribut_3 = CONSTANTE
@@ -195,8 +195,31 @@ True
  Les méthodes spéciales sont déjà définies par défaut dans Python mais on peut les personnaliser. Elles sont reconnaissables par leur typographies: leur nom commence et se termine par deux soulignés.
 
 \paragraph{Documentation} \href{https://docs.python.org/3/reference/datamodel.html#specialnames}{Documentation Python 3}, \href{https://openclassrooms.com/courses/apprenez-a-programmer-en-python/les-methodes-speciales-1}{OpenClassrooms}
-\subsubsection{Construction et destruction}
-Le constructeur \code{\_\_init\_\_} a déjà été décrit précédemment. Pour détruire un objet, on définit la méthode \code{\_\_del\_\_}\index{\code{\_\_del\_\_}}. On l'appelle comme ceci:
+
+
+\subsubsection{Construction, initialisation et destruction}
+Le constructeur est la méthode \code{\_\_new\_\_}. C'est une \hyperref[sec:classmethod]{méthode de classe} qui prend en argument \code{cls} et les autres arguments qui seront en paramètres de l'initialiseur; il doit retourner un objet (l'instance à créer). \code{\_\_init\_\_} a déjà été décrit précédemment (contrairement au constructeur, cette méthode ne retourne rien). En pratique, on n'implémente pas la méthode \code{\_\_new\_\_} sauf dans certains cas.
+
+\paragraph{Exemple} On veut définir une classe \og singleton \fg{} qui ne peut créer qu'une instance.
+
+\begin{minted}[frame = single, fontsize = \footnotesize]{python}
+class Singleton:
+    """Classe qui ne peut instancier qu'une fois."""
+
+    instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if instance is None:
+            cls.instance = super().__new__(cls, *args, **kwargs)
+            return cls.instance
+        else:
+            raise TypeError("Cette classe singleton possède déjà une instance")
+
+    def __init__(self, *args, **kwargs):
+        pass
+\end{minted}
+
+Pour détruire un objet, on définit la méthode \code{\_\_del\_\_}\index{\code{\_\_del\_\_}}. On l'appelle comme ceci:
 \begin{minted}[fontsize = \footnotesize, frame = single]{python}
 del objet
 \end{minted}
@@ -229,8 +252,7 @@ Instance de MaClasse ayant comme attribut Exemple.
 \subsubsection{Accesseur et mutateur}\index{accesseur}\index{mutateur}\index{destructeur}
 Lorsque Python essaie d'accéder à un attribut, il appelle en premier la méthode spéciale \code{\_\_getattribute\_\_}\index{\code{\_\_getattribute\_\_}}, puis il appelle les descripteurs s'il sont définis (cf. Propriétés). Lorsque l'on veut modifier un attribut, c'est la méthode spéciale \code{\_\_setattr\_\_}\index{\code{\_\_setattr\_\_}} puis les descripteurs qui sont appelés. Si on essaie d'accéder à un attribut non défini, Python appelle en guise de dernière chance la méthode \code{\_\_getattr\_\_}\index{\code{\_\_getattr\_\_}}. On peut personnaliser cette fonction de manière à ce qu'elle envoie une erreur, ou bien à ce qu'elle redirige vers un autre attribut ou effectue un calcul.
 
-\paragraph{Exemple}~
-
+\paragraph{Exemple}
 \begin{minted}[frame = single, fontsize = \footnotesize]{python}
 class MaClasse:
     def __init__(self)
@@ -334,8 +356,8 @@ class Maths:
 \end{minted}
 On choisit ici de grouper trois fonctions car elles sont logiquement liées. Elles n'influent pas les instances donc elles ne prennent pas \code{self} en argument. Si l'on appelle ces méthodes sur une instance, une exception sera levée car Python entrera automatiquement l'argument \code{self} (donc en tout trois arguments) alors que les méthodes n'en prennent que deux. Pour remédier à cela, on les décore avec \code{@staticmethod}. On peut maintenant les appeler indifféremment sur la classe ou sur des instances.
 
-\subsubsection{Méthode de classe}\index{méthode de classe}
-Lorsque l'on veut manipuler des variables de classe et non des attributs d'instances, on crée des méthodes de classe. Dans ce cas, il faut dire à Python de ne pas prendre \code{self} (c'est-à-dire une instance) comme premier argument, mais \code{cls} (c'est-à-dire la classe en question). Cette méthode est donc évaluée sur la classe. Sans autre modification, on ne peut peut appeler cette méthode que sur les instances car Python attend l'argument \code{cls}. Pour pouvoir appeler cette méthode sur la classe (logique car c'est une méthode de classe), on la décore avec \code{@classmethod}.
+\subsubsection{Méthode de classe}\index{méthode de classe}\label{sec:classmethod}
+Lorsque l'on veut manipuler des variables de classe et non des attributs d'instances, on crée des méthodes de classe. Celles-ci prennent la classe en premier argument, par convention on le note \code{cls}; elles ne prennent logiquement pas \code{self} comme argument. Cette méthode est donc évaluée sur la classe. Sans autre modification, on ne peut peut appeler cette méthode que sur les instances car Python attend l'argument \code{cls}. Pour pouvoir appeler cette méthode sur la classe (logique car c'est une méthode de classe), on la décore avec \code{@classmethod}.
 
 \subsubsection{Cas de l'héritage}
 En résumé:
@@ -343,7 +365,7 @@ En résumé:
         \item Les méthodes statiques sont des fonctions reliées à des classes, mais qui n'agissent pas sur celles-ci.
         \item Les méthodes de classe sont des fonctions qui prennent la classe en paramètre.
 \end{enumerate}
-n
+
 Une classe qui hérite d'une classe mère hérite de toutes ses méthodes. Les méthodes statiques restent donc inchangées, tandis que les méthodes de classe s'adaptent à la nouvelle classe, car elles la prennent en premier argument.
 
 \paragraph{Exemple} Un exemple d'utilisation de méthodes statiques et de classe sont la création de constructeurs alternatifs. On s'aperçoit de la différence des deux notions.
@@ -429,7 +451,8 @@ Help on property:
 
 \paragraph{Documentation}\href{https://docs.python.org/fr/3/library/functions.html?highlight=property#property}{Documentation Python 3}, \href{https://stackoverflow.com/questions/15750522/class-properties-and-setattr/15751159#15751159}{Priorités entre propriété et méthodes spéciales}
 \subsubsection{Généralisation: les descripteurs}
-Les descripteurs sont un type d'objets qui possèdent au moins deux méthodes \code{\_\_get\_\_} (accesseur) et \code{\_\_set\_\_} (mutateur).
+On dit qu'un objet est un descripteur s'il possède au moins une méthode \code{\_\_get\_\_} (accesseur), \code{\_\_set\_\_} (mutateur), ou \code{\_\_delete\_\_} (destruteur).
+
 \paragraph{Exemple} Exemple d'implémentation
 \begin{minted}[frame = single, fontsize = \footnotesize]{python}
 class Attribut:
@@ -447,31 +470,32 @@ class MaClasse:
 
     attribut = Attribut()
 \end{minted}
-\subsection{Métaclasses}\index{métaclasse}
 
-\section{Itérateur}\index{itérateur}
-\section{Générateur}\index{générateur}
+\paragraph{Documentation} \href{https://docs.python.org/3/howto/descriptor.html}{Documentation Python 3}
+
+\section{Itérateurs}\index{itérateur}
+\section{Générateurs}\index{générateur}
 \section{Décorateurs}\index{décorateur}
-Les décorateurs sont des fonctions ou des classes qui permettent de modifier le comportement d'une autre fonction (ou classe). Les décorateurs sont utiles lorsque l'on souhaite qu'un certain nombre de fonctions effectuent des t\^aches communes comme par exemple donner leur temps d'exécution. On appelle un décorateur de la manière suivante.
+Les décorateurs sont des fonctions ou des classes qui permettent de modifier le comportement d'une autre fonction (ou classe). Les décorateurs sont utiles lorsque l'on souhaite qu'un certain nombre de fonctions effectuent des tâches communes comme par exemple donner leur temps d'exécution. On appelle un décorateur de la manière suivante.
 
 \begin{minted}[fontsize = \footnotesize, frame = single]{python}
 @decorateur
-def fonction(...):
-    ...
+def fonction():
+    pass
 \end{minted}
 
 Le code précédent a le même comportement que le code suivant.
 
 \begin{minted}[fontsize = \footnotesize, frame = single]{python}
-def fonction(...):
-    ...
+def fonction():
+    pass
 
 fonction = decorateur(fonction)
 \end{minted}
 
 Ainsi, \code{fonction} devient l'objet retournée par \code{decorateur(fonction)}. Le décorateur doit donc retourner un objet que l'on peut appeler en écrivant \code{objet()} (avec d'éventuels arguments), on appelle ce type d'objet un \og callable\fg{}\index{callable}. Le décorateur est bien sûr lui même un callable. Si on le définit comme une classe, on doit définir la méthode \code{\_\_call\_\_} qui permet de rendre ses instances callable.
 
-\paragraph{Documentation} \href{https://stackoverflow.com/questions/739654/how-to-make-a-chain-of-function-decorators/1594484#1594484}{StackOverflow}
+\paragraph{Documentation} \href{https://stackoverflow.com/questions/739654/how-to-make-a-chain-of-function-decorators/1594484#1594484}{Stack Overflow}
 
 \subsection{En tant que classe}
 Une façon d'implémenter un décorateur est d'utiliser les classes. La fonction décorée deviendra alors une instance de la classe de ce décorateur. Il faut obligatoirement définir la méthode \code{\_\_call\_\_} pour pouvoir rendre cette instance callable.
@@ -501,8 +525,61 @@ def compteur(f):
     wrapper.call = 0
     return wrapper
 \end{minted}
+\paragraph{Remarques} On voit dans cet exemple que l'on peut définir des fonctions dans les définitions de fonctions. La mention \code{*args} fait référence à tous les arguments non nommés que l'on a entrés (c'est un tuple, par exemple \code{(arg1, arg2)}). La mention \code{**kwargs} fait référence aux arguments nommés (c'est un dictionnaire). Ainsi on est sûr de récupérer tous les arguments.\bigskip
 
 Dans cet exemple, on assigne à \code{wrapper} un attribut de fonction (on peut le faire, puisqu'une fonction est un objet -- de la classe \code{function}). On le définit après avoir défini cette fonction.
+
+\subsection{Décorateurs à paramètres}
+On peut faire en sorte que le décorateur prenne un ou plusieurs paramètres. Dans ce cas, il faut définir le décorateur à l'intérieur d'une clôture qui prend en argument ces différents paramètres.
+
+\paragraph{Exemple} On veut retourner une erreur quand la fonction retourne une valeur trop élevée.
+\begin{minted}[frame = single, fontsize = \footnotesize]{python}
+def depasse_max(max):
+    def deco(f):
+        def wrapper(*args, **kwargs):
+            n = f(*args, **kwargs)
+            if n > max:
+                print("Maximum {} dépassé.".format(max))
+                return
+            return n
+        return wrapper
+    return deco
+\end{minted}
+
+Ces deux syntaxes sont équivalentes:
+
+\begin{minted}[frame = single, fontsize = \footnotesize]{python}
+@depasse_max(10)
+def demande_nombre():
+    n = int(input("Entrer un nombre : "))
+    return n
+
+def demande_nombre():
+    n = int(input("Entrer un nombre : "))
+    return n
+
+demande_nombre = depasse_max(10)(demande_nombre)
+\end{minted}
+
+Cela permet de faire
+
+\begin{Verbatim}[frame = single, fontsize = \footnotesize]
+>>> demande_nombre()
+Entrer un nombre : 11
+Maximum 10 dépassé.
+\end{Verbatim}
+
+\section{Métaclasses}\index{métaclasse}\label{sec:metaclasses}
+Les métaclasses sont les classes qui instancient d'autres classes. Par défaut, une seule métaclasse est définie : la métaclasse \code{type}. On s'en rend compte en demandant le type des classes que l'on crée.
+
+\begin{minted}[frame = single, fontsize = \footnotesize]{python}
+class MaClasse:
+    pass
+
+print(type(MaClasse)) # <class 'type'>
+\end{minted}
+
+\setcounter{section}{0}
 \part{Modules}
 \section{Librairie standard}
 \subsection{datetime}\index{datetime}
