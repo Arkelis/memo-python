@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGZdl{} python manage.py startapp nom\PYGZus{}de\PYGZus{}l\PYGZus{}application
+\end{Verbatim}

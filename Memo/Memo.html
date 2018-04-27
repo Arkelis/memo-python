@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang='fr'>
+    <head>
+        <meta charset="utf-8"/>
+        <link rel='icon' href=''/>
+        <link rel="stylesheet" href="style/style.css">
+        <title></title>
+        <link rel="stylesheet" href="style/prism.css">
+    <script src="scripts/prism.js"></script>
+    </head>
+    <body>
+    
+
+<span class='begin'>center</span>
+        {<span class='Huge'>\sc<span class='bfseries'>Mémo Python</span></span>}\\[20pt]
+        \includegraphics[scale=0.1]{python.png}
+        <span class='vspace'>20pt</span>
+<span class='end'>center</span>
+\tableofcontents
+<span class='hypersetup'>linkcolor=blue</span>
+
+<p><strong class='paragraph'>Remarque</strong>&emsp;
+ Ne sont pas reprises les opérations <q> basiques </q> (boucles, manipulation des listes). On s'intéresse directement à la programmation orientée objet. Ensuite sont détaillés quelques fonctionnalités apportées par des modules.</p>
+
+<h1>Programmation orientée objet en Python</h1>
+<h2>Constantes et types natifs</h2>
+ Quelques constantes sont définies par Python comme <code>True</code> et <code>False</code>. De la même manière, quelques classes sont définies par défaut, appeléss types natifs, comme:
+<ol>
+		<li> Types booléens</li>
+		<ol>
+			<li> Booléen (<a href='https://docs.python.org/fr/3/library/functions.html?highlight=bool#bool'><code>bool</code></a>)</li>
+			<li> Opérations booléennes (<a href='https://docs.python.org/fr/3/library/stdtypes.html#boolean-operations-and-or-not'><code>and, or, not</code></a>)</li>
+		</ol>
+        <li> Types numériques</li>
+        <ol>
+              <li> Entier (<a href='https://docs.python.org/fr/3/library/stdtypes.html#typesnumeric'><code>int</code></a>)</li>
+              <li> Flottant (<a href='https://docs.python.org/fr/3/library/stdtypes.html#typesnumeric'><code>float</code></a>)</li>
+              <li> Complexe (<a href='https://docs.python.org/fr/3/library/stdtypes.html#typesnumeric'><code>complex</code></a>)</li>
+      </ol>
+     <li> Types séquentiels</li>
+	<ol>
+       <li> Liste (<a href='https://docs.python.org/fr/3/library/stdtypes.html#sequence-types-list-tuple-range'><code>list</code></a>)</li>
+		<li> Tuple (<a href='https://docs.python.org/fr/3/library/stdtypes.html#sequence-types-list-tuple-range'><code>tuple</code></a>)</li>
+		<li> Range (<a href='https://docs.python.org/fr/3/library/stdtypes.html#sequence-types-list-tuple-range'><code>range</code></a>)</li>
+	</ol>
+        <li> Chaîne de caractères (<a href='https://docs.python.org/fr/3/library/string.html?highlight=str#module-string'><code>str</code></a>)</li>
+		<li> Séquences binaires (<a href='https://docs.python.org/fr/3/library/stdtypes.html#binary-sequence-types-bytes-bytearray-memoryview'><code>bytes, bytearray, memoryview</code></a>)</li>
+		<li> Ensemble (<a href='https://docs.python.org/fr/3/library/stdtypes.html#set-types-set-frozenset'><code>set</code></a> (muable), <a href='https://docs.python.org/fr/3/library/stdtypes.html#set-types-set-frozenset'><code>frozenset</code></a> (non muable))</li>
+		<li> Dictionnaire (<a href='https://docs.python.org/fr/3/library/stdtypes.html#mapping-types-dict'><code>dict</code></a>)</li>
+</ol>
+<p>La liste n'est pas exhaustive, des compléments sur les types natifs sont disponibles dans la documentation.</p>
+<p><strong class='paragraph'>Documentation</strong>&emsp; Documentation Python 3: <a href='https://docs.python.org/fr/3/library/constants.html'>constantes natives</a>, <a href='https://docs.python.org/fr/3/library/stdtypes.html'>types natifs</a>
+<h2>Variables</h2>
+
+
+<h2>Classes</h2>
+ Les classes permettent des créer des objets appelés instances) qui partagent des caractéristiques de leur classe. Une classe correspond donc à un type, ou plutô à un gabarit d'objet.</p>
+
+<p><strong class='paragraph'>Documentation</strong>&emsp; <a href='https://openclassrooms.com/courses/apprenez-a-programmer-en-python/premiere-approche-des-classes'>Introduction OpenClassrooms</a>, <a href='https://docs.python.org/fr/3/tutorial/classes.html'>Documentation Python 3</a>, <a href='https://fr.wikibooks.org/wiki/Programmation_Python/Classes#Définition_d'une_classe_élé mentaire'>Wikilivres</a>
+<h3>Structure d'une classe</h3>
+<p>Les objets d'une classe partagent des caractéristiques communes à la classe: des attributs et des méthodes (des fonctions qui agissent sur leur attributs). Les objets sont créés g\^ace à une méthode spéciale appelée constructeur.</p>
+
+<h4>Création</h4>
+<p>Pour créer une classe, la syntaxe est la suivante:
+<pre><code class='language-python'>class MaClasse:
+    <contenu>
+</code></pre>
+
+<p>Si la classe hérite d'une classe mère, alors il faut l'ajouter en argument:
+<pre><code class='language-python'>class MaClasse(ClasseMere):
+    <contenu>
+</code></pre>
+
+<h4>Initialiseur</h4>
+
+L'initialiseur est une méthode spéciale appelée <code>__init__</code>, il prend en argument <code>self</code> (toutes les méthodes de la classe prennent en argument <code>self</code> qui est en fait l'instance en question) et tous les paramètres nécessaires à l'initialisation de l'instance. Il ne s'agit pas du constructeur (même si on l'appelle parfois ainsi par abus de langage) : il ne crée  pas à proprement parler l'instance, mais agit sur celle-ci lorsqu'elle vient d'être créée. Le <q> véritable </q> constructeur est la méthode <code>__new__</code>, il n'est en général pas nécessaire de l'implémenter, sauf par exemple lorsque l'on crée des <a href='#sec:metaclasses'>métaclasses</a> ou si l'on veut créer des classes qui héritent des types natifs. L'initialiseur est appelé automatiquement lors que l'on crée l'objet (après le constructeur).
+<pre><code class='language-python'>class MaClasse:
+    CONSTANTE = ...
+    def __init__(self, att1, att2):
+        """Initialiseur"""
+        self.attribut_1 = att1
+        self.attribut_2 = att2
+        self.attribut_3 = CONSTANTE
+</code></pre>
+<p>Ici, les deux premiers attributs sont personnalisables lors de la création des objets alors que le dernier est commun à tous. <code>CONSTANTE</code> est une variable de classe. Pour créer un objet on écrit simplement:
+<pre><code class='language-python'>objet = MaClasse(att1, att2)
+</code></pre>
+
+<h4>Méthodes</h4>
+<p>Les méthodes se définissent comme des fonctions, elles agissent en général sur les instances de la classe. Elles doivent prendre <code>self</code> en argument :
+<pre><code class='language-python'>class MaClasse:
+    def __init__(self):
+         <contenu>
+
+    def methode(self, arg1, arg2):
+         <contenu>
+</code></pre>
+
+<p>Ensuite on les appelle de la manière suivante:
+<pre><code class='language-python'>objet.methode(arg1, arg2)
+</code></pre>
+
+
+<h3>Héritage</h3>
+
+L'héritage est un moyen de créer des classes dérivées (classes filles) d'une classe source (classe mère). Une classe fille hérite de toutes les méthodes et variables de sa classe mère. Pour créer une classe fille, on utilise la syntaxe suivante.</p>
+
+<pre><code class='language-python'>class Mere:
+    <contenu>
+
+class Fille(Mere):
+    <contenu>
+</code></pre>
+
+<p>Il est possible d'écraser une méthode héritée en la redéfinissant dans la classe fille. Si on veut accéder à une méthode héritée alors qu'on l'a redéfinie dans la classe fille, on utilise la fonction <code>super()</code> qui permet d'appeler la méthode de la classe mère de la classe présente (sans l'argument self).
+
+<p><strong class='paragraph'>Exemple</strong>&emsp;
+<pre><code class='language-python'>class Meuble:
+    def __init__(self, couleur, materiau):
+        self.couleur = couleur
+        self.materiau = materiau
+
+class Bibliotheque(Meuble):
+    def __init__(self, couleur, materiau, n):
+        super().__init__(couleur, materiau)
+        self.nb_livres = n
+</code></pre>
+<p>On peut utiliser deux fonctions pour vérifier l'héritage: <code>isinstance</code> renvoie <code>True</code> si l'objet est une instance de la classe ou de ses classes filles ; <code>issubclass</code> permet de voir si une classe est fille d'une autre.</p>
+
+<span class='begin'>Verbatim</span>[frame = single, fontsize = \footnotesize]
+>>> bibli = Bibliotheque('blanc', 'vert', 150)
+>>> bibli.__dict__
+{'couleur': 'blanc', 'materiau': 'vert', 'nb_livres': 150}
+>>> isinstance(bibli, Meuble)
+True
+>>> isinstance(bibli, Bibliotheque)
+True
+>>> issubclass(Bibliotheque, Meuble)
+True
+>>> issubclass(Meuble, Bibliotheque)
+False
+>>> isinstance(bibli, int)
+False
+>>> isinstance(bibli, object)
+True
+<span class='end'>Verbatim</span>
+
+<p><strong class='paragraph'>Documentation</strong>&emsp; <a href='https://openclassrooms.com/courses/apprenez-a-programmer-en-python/l-heritage-9'>OpenClassrooms</a>, <a href='https://docs.python.org/fr/3/tutorial/classes.html?highlight=héritage#inheritance'>Documentation Python 3</a>, <a href='https://www.programiz.com/python-programming/inheritance'>Programiz</a>
+<h3>Méthodes spéciales</h3>
+ Les méthodes spéciales sont déjà définies par défaut dans Python mais on peut les personnaliser. Elles sont reconnaissables par leur typographies: leur nom commence et se termine par deux soulignés.</p>
+
+<p><strong class='paragraph'>Documentation</strong>&emsp; <a href='https://docs.python.org/3/reference/datamodel.html#specialnames'>Documentation Python 3</a>, <a href='https://openclassrooms.com/courses/apprenez-a-programmer-en-python/les-methodes-speciales-1'>OpenClassrooms</a>
+
+
+<h4>Construction, initialisation et destruction</h4>
+<p>Le constructeur est la méthode <code>__new__</code>. C'est une <a href='#sec:classmethod'>méthode de classe</a> qui prend en argument <code>cls</code> et les autres arguments qui seront en paramètres de l'initialiseur; il doit retourner un objet (l'instance à créer). <code>__init__</code> a déjà été décrit précédemment (contrairement au constructeur, cette méthode ne retourne rien). En pratique, on n'implémente pas la méthode <code>__new__</code> sauf dans certains cas.</p>
+
+<p><strong class='paragraph'>Exemple</strong>&emsp; On veut définir une classe <q> singleton </q> qui ne peut créer qu'une instance.</p>
+
+<pre><code class='language-python'>class Singleton:
+    """Classe qui ne peut instancier qu'une fois."""
+
+    instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if instance is None:
+            cls.instance = super().__new__(cls, *args, **kwargs)
+            return cls.instance
+        else:
+            raise TypeError("Cette classe singleton possède déjà une instance")
+
+    def __init__(self, *args, **kwargs):
+        pass
+</code></pre>
+
+<p>Pour détruire un objet, on définit la méthode <code>__del__</code>. On l'appelle comme ceci:
+<pre><code class='language-python'>del objet
+</code></pre>
+
+<h4>Représentation et chaine de caractère d'un objet</h4>
+<p>Il existe deux méthodes spéciales nommées <code>__repr__</code> et <code>__str__</code> qui sont appelées lorsque l'on exécute <code>repr(objet)</code> ou <code>return objet</code>, et quand on exécute <code>str(objet)</code> ou bien <code>print(objet)</code>. La fonction <code>__repr__</code> est donc utilisée lorsque l'on veut avoir accès à la représentation d'un objet, tandis que <code>__str__</code> permet de présenter l'objet de manière plus élégante en chaine de caractères. Ces deux fonctions prennent en argument <code>self</code>. Lorsque la méthode <code>__str__</code> n'est pas définie, Python appelle la fonction de représentation à la place.</p>
+
+<p><strong class='paragraph'>Exemple</strong>&emsp; L'exemple suivant
+<pre><code class='language-python'>class MaClasse:
+    def __init__(self):
+         self.attribut = 'Exemple'
+
+    def __repr__(self):
+        return "MaClasse({})".format(self.attribut)
+
+    def __str__(self):
+        return "Instance de MaClasse ayant comme attribut {}"
+              .format(self.attribut)
+</code></pre>
+permet de faire:
+<span class='begin'>Verbatim</span>[fontsize = \footnotesize, frame = single]
+>>> obj = MaClasse()
+>>> obj
+MaClasse(Exemple)
+>>> print(obj)
+Instance de MaClasse ayant comme attribut Exemple.</p>
+<span class='end'>Verbatim</span>
+
+<h4>Accesseur et mutateur</h4>
+<p>Lorsque Python essaie d'accéder à un attribut, il appelle en premier la méthode spéciale <code>__getattribute__</code>, puis il appelle les <a href='#sec:proprietes'>descripteurs</a> s'il sont définis. Lorsque l'on veut modifier un attribut, c'est la méthode spéciale <code>__setattr__</code> puis les descripteurs qui sont appelés. Si on essaie d'accéder à un attribut non défini, Python appelle en guise de dernière chance la méthode <code>__getattr__</code>. On peut personnaliser cette fonction de manière à ce qu'elle envoie une erreur, ou bien à ce qu'elle redirige vers un autre attribut ou effectue un calcul.</p>
+
+<p><strong class='paragraph'>Exemple</strong>&emsp;
+<pre><code class='language-python'>class MaClasse:
+    def __init__(self)
+        self.a = int()
+
+    def __getattribute__(self, attribut):
+        print("J'accède à l'attribut {}...".format(attribut))
+        return object.__getattribute__(self, attribut)
+
+    def __getattr__(self, attribut):
+        print("L'attribut {} est inaccessible !".format(attribut))
+
+    def __setattr__(self, attribut, valeur):
+        object.__setattr__(self, attribut, valeur)
+        print("L'attribut a été changé !")
+        # Il est nécessaire d'appeler la méthode par défaut, car appeler self.__setattr__
+        # donnerait une récursivité infinie. En fait, on ne sait à ce stade pas comment
+        # Python change concrètement la valeur de l'attribut.</p>
+</code></pre>
+
+<p>On note que l'on utilise les méthodes spéciales de la classe <code>object</code> (méthodes par défaut) car appeler <code>self.__getattribute__</code> ou <code>self.__setattr__</code> donnent une récursivité sans fin ! Cela permet de faire:
+<span class='begin'>Verbatim</span>[fontsize = \footnotesize, frame = single]
+>>> objet = MaClasse()
+L'attribut a été changé !
+>>> objet.b
+L'attribut b est inaccessible !
+>>> objet.a
+J'accède à l'attribut a...
+0
+>>> objet.attribut = 1
+L'attribut a été changé !
+>>> objet.a
+J'accède à l'attribut a...
+1
+<span class='end'>Verbatim</span>
+<p>Il existe aussi <code>__delattr__</code> qui prend en arguments <code>self</code> et le nom de l'attribut. Cette méthode est appelée lorsque l'on effectue <code>del objet.attribut</code>. Lors de l'écriture de la méthode, il faut utiliser <code>object.__delattr__</code> de la même manière que l'on utilise <code>object.__setattr__</code> pour <code>__setattr__</code> ou <code>object.__getattribute__</code> pour <code>__getattribute__</code>.</p>
+
+<h4>Méthodes de conteneur</h4>
+<p>Il existe trois méthodes (accesseur, mutateur, destructeur) qui permettent d'agir sur l'objet avec l'opérateur <code>[]</code> (utilisé pour les listes par exemple). Dans ce cas, l'objet peut être un conteneur qui contient d'autres objets. Le fonctionnement de ses méthodes est similaires aux précédentes. Sont définies en outre <code>__contains__</code> qui permet de déterminer si un élément est présent ou non dans le conteneur (retourne un booléen) et <code>__len__</code> qui retourne la longueur du conteneur. Tableau récapitulatif:
+<span class='begin'>center</span>
+        <span class='begin'>tabular</span>{|p{2.5cm}|p{3.5 cm}|p{5cm}|}
+        \hline
+        <span class='multicolumn'>1</span>{|c}{\bf Méthode} & <span class='multicolumn'>1</span>{|c}{\bf Arguments} & <span class='multicolumn'>1</span>{|c|}{\bf Appel} \\
+        \hline
+        <code>__getitem__</code> & <code>self, index</code> & <code>conteneur[index]</code>\\
+        \hline
+        <code>__setitem__</code> & <code>self, index, valeur</code> & <code>conteneur[index] = valeur</code>\\
+        \hline
+        <code>__delitem__</code> & <code>self, index</code> & <code>del conteneur[index]</code>\\
+        \hline
+        <code>__contains__</code> & <code>self, element</code> & <code>element in conteneur</code>\\
+        \hline
+        <code>__len__</code> & <code>self</code> & <code>len(conteneur)</code>\\
+        \hline
+<span class='end'>tabular</span>
+<span class='end'>center</span>
+
+<h4>Surcharges d'opérateur</h4><span class='index'>surcharge d'opérateur</span>
+<p>Les surcharges d'opérateur permettent de faire des opérations arithmétiques avec des objets, c'est-à-dire d'indiquer à Python ce qu'il faut faire lorsque l'on exécute <code>objet1 + objet2</code>. Ces méthodes prennent en arguments <code>self</code> (l'objet 1) et l'objet 2.</p>
+<span class='begin'>center</span>
+<span class='begin'>tabular</span>{|p{2.5cm}|c|}
+        \hline
+        <span class='multicolumn'>1</span>{|c|} {\bf Méthode} & {\bf Appel}\\
+        \hline
+        <code>__add__</code> & <code>objet1 + objet2</code>\\
+        \hline
+        <code>__sub__</code> & <code>objet1 - objet2</code>\\
+        \hline
+        <code>__mul__</code> & <code>objet1 * objet2</code>\\
+        \hline
+        <code>__truediv__</code> & <code>objet1 / objet2</code>\\
+        \hline
+        <code>__floordiv__</code> & <code>objet1 // objet2</code>\\
+        \hline
+        <code>__mod__</code> & <code>objet1 \% objet2</code>\\
+        \hline
+<span class='end'>tabular</span>
+<span class='end'>center</span>
+<p>Les deux objets ne sont pas nécessairement du même type ! Cependant, cette opération n'est pas symétrique : le code <code>objet + 5</code> par exemple exécute <code>objet.__add__(5)</code>, alors que <code>5 + objet</code> exécute <code>int.__add__(5)</code>. Pour que l'opération soit symétrique, il faut aussi définir ces fonctions avec le préfixe <code>r</code> (par exemple <code>__radd__</code>).
+<h3>Méthodes statiques et méthodes de classes</h3>
+<h4>Méthode statique</h4>
+<p>Les méthodes que l'on a vues jusqu'à maintenant agissent sur les instances des classes : elles prennent toujours en premier argument le mot clé <code>self</code> qui renvoie à l'instance elle même. Lorsque l'on appelle une telle méthode sur une instance comme ceci:
+\mintinline[fontsize=\small]{python}
+{instance.methode(<arguments>)},
+Python exécute en fait <code>Classe.methode(instance, <arguments>)</code>.</p>
+
+<p>En fait, ces deux objets sont différents. <code>Classe.methode</code> est une simple fonction, alors que <code>instance.methode</code> est une méthode évaluée sur l'instance (en anglais <q> bound method </q>), c'est-à-dire que l'instance est mise en premier argument. On considère cet exemple:
+
+<p><strong class='paragraph'>Exemple</strong>&emsp;
+<pre><code class='language-python'>class Maths:
+
+    def addition(x, y):
+        return x + y
+
+    def multiplication(x, y):
+        return x * y
+
+    def division(x, y):
+        return x / y
+</code></pre>
+<p>On choisit ici de grouper trois fonctions car elles sont logiquement liées. Elles n'influent pas les instances donc elles ne prennent pas <code>self</code> en argument. Si l'on appelle ces méthodes sur une instance, une exception sera levée car Python entrera automatiquement l'argument <code>self</code> (donc en tout trois arguments) alors que les méthodes n'en prennent que deux. Pour remédier à cela, on les décore avec <code>@staticmethod</code>. On peut maintenant les appeler indifféremment sur la classe ou sur des instances.</p>
+
+<h4 id='sec:classmethod'>Méthode de classe</h4>
+<p>Lorsque l'on veut manipuler des variables de classe et non des attributs d'instances, on crée des méthodes de classe. Celles-ci prennent la classe en premier argument, par convention on le note <code>cls</code>; elles ne prennent logiquement pas <code>self</code> comme argument. Cette méthode est donc évaluée sur la classe. Sans autre modification, on ne peut peut appeler cette méthode que sur les instances car Python attend l'argument <code>cls</code>. Pour pouvoir appeler cette méthode sur la classe (logique car c'est une méthode de classe), on la décore avec <code>@classmethod</code>.
+
+<h4>Cas de l'héritage</h4>
+<p>En résumé:
+<ol>
+        <li> Les méthodes statiques sont des fonctions reliées à des classes, mais qui n'agissent pas sur celles-ci.</li>
+        <li> Les méthodes de classe sont des fonctions qui prennent la classe en paramètre.</li>
+</ol>
+
+<p>Une classe qui hérite d'une classe mère hérite de toutes ses méthodes. Les méthodes statiques restent donc inchangées, tandis que les méthodes de classe s'adaptent à la nouvelle classe, car elles la prennent en premier argument.</p>
+
+<p><strong class='paragraph'>Exemple</strong>&emsp; Un exemple d'utilisation de méthodes statiques et de classe sont la création de constructeurs alternatifs. On s'aperçoit de la différence des deux notions.</p>
+<pre><code class='language-python'>class Personne:
+    def __init__(self, nom, age):
+        self.nom = nom
+        self.age = age
+
+    @staticmethod
+    def par_date_de_naissance(nom, date):
+        return Personne(nom, 2018-date)
+
+    @classmethod
+    def par_date_de_naissance2(cls, nom, date):
+        return cls(nom, 2018-date)
+
+class Homme(Personne):
+    sexe = 'homme'
+</code></pre>
+<span class='begin'>Verbatim</span>[frame=single, fontsize=\footnotesize]
+>>> homme1 = Homme.par_date_de_naissance('Jean', 1997)
+>>> homme2 = Homme.par_date_de_naissance2('Jean', 1997)
+>>> type(homme1)
+<class '__main__.Personne'>
+>>> type(homme2)
+<class '__main__.Homme'>
+<span class='end'>Verbatim</span>
+
+<p>Pour avoir <code>homme1</code> de type <code>Homme</code>, il faut redéfinir la méthode statique dans la classe fille.</p>
+
+<p><strong class='paragraph'>Documentation</strong>&emsp; <a href='https://www.programiz.com/python-programming/methods/built-in/staticmethod'>Méthode statique sur Programiz</a>, <a href='https://www.programiz.com/python-programming/methods/built-in/classmethod'>Méthode de classe sur Programiz</a>, <a href='https://stackoverflow.com/questions/136097/what-is-the-difference-between-staticmethod-and-classmethod-in-python/1669524#1669524'>StackOverflow</a>
+
+
+<h3 id='sec:proprietes'>Propriétés</h3>
+ Les propriétés représentent en Python le principe d'encapsulation. Elles sont utiles si on souhaite contrôler l'accès à un attribut ou si on veut que le changement d'une valeur d'un attribut engendre des modifications sur d'autres attributs. Les propriétés sont un cas particulier des descripteurs.</p>
+
+<h4>Définition d'une propriété</h4>
+
+<p>On crée les propriétés en utilisant des décorateurs. Elles contiennent un accesseur, un mutateur, un destructeur et une aide (docstring de l'accesseur).</p>
+
+<p>Les propriétés sont aussi un moyen de simuler des attributs privés: pour simuler un attribut privé, on précède son nom d'un souligné. Ainsi, on appelle cet attribut sans le souligné dans le code g\^ace aux propriétés. Par convention, on n'agit pas sur les attributs qui commencent par un souligné en Python.</p>
+
+<p><strong class='paragraph'>Exemple</strong>&emsp;
+<pre><code class='language-python'>class MaClasse:
+    def __init__(self):
+        self._attribut = 'Je suis un attribut'
+
+    @property
+    def attribut(self):
+        """Propriété 'attribut'."""
+        print("Accès à l'attribut")
+        return self._attribut
+
+    @attribut.setter
+    def attribut(self, valeur):
+        print("Modification de l'attribut")
+        self._attribut = valeur
+
+    @attribut.deleter
+    def attribut(self):
+        print('Adieu :(')
+        del self._attribut
+</code></pre>
+
+<p>On utilise la propriété de la manière suivante:
+<span class='begin'>Verbatim</span>[frame = single, fontsize = \footnotesize]
+>>> instance = MaClasse()
+>>> instance.attribut
+Accès à l'attribut
+'Je suis un attribut'
+>>> instance.attribut = 'Ah bon ?'
+Modification de l'attribut
+>>> del instance.attribut
+Adieu :(
+>>> help(MaClasse.attribut)
+Help on property:
+
+    Propriété 'attribut'.
+
+<span class='end'>Verbatim</span>
+
+<p><strong class='paragraph'>Documentation</strong>&emsp;<a href='https://docs.python.org/fr/3/library/functions.html?highlight=property#property'>Documentation Python 3</a>, <a href='https://stackoverflow.com/questions/15750522/class-properties-and-setattr/15751159#15751159'>Priorités entre propriété et méthodes spéciales</a>
+<h4>Généralisation: les descripteurs</h4>
+<p>On dit qu'un objet est un descripteur s'il possède au moins une méthode <code>__get__</code> (accesseur), <code>__set__</code> (mutateur), ou <code>__delete__</code> (destruteur).
+
+<p><strong class='paragraph'>Exemple</strong>&emsp; Exemple d'implémentation
+<pre><code class='language-python'>class Attribut:
+    def __get__(self, inst, insttype):
+        print("Accès à l'attribut")
+        return inst._attribut
+
+    def __set__(self, inst, valeur):
+        print("Modification de l'attribut")
+        inst._attribut = valeur
+
+class MaClasse:
+    def __init__(self):
+        self._attribut = 'Je suis un attribut'
+
+    attribut = Attribut()
+</code></pre>
+
+<p><strong class='paragraph'>Documentation</strong>&emsp; <a href='https://docs.python.org/3/howto/descriptor.html'>Documentation Python 3</a>
+
+<h2>Itérateurs</h2>
+<h2>Générateurs</h2>
+<h2>Décorateurs</h2>
+<p>Les décorateurs sont des fonctions ou des classes qui permettent de modifier le comportement d'une autre fonction (ou classe). Les décorateurs sont utiles lorsque l'on souhaite qu'un certain nombre de fonctions effectuent des tâches communes comme par exemple donner leur temps d'exécution. On appelle un décorateur de la manière suivante.</p>
+
+<pre><code class='language-python'>@decorateur
+def fonction():
+    pass
+</code></pre>
+
+<p>Le code précédent a le même comportement que le code suivant.</p>
+
+<pre><code class='language-python'>def fonction():
+    pass
+
+fonction = decorateur(fonction)
+</code></pre>
+
+<p>Ainsi, <code>fonction</code> devient l'objet retournée par <code>decorateur(fonction)</code>. Le décorateur doit donc retourner un objet que l'on peut appeler en écrivant <code>objet()</code> (avec d'éventuels arguments), on appelle ce type d'objet un <q> callable</q>. Le décorateur est bien sûr lui même un callable. Si on le définit comme une classe, on doit définir la méthode <code>__call__</code> qui permet de rendre ses instances callable.</p>
+
+<p><strong class='paragraph'>Documentation</strong>&emsp; <a href='https://stackoverflow.com/questions/739654/how-to-make-a-chain-of-function-decorators/1594484#1594484'>Stack Overflow</a>
+
+<h3>En tant que classe</h3>
+<p>Une façon d'implémenter un décorateur est d'utiliser les classes. La fonction décorée deviendra alors une instance de la classe de ce décorateur. Il faut obligatoirement définir la méthode <code>__call__</code> pour pouvoir rendre cette instance callable.</p>
+
+<p><strong class='paragraph'>Exemple</strong>&emsp; On considère ici un décorateur qui compte le nombre d'appels de la fonction décorée.</p>
+<pre><code class='language-python'>class Compteur:
+    def __init__(self, f):
+        self.call = 0
+        self.f = f
+
+    def __call__(self, *args, **kwargs):
+        self.call += 1
+        print("La fonction {} a été appelée {} fois.".format(self.f.__name__, self.call))
+        return self.f(*args, **kwargs)
+</code></pre>
+<h3>En tant que fonction</h3>
+<p>Comme un décorateur est un objet callable qui n'a d'autre utilité que d'être appelé, il est aussi logique de le définir en tant que fonction.</p>
+
+<p><strong class='paragraph'>Exemple</strong>&emsp; Même décorateur que précédemment mais en l'implémentant en tant que fonction.</p>
+<pre><code class='language-python'>def compteur(f):
+    def wrapper(*args, **kwargs):
+        wrapper.call += 1
+        print("La fonction {} a été appelée {} fois.".format(f.__name__, wrapper.call))
+        return f(*args, **kwargs)
+    wrapper.call = 0
+    return wrapper
+</code></pre>
+<p><strong class='paragraph'>Remarques</strong>&emsp; On voit dans cet exemple que l'on peut définir des fonctions dans les définitions de fonctions. La mention <code>*args</code> fait référence à tous les arguments non nommés que l'on a entrés (c'est un tuple, par exemple <code>(arg1, arg2)</code>). La mention <code>**kwargs</code> fait référence aux arguments nommés (c'est un dictionnaire). Ainsi on est sûr de récupérer tous les arguments.</p>
+
+<p>Dans cet exemple, on assigne à <code>wrapper</code> un attribut de fonction (on peut le faire, puisqu'une fonction est un objet -- de la classe <code>function</code>). On le définit après avoir défini cette fonction.</p>
+
+<h3>Décorateurs à paramètres</h3>
+<p>On peut faire en sorte que le décorateur prenne un ou plusieurs paramètres. Dans ce cas, il faut définir le décorateur à l'intérieur d'une clôture qui prend en argument ces différents paramètres.</p>
+
+<p><strong class='paragraph'>Exemple</strong>&emsp; On veut retourner une erreur quand la fonction retourne une valeur trop élevée.</p>
+<pre><code class='language-python'>def depasse_max(max):
+    def deco(f):
+        def wrapper(*args, **kwargs):
+            n = f(*args, **kwargs)
+            if n > max:
+                print("Maximum {} dépassé.".format(max))
+                return
+            return n
+        return wrapper
+    return deco
+</code></pre>
+
+<p>Ces deux syntaxes sont équivalentes:
+
+<pre><code class='language-python'>@depasse_max(10)
+def demande_nombre():
+    n = int(input("Entrer un nombre : "))
+    return n
+
+def demande_nombre():
+    n = int(input("Entrer un nombre : "))
+    return n
+
+demande_nombre = depasse_max(10)(demande_nombre)
+</code></pre>
+
+<p>Cela permet de faire
+
+<span class='begin'>Verbatim</span>[frame = single, fontsize = \footnotesize]
+>>> demande_nombre()
+Entrer un nombre : 11
+Maximum 10 dépassé.</p>
+<span class='end'>Verbatim</span>
+
+<h2 id='sec:metaclasses'>Métaclasses</h2>
+<p>Les métaclasses sont les classes qui instancient d'autres classes. Par défaut, une seule métaclasse est définie : la métaclasse <code>type</code>. On s'en rend compte en demandant le type des classes que l'on crée.</p>
+
+<pre><code class='language-python'>class MaClasse:
+    pass
+
+print(type(MaClasse)) # <class 'type'>
+</code></pre>
+
+<span class='setcounter'>section</span>{0}
+
+\newpage
+<h1>Modules</h1>
+<h2>Librairie standard</h2>
+
+<h3>re</h3><span class='index'>expression régulière</span>
+<p>Le module <code>re</code> permet d'utiliser les expressions régulières en Python.</p>
+<p><strong class='paragraph'>Documentation</strong>&emsp; <a href='https://docs.python.org/fr/3/library/re.html'>Documentation Python 3</a>
+
+<h4>Ecrire une expression régulière</h4>
+<p>Les expressions régulières sont un excellent moyen de retrouver des motifs complexes dans une chaine de caractères. On écrit les motifs à rechercher grâce à plusieurs caractères spéciaux:
+<span class='begin'>description</span>
+    <li> [Spécification du caractère]~</li>
+    <ul>
+        <li> <q><code>.</code></q> désigne n'importe quel caractère.</li>
+        <li> <q><code>[]</code></q> permet de dire quels caractères on veut trouver (<code>[a-e]</code> : <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code> ou <code>e</code>; <code>[a-eA-E]</code> idem avec les majuscule comprises; <code>[+-*]</code>: soit <code>*</code> soit <code>+</code> soit <code>-</code>).</li>
+        <li> <q><code>\w</code></q> équivaut à <code>[a-zA-Z0-9_]</code>.</li>
+        <li> <q><code>\W</code></q> désigne tout caractère non alpha-numérique.</li>
+        <li> <q><code>\d</code></q> équivaut à <code>[0-9]</code>.</li>
+        <li> <q><code>\D</code></q> désigne tout caractère non numérique.</li>
+        <li> <q><code>\s</code></q> désigne un espace.</li>
+    </ul>
+    <li> [Place du motif dans la chaine]~</li>
+    <ul>
+        <li> <q>\Verb[fontsize=\small]!^!</q> (se place au début) signifie que le début de la chaine doit correspondre au motif.</li>
+        <li> <q><code>\$</code></q> (se place à la fin) signifie que la fin de la chaine doit correspondre au motif.</li>
+    </ul>
+    <li> [Nombre d'apparition(s) consécutive(s)]~</li>
+    <ul>
+        <li> <q><code>\{n\</code>}</q> indique que le caractère précédent doit apparaitre <code>n</code> fois.</li>
+        <li> <q><code>\{n,m\</code>}</q> indique que le caractère précédent doit apparaitre entre <code>n</code> et <code>m</code> fois.</li>
+        <li> <q><code>*</code></q> indique que le caractère précédent n'apparait pas ou apparait sans maximum d'occurences (<code>ab*</code> correspond à <code>a</code>, <code>ab</code>, ou bien <code>abbbbbb</code>, etc.).</li>
+        <li> <q><code>+</code></q> indique que le caractère précédent apparait au moins une fois (<code>ab+</code> correspond à <code>ab</code>, <code>abb</code>, ou bien <code>abbbbbb</code>, etc.).</li>
+        <li> <q><code>?</code></q> indique que le caractère précédent apparait au plus une fois (équivalent à <code>\{0,1\</code>}).</li>
+    </ul>
+<span class='end'>description</span>
+
+<p>Les quatre derniers qualificateurs sont dits gourmands : ils valident autant de caractères que possible. Par exemple pour <code>"aaaaa"</code>, <code>a\{3,5\</code>} validera la chaine en entier. Pour une version non gourmande, on suit le qualificateur d'un <code>?</code> : <code>*?</code>, <code>+?</code>, <code>??</code> et <code>\{n,m\</code>?}. Un qualificateur non gourmand valide le moins de caractères possibles.</p>
+
+<p>Pour contrôler le nombre d'apparitions d'un groupe de caractères, on met ceux-ci entre parenthèses (<code>(abc)+</code>: <code>abc</code>, <code>abcabc</code>, etc.). Cela crée un groupe de caractères, on peut le nommer en suivant la parenthèses ouvrante de <code>?P<nom></code>. Cela est utile par exemple quand on veut remplacer des caractères. On peut séparer des expression régulières par un <code>|</code> afin d'indiquer que plusieurs possibilités sont possibles.</p>
+
+<h4>Méthodes</h4>
+<p>On compile une expression régulière en utilisant la fonction <code>compile</code><span class='marginpar'>re.compile</span>. Cette fonction retourne un objet expression régulière (regex) sur lequel on peut évaluer diverses méthodes. Si l'on cherche une phrase, la syntaxe sera:
+
+<pre><code class='language-python'>import re
+
+regex = re.compile(r"[A-Z]\w*\s?(\w+\s?)*.")
+</code></pre>
+
+<p><strong class='paragraph'>Remarque</strong>&emsp; On utilise le préfixe <code>r</code> devant la chaine de caractère pour éviter d'avoir à écrire <code>\\</code> au lieu d'un unique <code>\</code>.</p>
+
+<p>On peut rechercher toutes les occurences du motif grâce à la méthode <code>re.finditer(motif, chaine)</code><span class='marginpar'>regex.finditer</span>. Cela retourne un objet iterable. On accède aux objets en appelant <code>next(iterable)</code>, qui retourne un objet expression rationnelle. Celui-ci contient plusieurs chaines de caractères (une pour chaque groupe du motif), on y accède en appelant les différents groupes : <code>objet.group(numéro ou nom)</code>.</p>
+
+<p><strong class='paragraph'>Exemple</strong>&emsp; On veut extraire les phrases d'une chaîne de caractères.</p>
+<span class='begin'>description</span>
+<li>[Script]~</li>
+
+<pre><code class='language-python'>chaine = r"Je suis une phrase. Moi aussi"
+regex = re.compile(r"[A-Z]\w*\s?(?:\w+\s?)*.")
+resultats = regex.finditer(chaine)
+while True:
+    try:
+        print(next(resultats).group(0))
+    except:
+        break
+</code></pre>
+<li>[Sortie]~</li>
+
+<span class='begin'>Verbatim</span>[frame = single, fontsize = \footnotesize]
+Je suis une phrase.
+Moi aussi.</p>
+<span class='end'>Verbatim</span>
+<span class='end'>description</span>
+
+<p>On peut remplacer les motifs par d'autres motifs en utilisant la méthode <code>re.sub</code><span class='marginpar'>regex.sub</span>. Elle prend en paramètres:
+<ol>
+    <li> le motif (chaîne de caractères ou objet expression rationnelle.)</li>
+    <li> le remplacement (peut être une fonction)</li>
+    <li> la chaine à traiter</li>
+    <li> <code>count=</code>le nombre d'occurences à remplacer</li>
+</ol>
+et renvoie la chaine de caractères modifiée. Lorsque l'on veut appeler un groupe de caractères nommé avec <code>(?P<nom>)</code>, on y fait référence dans la chaine de remplacement par <code>\g<nom></code>.
+
+<p><strong class='paragraph'>Exemple</strong>&emsp;
+<pre><code class='language-python'>pass
+</code></pre>
+
+
+
+<h3>datetime</h3>
+
+<p>Le module <code>datetime</code><span class='marginpar'><code>datetime</code></span> permet de créer des objets représentant des dates et de faire des opérations. La classe <code>datetime.date</code> représente une date par son année, son mois et son jour: <code>jour = datetime.date(2017, 1, 1)</code> correspond à la date 1<span class='ier'></span> janvier 2017.
+La classe <code>datetime.timedelta</code> permet de faire des opérations sur les dates. Ses objets sont représentés par un nombre de jours (on peut construire un <code>timedelta</code> avec des semaines/mois/années, le constructeur convertit en jours).
+Le module <code>datetime</code> peut ausi être utilisé pour utiliser des durées plus réduites, i.e.\ secondes, minutes, heures, etc.</p>
+
+<p><strong class='paragraph'>Exemple</strong>&emsp;
+<span class='begin'>Verbatim</span>[fontsize = \footnotesize, frame = single]
+>>> import datetime
+>>> j1 = datetime.date(2017, 1, 1)
+>>> j2 = j1 + datetime.timedelta(30)
+>>> j2
+datetime.date(2017, 1, 31)
+<span class='end'>Verbatim</span>
+
+
+\paragraph*{Documentation} <a href='https://docs.python.org/fr/3/library/datetime.html'>Documentation Python 3</a>
+
+<h3>turtle</h3>
+
+<p>Contient des classes pour dessiner des formes simples en faisant avancer des tortues. Elles peuvent avancer, reculer, tourner d'un certain angle.
+La classe <code>Turtle</code> permet de créer des objets tortues qui peuvent :
+<ol>
+        <li> Avancer: <code>Turtle.forward(<nb de pixels>)</code></li>
+        <li> Reculer: <code>Turtle.backward(<nb de pixels>)</code></li>
+        <li> Tourner à droite ou à gauche (ex: <code>Turtle.right(<degrés>)</code>)</li>
+        <li> Changer de couleur (<code>Turtle.color(<couleur>)</code>) ou de forme (<code>Turtle.shape(<forme>)</code>).</li>
+</ol>
+
+<p><strong class='paragraph'>Exemple</strong>&emsp;
+<pre><code class='language-python'>import turtle
+
+<p>Terrain = turtle.Screen()
+Terrain.bgcolor("black")
+
+<p>Tortue = turtle.Turtle()
+Tortue.speed(3)
+Tortue.shape("turtle")
+Tortue.color("white")
+
+for i in range(50):
+    for e in range(4):
+        Tortue.forward(100)
+        Tortue.right(90)
+    Tortue.right(360/50)
+
+<p>Terrain.exitonclick()
+</code></pre>
+
+<span class='begin'>figure</span>[h]
+<span class='begin'>center</span>
+\includegraphics[scale=0.5]{turtle.png}
+\caption*{Résultat}
+<span class='end'>center</span>
+<span class='end'>figure</span>
+
+<p><strong class='paragraph'>Documentation</strong>&emsp; <a href='https://docs.python.org/fr/3.6/library/turtle.html#methods-specific-to-screen-not-inherited-from-turtlescreen'>Documentation Python 3</a>, <a href='https://fr.wikibooks.org/wiki/Programmation_Python/Turtle'>Wikilivres</a>
+
+<h3>ctypes</h3>
+ Ce module sert à appeler des fonctions écrites en langage C dans des librairies DLL par exemple.</p>
+<h4>Boites de dialogue</h4><span class='index'>boîte de dialogue</span>
+ Le module ctypes peut servir à faire apparaitre des boites de dialogue. On peut modifier le comportement du script Python en fonction du bouton appuyé car la fonction faisant apparaitre ces boites renvoie un entier qui dépend du bouton appuyé. Diverses options sont disponibles :
+<pre><code class='language-python'># Button styles:
+# 0 : OK
+# 1 : OK | Annuler
+# 2 : Abandonner | Recommencer | Ignorer
+# 3 : Oui | Non | Annuler
+# 4 : Oui | Non
+# 5 : Recommencer | Annuler
+# 6 : Annuler | Recommencer | Continuer
+
+# To also change icon, add these values to previous number
+# 16 Icone erreur
+# 32 Icone question
+# 48 Icone attention
+# 64 Icone information
+</code></pre>
+
+<p><strong class='paragraph'>Exemple</strong>&emsp;
+<pre><code class='language-python'>ctypes.windll.user32.MessageBoxW(0, "That's an error", "Warning!", 16)
+</code></pre>
+<span class='begin'>figure</span>[h]
+<span class='begin'>center</span>
+\includegraphics[scale=0.5]{errorwindow.png}
+\caption*{Résultat}
+<span class='end'>center</span>
+<span class='end'>figure</span>
+
+<h3>keyboard</h3>
+<h3>os</h3>
+<h3>sys</h3>
+
+
+<h2>Modules à télécharger</h2>
+<h3>twilio</h3>
+<h3>win10toast</h3><span class='index'>win10toast</span>
+<h3>splinter</h3>
+<h3>pylint</h3>
+
+<h3>autopy</h3>
+
+
+%<span class='addcontentsline'>toc</span>{section}{Index}
+\printindex
+
+</body>
+</html>

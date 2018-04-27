@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Attribut}\PYG{p}{:}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}get\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{inst}\PYG{p}{,} \PYG{n}{insttype}\PYG{p}{):}
+        \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Accès à l\PYGZsq{}attribut\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{inst}\PYG{o}{.}\PYG{n}{\PYGZus{}attribut}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}set\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{inst}\PYG{p}{,} \PYG{n}{valeur}\PYG{p}{):}
+        \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Modification de l\PYGZsq{}attribut\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{inst}\PYG{o}{.}\PYG{n}{\PYGZus{}attribut} \PYG{o}{=} \PYG{n}{valeur}
+
+\PYG{k}{class} \PYG{n+nc}{MaClasse}\PYG{p}{:}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}attribut} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}Je suis un attribut\PYGZsq{}}
+
+    \PYG{n}{attribut} \PYG{o}{=} \PYG{n}{Attribut}\PYG{p}{()}
+\end{Verbatim}

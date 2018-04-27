@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{artiste}\PYG{p}{(}\PYG{n}{request}\PYG{p}{,} \PYG{n}{artiste\PYGZus{}id}\PYG{p}{):}
+    \PYG{k}{return} \PYG{n}{HttpResponse}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Vous êtes sur la page de l\PYGZsq{}artiste \PYGZob{}\PYGZcb{}\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{artiste\PYGZus{}id}\PYG{p}{))}
+
+\PYG{k}{def} \PYG{n+nf}{chanson}\PYG{p}{(}\PYG{n}{request}\PYG{p}{,} \PYG{n}{chanson\PYGZus{}id}\PYG{p}{):}
+    \PYG{k}{return} \PYG{n}{HttpResponse}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Vous êtes sur la page de la chanson \PYGZob{}\PYGZcb{}\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{chanson\PYGZus{}id}\PYG{p}{))}
+\end{Verbatim}

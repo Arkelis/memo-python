@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGZob{}\PYGZpc{} if liste\PYGZus{}artistes \PYGZpc{}\PYGZcb{}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+    \PYGZob{}\PYGZpc{} for artiste in liste\PYGZus{}artistes \PYGZpc{}\PYGZcb{}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}/monapp/artiste/\PYGZob{}\PYGZob{} artiste.id \PYGZcb{}\PYGZcb{}/\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZob{}\PYGZob{} artiste.nom \PYGZcb{}\PYGZcb{}\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+    \PYGZob{}\PYGZpc{} endfor \PYGZpc{}\PYGZcb{}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYGZob{}\PYGZpc{} else \PYGZpc{}\PYGZcb{}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Aucun artiste.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYGZob{}\PYGZpc{} endif \PYGZpc{}\PYGZcb{}
+\end{Verbatim}

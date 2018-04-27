@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{objet} \PYG{o}{=} \PYG{n}{MaClasse}\PYG{p}{(}\PYG{n}{att1}\PYG{p}{,} \PYG{n}{att2}\PYG{p}{)}
+\end{Verbatim}

@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{ctypes}\PYG{o}{.}\PYG{n}{windll}\PYG{o}{.}\PYG{n}{user32}\PYG{o}{.}\PYG{n}{MessageBoxW}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}That\PYGZsq{}s an error\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Warning!\PYGZdq{}}\PYG{p}{,} \PYG{l+m+mi}{16}\PYG{p}{)}
+\end{Verbatim}

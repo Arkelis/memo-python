@@ -1,0 +1,19 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{MaClasse}\PYG{p}{:}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{a} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{()}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}getattribute\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{attribut}\PYG{p}{):}
+        \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}J\PYGZsq{}accède à l\PYGZsq{}attribut \PYGZob{}\PYGZcb{}...\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{attribut}\PYG{p}{))}
+        \PYG{k}{return} \PYG{n+nb}{object}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}getattribute\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{attribut}\PYG{p}{)}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}getattr\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{attribut}\PYG{p}{):}
+        \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}L\PYGZsq{}attribut \PYGZob{}\PYGZcb{} est inaccessible !\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{attribut}\PYG{p}{))}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}setattr\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{attribut}\PYG{p}{,} \PYG{n}{valeur}\PYG{p}{):}
+        \PYG{n+nb}{object}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}setattr\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{attribut}\PYG{p}{,} \PYG{n}{valeur}\PYG{p}{)}
+        \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}L\PYGZsq{}attribut a été changé !\PYGZdq{}}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} Il est nécessaire d\PYGZsq{}appeler la méthode par défaut, car appeler self.\PYGZus{}\PYGZus{}setattr\PYGZus{}\PYGZus{}}
+        \PYG{c+c1}{\PYGZsh{} donnerait une récursivité infinie. En fait, on ne sait à ce stade pas comment}
+        \PYG{c+c1}{\PYGZsh{} Python change concrètement la valeur de l\PYGZsq{}attribut.}
+\end{Verbatim}

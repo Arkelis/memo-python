@@ -1,11 +1,11 @@
-\documentclass[a4paper, 10pt]{article}
-\usepackage[french]{babel}
-\usepackage[left = 3.5 cm, right = 2 cm, top = 2 cm, bottom = 2 cm]{geometry}
+\documentclass[a4paper, french, 10pt]{article}
+\usepackage{babel}
+\usepackage[left = 3 cm, right = 3 cm, top = 2 cm, bottom = 2 cm]{geometry}
 % \usepackage{python}
 \usepackage{makeidx}
 \usepackage{fontspec}
-\setmainfont{Linux Libertine O}
-\setsansfont{Linux Biolinum O}
+\setmainfont{Linux Libertine}
+\setsansfont{Linux Biolinum}
 \setmonofont{Consolas}
 \usepackage{color}
 %\rmfamily % To load Latin Modern Roman and enable the following NFSS declarations.
@@ -22,25 +22,24 @@
 \usepackage{graphicx}
 \setlength\parindent{0pt}
 \newcommand{\code}[1]{{\small\texttt{#1}}}
-\newcommand{\petitcode}[1]{{\footnotesize\texttt{#1}}}
 \makeindex
 \usepackage{minted}
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{myblue}{rgb}{0,0,1}
-% \usepackage{titlesec}
+\usepackage{titlesec}
 \usepackage{titletoc}
-\setcounter{tocdepth}{1}
+\setcounter{tocdepth}{2}
 \reversemarginpar
-\setlength{\marginparwidth}{2.5cm}
 \usepackage{enumitem}
+\title{Mémo Python}
 
 \titlecontents
 	{section}
 	[0em]
-	{\addvspace{0.5em}}
-	{{\thecontentslabel.\ }}
+	{\bfseries\addvspace{0.5em}}
+	{\bfseries{\thecontentslabel.\ }}
 	{}
-	{\hfill\contentspage}
+	{\hfill\bfseries\contentspage}
 	[\addvspace{0pt}]
 
 \titlecontents
@@ -54,40 +53,22 @@
 
 \begin{document}
 
-\setmintedinline[python]{fontsize=\small}
-
 \begin{center}
         {\Huge{\sc\bfseries{Mémo Python}}}\\[20pt]
         \includegraphics[scale=0.1]{python.png}
         \vspace{20pt}
 \end{center}
-
 \tableofcontents
-
 \hypersetup{linkcolor=blue}
 
-\newpage
-\section*{Intro}
+\paragraph{Remarque}
+ Ne sont pas reprises les opérations \og basiques \fg{} (boucles, manipulation des listes). On s'intéresse directement à la programmation orientée objet. Ensuite sont détaillés quelques fonctionnalités apportées par des modules.
 
-Je rédige ce doc au fur et à mesure que j'en apprends sur Python... Bonne lecture! (On peut rêver, peut-être ne suis-je pas le seul à le lire.)\bigskip
-
-Ne sont pas reprises les opérations \og basiques \fg{} (boucles, manipulation des listes). On s'intéresse directement à la programmation orientée objet. Ensuite sont détaillés quelques fonctionnalités apportées par des modules. Une partie sur Django est particulièrement plus développée.\bigskip
-
-De nombreux liens sont disponibles. De manière générale:
-\begin{enumerate}
-    \item Des liens vers les documentations sont fournis.
-    \item Des liens plus précis sont fournis en cliquant sur les termes dans la marge. <-- En cours! (càd incomplet)
-    \item Pour le reste, tout ce qui est en bleu = lien (sauf dans les cadres de code).
-\end{enumerate}
-
-\newpage
 \part{Programmation orientée objet en Python}
-
 \section{Constantes et types natifs}
  Quelques constantes sont définies par Python comme \code{True}\index{True} et \code{False}\index{False}. De la même manière, quelques classes sont définies par défaut, appeléss types natifs, comme:
-
 \begin{enumerate}
-		\item Types booléennes
+		\item Types booléens
 		\begin{enumerate}
 			\item Booléen (\href{https://docs.python.org/fr/3/library/functions.html?highlight=bool#bool}{\code{bool}})
 			\item Opérations booléennes (\href{https://docs.python.org/fr/3/library/stdtypes.html#boolean-operations-and-or-not}{\code{and, or, not}})
@@ -109,21 +90,15 @@ De nombreux liens sont disponibles. De manière générale:
 		\item Ensemble (\href{https://docs.python.org/fr/3/library/stdtypes.html#set-types-set-frozenset}{\code{set}} (muable), \href{https://docs.python.org/fr/3/library/stdtypes.html#set-types-set-frozenset}{\code{frozenset}} (non muable))
 		\item Dictionnaire (\href{https://docs.python.org/fr/3/library/stdtypes.html#mapping-types-dict}{\code{dict}})
 \end{enumerate}
-
 La liste n'est pas exhaustive, des compléments sur les types natifs sont disponibles dans la documentation.
-
 \paragraph{Documentation} Documentation Python 3: \href{https://docs.python.org/fr/3/library/constants.html}{constantes natives}, \href{https://docs.python.org/fr/3/library/stdtypes.html}{types natifs}
-%
-% \section{Variables}
-% \index{variable}
+\section{Variables}\index{variable}
 
-\section{Classes}
-\index{classe}
 
+\section{Classes}\index{classe}
  Les classes permettent des créer des objets\index{objet} appelés instances\index{instance}) qui partagent des caractéristiques de leur classe. Une classe correspond donc à un type, ou plutô à un gabarit d'objet.
 
 \paragraph{Documentation} \href{https://openclassrooms.com/courses/apprenez-a-programmer-en-python/premiere-approche-des-classes}{Introduction OpenClassrooms}, \href{https://docs.python.org/fr/3/tutorial/classes.html}{Documentation Python 3}, \href{https://fr.wikibooks.org/wiki/Programmation_Python/Classes#Définition_d'une_classe_élé mentaire}{Wikilivres}
-
 \subsection{Structure d'une classe}
 Les objets d'une classe partagent des caractéristiques communes à la classe: des attributs\index{attribut} et des méthodes (des fonctions qui agissent sur leur attributs). Les objets sont créés g\^ace à une méthode spéciale appelée constructeur.
 
@@ -131,17 +106,16 @@ Les objets d'une classe partagent des caractéristiques communes à la classe: d
 Pour créer une classe, la syntaxe est la suivante:
 \begin{minted}[fontsize = \footnotesize, frame = single]{python}
 class MaClasse:
-    pass
+    <contenu>
 \end{minted}
 
 Si la classe hérite d'une classe mère, alors il faut l'ajouter en argument:
 \begin{minted}[fontsize = \footnotesize, frame = single]{python}
 class MaClasse(ClasseMere):
-    pass
+    <contenu>
 \end{minted}
 
-\subsubsection{Initialiseur}
-\index{initialiseur}\index{\_\_init\_\_}
+\subsubsection{Initialiseur}\index{initialiseur}\index{\_\_init\_\_}
 
 L'initialiseur est une méthode spéciale appelée \Verb[fontsize = \small]|__init__|, il prend en argument \code{self}\index{self} (toutes les méthodes de la classe prennent en argument \code{self} qui est en fait l'instance en question) et tous les paramètres nécessaires à l'initialisation de l'instance. Il ne s'agit pas du constructeur (même si on l'appelle parfois ainsi par abus de langage) : il ne crée  pas à proprement parler l'instance, mais agit sur celle-ci lorsqu'elle vient d'être créée. Le \og véritable \fg{} constructeur est la méthode \code{\_\_new\_\_}, il n'est en général pas nécessaire de l'implémenter, sauf par exemple lorsque l'on crée des \hyperref[sec:metaclasses]{métaclasses} ou si l'on veut créer des classes qui héritent des types natifs. L'initialiseur est appelé automatiquement lors que l'on crée l'objet (après le constructeur).
 \begin{minted}[fontsize = \footnotesize, frame = single]{python}
@@ -158,16 +132,15 @@ Ici, les deux premiers attributs sont personnalisables lors de la création des 
 objet = MaClasse(att1, att2)
 \end{minted}
 
-\subsubsection{Méthodes}
-\index{méthode}
+\subsubsection{Méthodes}\index{méthode}
 Les méthodes se définissent comme des fonctions, elles agissent en général sur les instances de la classe. Elles doivent prendre \code{self} en argument :
 \begin{minted}[fontsize = \footnotesize, frame = single]{python}
 class MaClasse:
     def __init__(self):
-         pass
+         <contenu>
 
     def methode(self, arg1, arg2):
-         pass
+         <contenu>
 \end{minted}
 
 Ensuite on les appelle de la manière suivante:
@@ -176,17 +149,16 @@ objet.methode(arg1, arg2)
 \end{minted}
 
 
-\subsection{Héritage}
-\index{héritage}
+\subsection{Héritage}\index{héritage}
 
 L'héritage est un moyen de créer des classes dérivées (classes filles) d'une classe source (classe mère). Une classe fille hérite de toutes les méthodes et variables de sa classe mère. Pour créer une classe fille, on utilise la syntaxe suivante.
 
 \begin{minted}[frame = single, fontsize = \footnotesize]{python}
 class Mere:
-    pass
+    <contenu>
 
 class Fille(Mere):
-    pass
+    <contenu>
 \end{minted}
 
 Il est possible d'écraser une méthode héritée en la redéfinissant dans la classe fille. Si on veut accéder à une méthode héritée alors qu'on l'a redéfinie dans la classe fille, on utilise la fonction \code{super()} qui permet d'appeler la méthode de la classe mère de la classe présente (sans l'argument self).
@@ -224,8 +196,7 @@ True
 \end{Verbatim}
 
 \paragraph{Documentation} \href{https://openclassrooms.com/courses/apprenez-a-programmer-en-python/l-heritage-9}{OpenClassrooms}, \href{https://docs.python.org/fr/3/tutorial/classes.html?highlight=héritage#inheritance}{Documentation Python 3}, \href{https://www.programiz.com/python-programming/inheritance}{Programiz}
-\subsection{Méthodes spéciales}
-\index{méthode spéciale}
+\subsection{Méthodes spéciales}\index{méthode spéciale}
  Les méthodes spéciales sont déjà définies par défaut dans Python mais on peut les personnaliser. Elles sont reconnaissables par leur typographies: leur nom commence et se termine par deux soulignés.
 
 \paragraph{Documentation} \href{https://docs.python.org/3/reference/datamodel.html#specialnames}{Documentation Python 3}, \href{https://openclassrooms.com/courses/apprenez-a-programmer-en-python/les-methodes-speciales-1}{OpenClassrooms}
@@ -243,7 +214,7 @@ class Singleton:
     instance = None
 
     def __new__(cls, *args, **kwargs):
-        if not instance:
+        if instance is None:
             cls.instance = super().__new__(cls, *args, **kwargs)
             return cls.instance
         else:
@@ -283,8 +254,7 @@ MaClasse(Exemple)
 Instance de MaClasse ayant comme attribut Exemple.
 \end{Verbatim}
 
-\subsubsection{Accesseur et mutateur}
-\index{accesseur}\index{mutateur}\index{destructeur}
+\subsubsection{Accesseur et mutateur}\index{accesseur}\index{mutateur}\index{destructeur}
 Lorsque Python essaie d'accéder à un attribut, il appelle en premier la méthode spéciale \code{\_\_getattribute\_\_}\index{\_\_getattribute\_\_}, puis il appelle les \hyperref[sec:proprietes]{descripteurs} s'il sont définis. Lorsque l'on veut modifier un attribut, c'est la méthode spéciale \code{\_\_setattr\_\_}\index{\_\_setattr\_\_} puis les descripteurs qui sont appelés. Si on essaie d'accéder à un attribut non défini, Python appelle en guise de dernière chance la méthode \code{\_\_getattr\_\_}\index{\_\_getattr\_\_}. On peut personnaliser cette fonction de manière à ce qu'elle envoie une erreur, ou bien à ce qu'elle redirige vers un autre attribut ou effectue un calcul.
 
 \paragraph{Exemple}
@@ -325,8 +295,7 @@ J'accède à l'attribut a...
 \end{Verbatim}
 Il existe aussi \code{\_\_delattr\_\_}\index{\_\_delattr\_\_} qui prend en arguments \code{self} et le nom de l'attribut. Cette méthode est appelée lorsque l'on effectue \code{del objet.attribut}. Lors de l'écriture de la méthode, il faut utiliser \code{object.\_\_delattr\_\_} de la même manière que l'on utilise \code{object.\_\_setattr\_\_} pour \code{\_\_setattr\_\_} ou \code{object.\_\_getattribute\_\_} pour \code{\_\_getattribute\_\_}.\bigskip
 
-\subsubsection{Méthodes de conteneur}
-\index{méthode de conteneur}\index{conteneur}
+\subsubsection{Méthodes de conteneur}\index{méthode de conteneur}\index{conteneur}
 Il existe trois méthodes (accesseur, mutateur, destructeur) qui permettent d'agir sur l'objet avec l'opérateur \code{[]} (utilisé pour les listes par exemple). Dans ce cas, l'objet peut être un conteneur qui contient d'autres objets. Le fonctionnement de ses méthodes est similaires aux précédentes. Sont définies en outre \code{\_\_contains\_\_}\index{\_\_contains\_\_} qui permet de déterminer si un élément est présent ou non dans le conteneur (retourne un booléen) et \code{\_\_len\_\_}\index{\_\_len\_\_} qui retourne la longueur du conteneur. Tableau récapitulatif:
 \begin{center}
         \begin{tabular}{|p{2.5cm}|p{3.5 cm}|p{5cm}|}
@@ -346,8 +315,7 @@ Il existe trois méthodes (accesseur, mutateur, destructeur) qui permettent d'ag
 \end{tabular}
 \end{center}
 
-\subsubsection{Surcharges d'opérateur}
-\index{surcharge d'opérateur}
+\subsubsection{Surcharges d'opérateur}\index{surcharge d'opérateur}
 Les surcharges d'opérateur permettent de faire des opérations arithmétiques avec des objets, c'est-à-dire d'indiquer à Python ce qu'il faut faire lorsque l'on exécute \code{objet1 + objet2}. Ces méthodes prennent en arguments \code{self} (l'objet 1) et l'objet 2.
 \begin{center}
 \begin{tabular}{|p{2.5cm}|c|}
@@ -370,8 +338,7 @@ Les surcharges d'opérateur permettent de faire des opérations arithmétiques a
 \end{center}
 Les deux objets ne sont pas nécessairement du même type ! Cependant, cette opération n'est pas symétrique : le code \code{objet + 5} par exemple exécute \code{objet.\_\_add\_\_(5)}, alors que \code{5 + objet} exécute \code{int.\_\_add\_\_(5)}. Pour que l'opération soit symétrique, il faut aussi définir ces fonctions avec le préfixe \code{r} (par exemple \code{\_\_radd\_\_}).
 \subsection{Méthodes statiques et méthodes de classes}
-\subsubsection{Méthode statique}
-\index{méthode statique}
+\subsubsection{Méthode statique}\index{méthode statique}
 Les méthodes que l'on a vues jusqu'à maintenant agissent sur les instances des classes : elles prennent toujours en premier argument le mot clé \code{self} qui renvoie à l'instance elle même. Lorsque l'on appelle une telle méthode sur une instance comme ceci:
 \mintinline[fontsize=\small]{python}
 {instance.methode(<arguments>)},
@@ -394,8 +361,7 @@ class Maths:
 \end{minted}
 On choisit ici de grouper trois fonctions car elles sont logiquement liées. Elles n'influent pas les instances donc elles ne prennent pas \code{self} en argument. Si l'on appelle ces méthodes sur une instance, une exception sera levée car Python entrera automatiquement l'argument \code{self} (donc en tout trois arguments) alors que les méthodes n'en prennent que deux. Pour remédier à cela, on les décore avec \code{@staticmethod}. On peut maintenant les appeler indifféremment sur la classe ou sur des instances.
 
-\subsubsection{Méthode de classe}
-\index{méthode de classe}\label{sec:classmethod}
+\subsubsection{Méthode de classe}\index{méthode de classe}\label{sec:classmethod}
 Lorsque l'on veut manipuler des variables de classe et non des attributs d'instances, on crée des méthodes de classe. Celles-ci prennent la classe en premier argument, par convention on le note \code{cls}; elles ne prennent logiquement pas \code{self} comme argument. Cette méthode est donc évaluée sur la classe. Sans autre modification, on ne peut peut appeler cette méthode que sur les instances car Python attend l'argument \code{cls}. Pour pouvoir appeler cette méthode sur la classe (logique car c'est une méthode de classe), on la décore avec \code{@classmethod}.
 
 \subsubsection{Cas de l'héritage}
@@ -439,8 +405,7 @@ Pour avoir \code{homme1} de type \code{Homme}, il faut redéfinir la méthode st
 \paragraph{Documentation} \href{https://www.programiz.com/python-programming/methods/built-in/staticmethod}{Méthode statique sur Programiz}, \href{https://www.programiz.com/python-programming/methods/built-in/classmethod}{Méthode de classe sur Programiz}, \href{https://stackoverflow.com/questions/136097/what-is-the-difference-between-staticmethod-and-classmethod-in-python/1669524#1669524}{StackOverflow}
 
 
-\subsection{Propriétés}
-\label{sec:proprietes}\index{propriété}\index{accesseur}\index{mutateur}\index{destructeur}
+\subsection{Propriétés}\label{sec:proprietes}\index{propriété}\index{accesseur}\index{mutateur}\index{destructeur}
  Les propriétés représentent en Python le principe d'encapsulation. Elles sont utiles si on souhaite contrôler l'accès à un attribut ou si on veut que le changement d'une valeur d'un attribut engendre des modifications sur d'autres attributs. Les propriétés sont un cas particulier des descripteurs.
 
 \subsubsection{Définition d'une propriété}
@@ -513,12 +478,9 @@ class MaClasse:
 
 \paragraph{Documentation} \href{https://docs.python.org/3/howto/descriptor.html}{Documentation Python 3}
 
-\section{Itérateurs}
-\index{itérateur}
-\section{Générateurs}
-\index{générateur}
-\section{Décorateurs}
-\index{décorateur}
+\section{Itérateurs}\index{itérateur}
+\section{Générateurs}\index{générateur}
+\section{Décorateurs}\index{décorateur}
 Les décorateurs sont des fonctions ou des classes qui permettent de modifier le comportement d'une autre fonction (ou classe). Les décorateurs sont utiles lorsque l'on souhaite qu'un certain nombre de fonctions effectuent des tâches communes comme par exemple donner leur temps d'exécution. On appelle un décorateur de la manière suivante.
 
 \begin{minted}[fontsize = \footnotesize, frame = single]{python}
@@ -536,12 +498,12 @@ def fonction():
 fonction = decorateur(fonction)
 \end{minted}
 
-Ainsi, \code{fonction} devient l'objet retournée par \code{decorateur(fonction)}. Le décorateur doit donc retourner un objet que l'on peut appeler en écrivant \code{objet()} (avec d'éventuels arguments), on appelle ce type d'objet un \og exécutable\fg{}\index{exécutable}. Le décorateur est bien sûr lui même un exécutable. Si on le définit comme une classe, on doit définir la méthode \code{\_\_call\_\_} qui permet de rendre ses instances exécutables.
+Ainsi, \code{fonction} devient l'objet retournée par \code{decorateur(fonction)}. Le décorateur doit donc retourner un objet que l'on peut appeler en écrivant \code{objet()} (avec d'éventuels arguments), on appelle ce type d'objet un \og callable\fg{}\index{callable}. Le décorateur est bien sûr lui même un callable. Si on le définit comme une classe, on doit définir la méthode \code{\_\_call\_\_} qui permet de rendre ses instances callable.
 
 \paragraph{Documentation} \href{https://stackoverflow.com/questions/739654/how-to-make-a-chain-of-function-decorators/1594484#1594484}{Stack Overflow}
 
 \subsection{En tant que classe}
-Une façon d'implémenter un décorateur est d'utiliser les classes. La fonction décorée deviendra alors une instance de la classe de ce décorateur. Il faut obligatoirement définir la méthode \code{\_\_call\_\_} pour pouvoir rendre cette instance exécutable.
+Une façon d'implémenter un décorateur est d'utiliser les classes. La fonction décorée deviendra alors une instance de la classe de ce décorateur. Il faut obligatoirement définir la méthode \code{\_\_call\_\_} pour pouvoir rendre cette instance callable.
 
 \paragraph{Exemple} On considère ici un décorateur qui compte le nombre d'appels de la fonction décorée.
 \begin{minted}[frame = single, fontsize = \footnotesize]{python}
@@ -556,7 +518,7 @@ class Compteur:
         return self.f(*args, **kwargs)
 \end{minted}
 \subsection{En tant que fonction}
-Comme un décorateur est un objet exécutable qui n'a d'autre utilité que d'être appelé, il est aussi logique de le définir en tant que fonction.
+Comme un décorateur est un objet callable qui n'a d'autre utilité que d'être appelé, il est aussi logique de le définir en tant que fonction.
 
 \paragraph{Exemple} Même décorateur que précédemment mais en l'implémentant en tant que fonction.
 \begin{minted}[fontsize = \footnotesize, frame = single]{python}
@@ -612,8 +574,7 @@ Entrer un nombre : 11
 Maximum 10 dépassé.
 \end{Verbatim}
 
-\section{Métaclasses}
-\index{métaclasse}\label{sec:metaclasses}
+\section{Métaclasses}\index{métaclasse}\label{sec:metaclasses}
 Les métaclasses sont les classes qui instancient d'autres classes. Par défaut, une seule métaclasse est définie : la métaclasse \code{type}. On s'en rend compte en demandant le type des classes que l'on crée.
 
 \begin{minted}[frame = single, fontsize = \footnotesize]{python}
@@ -623,18 +584,17 @@ class MaClasse:
 print(type(MaClasse)) # <class 'type'>
 \end{minted}
 
-%\setcounter{section}{0}
+\setcounter{section}{0}
 
 \newpage
+\part{Modules}
+\section{Librairie standard}
 
-\part{Librairie standard}
-
-\section{re}
-\index{re}\index{expression régulière}
+\subsection{re}\index{re}\index{expression régulière}
 Le module \code{re} permet d'utiliser les expressions régulières en Python.
 \paragraph{Documentation} \href{https://docs.python.org/fr/3/library/re.html}{Documentation Python 3}
 
-\subsection{Ecrire une expression régulière}
+\subsubsection{Ecrire une expression régulière}
 Les expressions régulières sont un excellent moyen de retrouver des motifs complexes dans une chaine de caractères. On écrit les motifs à rechercher grâce à plusieurs caractères spéciaux:
 \begin{description}
     \item [Spécification du caractère]~
@@ -666,7 +626,7 @@ Les quatre derniers qualificateurs sont dits gourmands : ils valident autant de 
 
 Pour contrôler le nombre d'apparitions d'un groupe de caractères, on met ceux-ci entre parenthèses (\code{(abc)+}: \code{abc}, \code{abcabc}, etc.). Cela crée un groupe de caractères, on peut le nommer en suivant la parenthèses ouvrante de \code{?P<nom>}. Cela est utile par exemple quand on veut remplacer des caractères. On peut séparer des expression régulières par un \code{|} afin d'indiquer que plusieurs possibilités sont possibles.\bigskip
 
-\subsection{Méthodes}
+\subsubsection{Méthodes}
 On compile une expression régulière en utilisant la fonction \code{compile}\marginpar{re.compile}. Cette fonction retourne un objet expression régulière (regex) sur lequel on peut évaluer diverses méthodes. Si l'on cherche une phrase, la syntaxe sera:
 
 \begin{minted}[frame = single, fontsize = \footnotesize]{python}
@@ -717,8 +677,7 @@ pass
 
 
 
-\section{datetime}\label{datetime}
-\index{datetime}
+\subsection{datetime}\index{datetime}
 
 Le module \code{datetime}\marginpar{\code{datetime}} permet de créer des objets représentant des dates et de faire des opérations. La classe \code{datetime.date} représente une date par son année, son mois et son jour: \code{jour = datetime.date(2017, 1, 1)} correspond à la date 1\ier{} janvier 2017.
 La classe \code{datetime.timedelta} permet de faire des opérations sur les dates. Ses objets sont représentés par un nombre de jours (on peut construire un \code{timedelta} avec des semaines/mois/années, le constructeur convertit en jours).
@@ -736,8 +695,7 @@ datetime.date(2017, 1, 31)
 
 \paragraph*{Documentation} \href{https://docs.python.org/fr/3/library/datetime.html}{Documentation Python 3}
 
-\section{turtle}
-\index{turtle}
+\subsection{turtle}\index{turtle}
 
 Contient des classes pour dessiner des formes simples en faisant avancer des tortues. Elles peuvent avancer, reculer, tourner d'un certain angle.
 La classe \code{Turtle} permet de créer des objets tortues qui peuvent :
@@ -771,18 +729,16 @@ Terrain.exitonclick()
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[scale=0.5]{turtle.PNG}
+\includegraphics[scale=0.5]{turtle.png}
 \caption*{Résultat}
 \end{center}
 \end{figure}
 
 \paragraph{Documentation} \href{https://docs.python.org/fr/3.6/library/turtle.html#methods-specific-to-screen-not-inherited-from-turtlescreen}{Documentation Python 3}, \href{https://fr.wikibooks.org/wiki/Programmation_Python/Turtle}{Wikilivres}
 
-\section{ctypes}
-\index{ctypes}
+\subsection{ctypes}\index{ctypes}
  Ce module sert à appeler des fonctions écrites en langage C dans des librairies DLL par exemple.
-\subsection{Boites de dialogue}
-\index{boîte de dialogue}
+\subsubsection{Boites de dialogue}\index{boîte de dialogue}
  Le module ctypes peut servir à faire apparaitre des boites de dialogue. On peut modifier le comportement du script Python en fonction du bouton appuyé car la fonction faisant apparaitre ces boites renvoie un entier qui dépend du bouton appuyé. Diverses options sont disponibles :
 \begin{minted}[fontsize = \footnotesize, frame = single]{python}
 # Button styles:
@@ -812,581 +768,18 @@ ctypes.windll.user32.MessageBoxW(0, "That's an error", "Warning!", 16)
 \end{center}
 \end{figure}
 
-\subsection{keyboard}
-\index{keyboard}
+\subsection{keyboard}\index{keyboard}
+\subsection{os}\index{os}
+\subsection{sys}\index{sys}
 
-\subsection{os}
-\index{os}
 
-\subsection{sys}
-\index{sys}
+\section{Modules à télécharger}
+\subsection{twilio}\index{twilio}
+\subsection{win10toast}\index{win10toast}
+\subsection{splinter}\index{splinter}
+\subsection{pylint}\index{pylint}
 
-
-\part{Modules à télécharger}
-\section{virtualenv}\label{virtualenv}
-
-Les environnement virtuels sont un bon moyen pour:
-\begin{enumerate}
-    \item Installer des modules sans avoir besoin des droits administrateurs
-    \item Avoir plusieurs environnements de travail avec des modules Python de versions différentes. Exemple, j'ai un projet Django 2 et je veux ceéer un site avec Django-CMS, qui recquiert Django 1! Je suis obligé de recourir aux environnements virtuels.
-\end{enumerate}
-
-Pour une utilisation basique, on commence par installer \code{virtualenv} avec \code{pip}.
-
-\begin{minted}[fontsize = \footnotesize, frame = single]{bash}
-$ pip install virtualenv # ou pip3 selon votre version de Python
-\end{minted}
-
-Puis on se place dans le dossier où l'on veut placer les environnements virtuels, par exemple sous Linux dans \Verb[fontsize=\small]|/home/votre_nom/python_env/|, et on crée notre environnement!
-
-\begin{minted}[fontsize = \footnotesize, frame = single]{bash}
-$ virtualenv env
-\end{minted}
-
-Python y place alors les exécutables fondamentaux et quelques modules basiques. Ensuite, pour travailler dans l'environnement créé, il faut lancer la commande:
-\begin{minted}[fontsize = \footnotesize, frame = single]{bash}
-$ source /home/votre_nom/python_env/env/bin/activate
-\end{minted}
-
-L'environnement apparaît maintenant entre parenthèses dans la console. Pour désactiver cet environnement, on lance simplement la commande:
-
-\begin{minted}[fontsize = \footnotesize, frame = single]{bash}
-(env) $ deactivate
-\end{minted}
-
-Il existe le module \code{virtualenvwrapper} qui permet de naviguer facilement entre les environnements (voir le lien \og informations supplémentaires\fg{}).
-
-\paragraph{Documentation} \href{https://virtualenv.pypa.io/en/stable/}{Documentation de virtualenv}, \href{http://sametmax.com/les-environnement-virtuels-python-virtualenv-et-virtualenvwrapper/#tc-comment-title}{informations supplémentaires}
-
-
-\section{django}
-Ce \marginpar{\href{https://pypi.org/project/Django/}{\code{django}}} module permet de créer des sites web en Python. \emph{Il est question ici de la version 2}.
-\paragraph{Documentation} \href{https://docs.djangoproject.com/fr/2.0/}{Documentation officielle de Django 2.0} \href{https://docs.djangoproject.com/fr/2.0/intro/}{Tutoriel de la documentation}
-
-\subsection{Fonctionnement}
-
-Django fonctionne selon l'architecture Model-View-Template (MVT) que l'on peut traduire par Modèle-Vue-Gabarit. Celle-ci s'appuit sur l'architecture Model-View-Controler (MVC):
-\begin{itemize}
-	\item Les modèles structurent de la base de données, là où sont stockées toutes les informations. Ici, ce sont des classes Python dont les attributs correspondent à des champs dans la base de données. On n'écrit jamais de SQL avec Django!
-	\item Les vues représentent les pages web: elles présentent les informations aux utilisateurs et récupèrent leurs actions. Ici, ce sont des fonctions Python qui prennent en argument la requête (HTTP par exemple) et des informations sur l'url et qui renvoie, en utilisant les gabarits, la bonne page à l'utilisateur (la bonne réponse HTTP).
-	\item Les gabarits permettent de structurer facilement les vues. Ce sont des fichiers HTML avec un peu de syntaxe de gabarit Django.
-	\item Le contrôleur fait l'interface entre les vues et les modèles: il récupère et renvoie les informations nécessaires. Cette partie est gérée de manière autonome par Django.
-\end{itemize}
-
-\subsection{Didacticiel}
-Cette partie s'appuie sur le tutoriel de la documentation Django, ne pas hésiter à s'y rendre pour plus d'infos. Concertant l'installation, il est conseillé d'installer Django dans un \hyperref[virtualenv]{environnement virtuel}. Dans cet environnement, on utilise l'installateur autonome \code{pip}.
-
-\begin{minted}[fontsize = \footnotesize, frame = single]{bash}
-$ pip install Django
-\end{minted}
-
-\subsubsection{Créer un projet}
-\begin{minted}[fontsize = \footnotesize, frame = single]{bash}
-$ django-admin startproject nom_du_projet
-\end{minted}
-
-Un dossier est créé, avec trois sous-dossiers (un nommé d'après le projet, un dossier media, et un dossier static) et trois fichiers (une base de données, un fichier python et un fihcier requirements.txt). Pour lancer une première fois le projet sur un serveur local, on utilise la commande (il faut être dans le dossier du projet):
-\begin{minted}[fontsize = \footnotesize, frame = single]{bash}
-$ python manage.py runserver # on peut remplacer python par python3
-\end{minted}
-En se rendant sur l'url indiquée, ou plus simplement \code{localhost:8000} (on peut modifier le port si l'on veut: on écrit le port souhaité à la suite de la commande précédente), on tombe sur une page nous disant que l'installation de Django a réussi.
-
-\subsubsection{Créer une application}
-Une fois le projet créé, on crée une première application (cela peut être un sondage, un blog, etc., les applications sont les blocs du site). Une application peut être réutilisée pour d'autres projets. On crée une application par la commande (en étant dans le répertoire du projet) :
-\begin{minted}[fontsize = \footnotesize, frame = single]{bash}
-$ python manage.py startapp nom_de_l_application
-\end{minted}
-
-\subsubsection{Le fichier \code{settings.py}}
-Il comporte les principaux paramètres du projet. On y renseigne notamment le type de base de données que l'on utilise; si on utilise SQLite, tout est géré automatiquement. On y gère aussi le fuseau horaire, les langues, les applications installées, parmi les suivantes, installées par défaut:
-\begin{itemize}
-	\item \code{django.contrib.admin}: l'interface d'administration
-	\item \code{django.contrib.auth}: un système d'authentification
-	\item \code{django.contrib.contenttypes}: une structure pour les types de contenu
-	\item \code{django.contrib.sessions}: un cadre pour les sessions
-	\item \code{django.contrib.messages}: un cadre pour l'envoi de messages
-	\item \code{django.contrib.staticfiles}: une structure pour la prise en charge des fichiers statiques
-\end{itemize}
-
-\subsubsection{Migrations}
-
-Ces applications nécessitent des tables dans la base de données. Elles ne sont pas créées lors de la création du projet (d'où un probable message d'erreur lors du premier lancement), on crée les tables nécessaires grâce à la commande:
-\begin{minted}[frame=single, fontsize=\footnotesize]{bash}
-$ python manage.py migrate
-\end{minted}
-
-Il faut relancer cette commande lorsque l'on doit mettre à jour la base de données, typiquement lorsque l'on crée ou modifie des modèles, ou que l'on importe ou crée des applications.
-
-\subsubsection{Structure des fichiers}
-La structure des fichiers est la suivante, pour un projet appelé monsite et une application nommée monapplication.
-
-\begin{minted}[frame=single, fontsize=\footnotesize]{text}
-monsite/
-    manage.py
-    monsite/
-        __init__.py
-        settinge.py
-        urls.py
-        wsgi.py
-    monapplication/
-        __init__.py
-        admin.py
-        migrations/
-            __init__.py
-        models.py
-        tests.py
-        views.py
-\end{minted}
-
-On s'intéresse maintenant à cette application
-
-\subsubsection{Ecrire une vue}
-Les vues s'écrivent dans le fichier \code{views.py}, ce sont des fonctions. On peut commencer par écrire une première vue basique:
-
-\begin{minted}[frame=single, fontsize=\footnotesize]{python}
-from django.http import HttpResponse
-
-def index(request):
-    return HttpResponse("Hello world!")
-\end{minted}
-
-Cette fonction récupère une requette HTTP et renvoie une réponse HTTP. Celle-ci est écrite en HTML ici directement en argument de \code{HttpResponse()}, en général on n'utilise pas cette façon de faire, on utilise les modèles et les gabarits.
-
-\subsubsection{Lui associer une url}
-Il faut associer à la vue que l'on vient de créer une URL, c'est-à-dire la requête assoicée. On crée donc un fichier \code{urls.py} dans le répertoire de l'application:
-\begin{minted}[frame=single, fontsize=\footnotesize]{python}
-from django.urls import path
-from . import views
-
-urlpatterns = [
-    path('', views.index, name='index'),
-]
-\end{minted}
-
-La page \og index \fg{} est par convention (je crois) la page affichée lorsque l'on appelle la racine du projet ou d'une application, c'est pour cela que le premier argument de la fonction \code{path()} est une chaîne vide. Il faut maintenant relier les URL de l'application aux URL du projet, en modifiant \code{urls.py} du répertoire racine du projet:
-
-\begin{minted}[frame=single, fontsize=\footnotesize]{python}
-from django.contrib import admin
-from django.urls import include
-from django.urls import path
-
-urlpatterns = [
-    path('monapplication/', include('monapplication.urls')),
-    path('admin/', admin.site.urls),
-]
-\end{minted}
-
-La fonction \code{include()} permet de faire appel aux autres fichiers d’URL que l'on a créés, il faut toujours utiliser cette fonction, la seule exception étant l'administration. On peut tester en lançant un \code{runserver}. Si on va sur \code{localhost:8000}, on a une erreur 404! En se rendant à l'URL \code{localhost:8000/monapplication/ }, Hello world! apparaît.
-
-\subsubsection{Créer un modèle}
-Les modèles structurent la base de données et contiennent des métadonnées. Prenons un exemple musical et créons un modèle \code{Artiste} et un modèle \code{Chanson}. On les implémente en tant que classes dans le fichier \code{models.py}:
-\begin{minted}[frame=single, fontsize=\footnotesize]{python}
-from django.db import models
-
-class Artiste(models.Model):
-    nom = models.CharField(max_length=100)
-    genre = models.CharField(max_length=100)
-    bio = models.TextField(max_length=1000)
-
-class Chanson(models.Model):
-    titre = models.CharField(max_length=200)
-    annee = models.DateTimeField('année de sortie')
-    album = models.CharField(max_length=200)
-    artiste = models.ForeignKey(Artiste, on_delete=models.CASCADE)
-\end{minted}
-
-Les champs sont représentés par des différentes instance de classe \code{Field}, il en existe divers types. Le premier paramètre non nommé de ces instances permet sert à donner un nom plus lisible à ces champs (ici on l'a utilisé pour \code{annee}).\bigskip
-
-Une fois ces modèles créés, il faut les activer dans la base de données. Pour cela, il faut commencer par indiquer dans le fichier \code{settings.py} que l'on a créé une nouvelle application. On ajoute dans \code{INSTALLED\_APPS} une référence vers la classe de configuration de l'application (qui se trouve dans le fichier \code{apps.py}). On se trouve donc avec, dans \code{settings.py}:
-
-\begin{minted}[frame=single, fontsize=\footnotesize]{python}
-INSTALLED_APPS = [
-    'monapplication.apps.MonapplicationConfig',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-]
-\end{minted}
-
-On indique alors à Django que les modèles ont été modifiés:
-\begin{minted}[frame=single, fontsize=\footnotesize]{bash}
-$ python manage.py makemigrations monapplication # on n'est pas obligé de mettre le nom de
-                                                 # l'application
-\end{minted}
-
-Cette instruction est l'analogue d'un \code{git stage}, il faut exécuter ensuite la méthode \code{migrate} pour appliquer les migrations (analogue à \code{git commit}).
-
-\begin{minted}[frame=single, fontsize=\footnotesize]{bash}
-$ python manage.py migrate
-\end{minted}
-
-\paragraph{Remarque} Les deux étapes précédentes sont à répéter à chaque fois que l'on a modifié les modèles.
-
-\subsubsection{Interface administrateur}
-Il y a deux manières d'interagir avec la base de données:
-\begin{enumerate}
-    \item Avec l'\href{https://docs.djangoproject.com/fr/2.0/topics/db/queries/}{API Django} (non développé ici) à travers le shell Python.
-    \item Avec l'interface graphique administrateur de Django.
-\end{enumerate}
-
-L'interface administrateur est créée automatiquement. Pour y accéder, il faut commencer par créer un super-utilisateur.
-
-\begin{minted}[frame=single, fontsize=\footnotesize]{bash}
-$ python manage.py createsuperuser
-\end{minted}
-
-Il suffit ensuite de suivre la procédure. Une fois cela fini, on peut se rendre (après un \code{runserver}) sur l'interface à l'adresse \code{localhost:8000/admin}. Une page de connexion apparaît, on se connecte avec les identifiants du compte super-utilisateur créé précédemment. Après connexion, on arrive sur la page d'administration. Cependant, nous n'avons toujours pas accès aux modèles que l'on a créés. Pour cela, il faut modifier le fichier \code{admin.py} de l'application:
-\begin{minted}[frame=single, fontsize=\footnotesize]{python}
-from django.contrib import admin
-from .models import Chanson
-from .models import Artiste
-
-admin.site.register(Artiste)
-admin.site.register(Chanson)
-\end{minted}
-Ainsi, les modèles apparaissent dans un bloc correspondant à l'application concernée (\hyperref[admin2]{figure 1}). On peut donc créer une chanson, par exemple (\hyperref[admin3]{figure 2}). On voit que l'on peut renseigner tous les champs que l'on a créés dans nos modèles. L'outil d’administration est donc un outil très puissant qui nous permet d'agir sur la base de données graphiquement!
-\begin{figure}[h]
-    \begin{center}
-        \includegraphics[width=15 cm]{django/admin2.jpg}
-        \caption{Administration avec les modèles créés}\label{admin2}
-    \end{center}
-\end{figure}
-\begin{figure}[h]
-    \begin{center}
-        \includegraphics[width=15 cm]{django/admin3.jpg}
-        \caption{Créer une chanson}\label{admin3}
-    \end{center}
-\end{figure}
-
-Si l'on crée une chanson ou un artiste, on peut voir que dans la liste des objets, apparaît la mention "Chanson object" ou bien "Artiste object". En effet, on n'a pas défini de méthode de représentation dans nos modèles, on peut le faire comme suit:
-\begin{minted}[frame=single, fontsize=\footnotesize]{python}
-from django.db import models
-
-class Artiste(models.Model):
-    nom = models.CharField(max_length=100)
-    genre = models.CharField(max_length=100)
-    bio = models.TextField(max_length=1000)
-
-    def __str__(self):
-        return self.nom
-
-class Chanson(models.Model):
-    titre = models.CharField(max_length=200)
-    annee = models.DateTimeField('année de sortie')
-    album = models.CharField(max_length=200)
-    artiste = models.ForeignKey(Artiste, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.titre
-\end{minted}
-
-En actualisant la page, les noms des artistes et titres de chansons apparaissent bien.
-
-\subsubsection{Introduction aux vues et gabarits}
-Créons plus de vues dans le fichier \code{views.py}. Par exemple des vues qui affichent des artistes et leurs chansons, des vues qui affichent des chansons et leurs paroles. On commence simplement:
-
-\begin{minted}[frame=single, fontsize=\footnotesize]{python}
-def artiste(request, artiste_id):
-    return HttpResponse("Vous êtes sur la page de l'artiste {}".format(artiste_id))
-
-def chanson(request, chanson_id):
-    return HttpResponse("Vous êtes sur la page de la chanson {}".format(chanson_id))
-\end{minted}
-
-Il faut ensuite aller renseigner les URL dans \code{urls.py}
-\begin{minted}[frame=single, fontsize=\footnotesize]{python}
-from django.urls import path
-from . import views
-
-urlpatterns = [
-    path('', views.index),
-    path('chanson/<chanson_id>/', views.chanson),
-    path('artiste/<artiste_id>/', views.artiste)
-]
-\end{minted}
-
-Si on va sur la page \code{localhost:8000/monapplication/artiste/1}, on voit : \og Vous êtes sur la page de l'artiste 1\fg{}. En effet, Django analyse l'URL de la manière suivante:
-\begin{enumerate}
-    \item \code{monapplication/} il va dans les URL de l’application monapplication
-    \item \code{artiste/1/} il cherche la ligne correspondante dans le fichier \code{urls.py}. Il trouve alors la ligne\\ \Verb[fontsize=\small]|artiste/<artiste_id>|, il appelle donc la vue\\ \Verb[fontsize=\small]|artiste(request=<HttpRequest object>, question_id=1)|.
-\end{enumerate}
-
-On peut aussi créer des vues qui interagissent avec la base de données en utilisant l'\href{https://docs.djangoproject.com/fr/2.0/topics/db/queries/}{API Django}. Par exemple les pages racines d'artistes et de chansons pourraient les afficher dans l'ordre alphabétique. On aura finalement le fichier \code{views.py} suivant.
-
-\begin{minted}[frame=single, fontsize=\footnotesize]{python}
-from django import HttpResponse
-from django.shortcuts import render
-from .models import Artiste
-from .models import Chanson
-
-
-def index(request):
-    return HttpResponse("Hello world!")
-
-
-def liste_chanson(request):
-    liste_chansons = Chanson.objects.order_by('nom')
-    context = {
-        "liste_chansons": liste_chansons
-    }
-    return render(request, '/monapplication/chansons/index.html', context)
-
-
-def liste_artiste(request):
-    liste_artistes = Artiste.objects.order_by('nom')
-    context = {
-        "liste_artistes": liste_artistes
-    }
-    return render(request, '/monapplication/artistes/index.html', context)
-
-
-def artiste(request, artiste_id):
-    return HttpResponse("Vous êtes sur la page de l'artiste {}"
-                        .format(artiste_id))
-
-
-def chanson(request, chanson_id):
-    return HttpResponse("Vous êtes sur la page de la chanson {}"
-                        .format(chanson_id))
-
-\end{minted}
-
-On va utiliser des gabarits pour les deux premières vues. La fonction \code{render()} est un raccourci qui permet de renvoyer une réponse HTTP avec un gabarit. Les gabarits sont des fichiers HTML rangés dans le répertoire \code{templates} de l'application. Par exemple pour la liste d'artistes, on aura
-\begin{minted}[frame=single, fontsize=\footnotesize]{bash}
-monapplication/templates/monapplication/artistes/index.html
-\end{minted}
-
-Voici un simple gabarit pour la liste des artistes:
-\begin{minted}[frame=single, fontsize=\footnotesize]{html}
-{% if liste_artistes %}
-    <ul>
-    {% for artiste in liste_artistes %}
-        <li><a href="/monapp/artiste/{{ artiste.id }}/">{{ artiste.nom }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>Aucun artiste.</p>
-{% endif %}
-\end{minted}
-
-\paragraph{Remarque} Même si dans nos modèles, on ne crée pas d'attribut \code{id}, celui-ci est créé automatiquement.\bigskip
-
-Il ne faut pas oublier de mettre à jour \code{urls.py}:
-\begin{minted}[frame=single, fontsize=\footnotesize]{python}
-urlpatterns = [
-    path('', views.index),
-    path('chanson/', views.liste_chanson),
-    path('artiste/', views.liste_artiste),
-    path('chanson/<chanson_id>/', views.chanson),
-    path('artiste/<artiste_id>/', views.artiste)
-]
-\end{minted}
-
-Ainsi, si vous allez sur \code{localhost:8000/artiste/}, la liste de vos artistes s'affichera, ou bien \og Aucun artiste. \fg{} sinon.
-
-\subsubsection{Fichiers statiques}
-
-Les fichiers statiques sont rangés dans un répertoire nommé \code{static}, l'architecture est similaire à celle des gabarits. Imaginons que l'on veuille tout mettre en vert. On crée un fichier \code{style.css} dans le répertoire assoicé à l'application.
-
-\begin{minted}[frame=single, fontsize=\footnotesize]{css}
-html {
-    color: green;
-}
-\end{minted}
-
-On modifie ensuite par exemple le gabarit de la liste des artistes en ajoutant ce code au début:
-\begin{minted}[frame=single, fontsize=\footnotesize]{html}
-{% load static %}
-
-<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
-\end{minted}
-
-La balise de gabarit \Verb[fontsize=\small]|{% load static %}| génère l'URL absolue des fichiers statiques. Si on se rend à la page des artistes, tout est vert !
-
-\subsubsection{Thèmes abordés ici}
-
-Cela marque la fin du didacticiel. On s'intéresse maintenant aux différents aspects de Django:
-\begin{enumerate}
-    \item Les modèles
-    \item Les vues
-    \item Les gabarits
-    \item Les formulaires
-    \item L'administration
-    \item Le déploiement
-\end{enumerate}
-
-Ce n'est pas exhaustif, la meilleure façon de se documenter reste la documentation officielle (qui est d'ailleurs très bien faite).
-
-\subsection{Les modèles}
-
-Comme \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/}{\petitcode{models}}} indiqué dans le didacticiel:
-\begin{enumerate}
-    \item Les modèles sont des classes que l'on écrit dans le fichier \code{models.py} de l'application concernée.
-    \item Cette application doit être mentionnée dans la liste \code{INSTALLED\_APPS} du fichier \code{settings.py}
-    \item Un modèle correspond à une table de la base de données. Les champs sont les attributs de la classe du modèle.
-\end{enumerate}
-
-\paragraph{Documentation} \href{https://docs.djangoproject.com/fr/2.0/topics/db/models/}{Documentation Django 2 --- Aperçu sur les modèles}
-
-\subsubsection{Les champs}
-
-Un champ \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/fields/\#field-types}{\petitcode{models.Field}}} de modèle doit être une instance de la classe \code{Field} (où l'une de ses dérivées). Le choix du type de champ détermine le genre de donnée à stocker (par exemple des nombres ou du texte), le composants HTML qui sera utilisé dans le formulaire utilisé pour renseigner ce champs dans l'administration, et enfin les exigences minimales de validation de ce champ. Se référer aux liens dans la marge pour une documentation complète. Quelques types de champs génériques:
-\begin{description}
-    \item[\mintinline{python}{class CharField(max_length=None, **options)}]~
-
-    Un champ pour une chaîne de caractère (courte ou longue). Le paramètre \code{max\_length} règle la taille maximale de ce champ. Il en existe de plus précis pour les mails ou les URL, cf. la doc.
-
-    \item[\mintinline{python}{class DateField(auto_now=False, auto_now_add=False, **options)}]~
-
-    Une date, représentée par la classe Python \hyperref[datetime]{\code{datetime.date}}. Le paramètre \code{auto\_now} permet d'assigner automatiquement la date du jour à chaque enregistrement de l'objet, tandis que \code{auto\_now\_add} enregistre la date du jour à la création de l'objet.
-
-    \item[\mintinline{python}{class DateTimeField(auto_now=False, auto_now_add=False, **options)}]~
-
-    Une heure, représentée par la classe Python \code{datetime.datetime}
-
-    \item[\mintinline{python}{class IntegerField(**options)}]~
-
-    Un nombre entier compris entre -2147483648 et 2147483647.
-
-    \item[\mintinline{python}{class TextField(**options)}]~
-
-    Un champ de texte, plus adapté que \code{CharField} pour les longs textes, car la zone de saisie est plus importante dans le formulaire (on ne détaille pas ici les composants HTML de formulaires, cf. la doc)
-\end{description}
-
-\subsubsection{Les relations entre les modèles}
-
-On \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/fields/\#module-django.db.models.fields.related}{\petitcode{models.ForeignKey}}} peut aussi renseigner les relations entre les modèles (donc entre les tables de la base de données).
-\begin{description}
-    \item[\mintinline{python}{class ForeignKey(to, on_delete, **options)}]~
-
-    Une relation plusieurs-à-un, (cf. le didacticiel, exemple des chansons qui ont l'artiste en \code{ForeignKey}). Cette classe exige la classe à laquelle le modèle et relié, et l'option \code{on\_delete}: \code{models.CASCADE} si l'on veut que lorsque l'on supprime la \code{ForeignKey}, que tous les objets associés du modèle concerné soient supprimés, ou bien \code{SET\_NULL} si l'on veut que les objets aient la valeur \code{null} à la place de la \code{ForeignKey} supprimée (dans ce cas il faut aussi renseigner \code{null=True}). Il y a d'autres possibilités (cf. la doc), \href{https://docs.djangoproject.com/fr/2.0/topics/db/examples/many_to_one/}{voir des exemples}.
-
-    \item[\mintinline{python}{class OneToOneField(to, on_delete, parent_link=False, **options)}]~
-
-    Une relation un-à-un, dont le fonctionnement est similaire à \code{ForeignKey};\href{https://docs.djangoproject.com/fr/2.0/topics/db/examples/one_to_one/}{voir des exemples}.
-
-    \item[\mintinline{python}{class ManyToManyField(to, **options)}]~
-
-    Une relation plusieurs-à-plusieurs, qui fonctionne de la même manière que \code{ForeignKey} (avec d'autres paramètres supplémentaires, cf. la doc); \href{https://docs.djangoproject.com/fr/2.0/topics/db/examples/many_to_many/{voir des exemples}}.
-\end{description}
-
-\subsubsection{Les options des champs}
-Les champs acceptent des \code{options}\marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/fields/\#field-options}{\petitcode{**options}}}, en voici quelques unes (on note après un signe \code{=} la valeur par défaut):
-\begin{description}
-    \item[\mintinline{python}{null=False}]~
-
-    Si la valeur est \code{True}, alors Django stocke les valeurs vides dans la base de données avec \code{NULL}.
-
-    \item[\mintinline{python}{blank=False}]~
-
-    Si la valeur est \code{True}, alors on peut laisser ce champ vide (cette option agit lors de la validation, ne pas confondre avec le paramètre précédent).
-
-    \item[\mintinline{python}{choices}]~
-
-    C'est un itérable (tuple ou liste par exemple) constitué de couples \code{(A, B)} où \code{A} est la valeur réelle pour le modèle et \code{B} le texte affiché à l'utilisateur. On peut organiser en sous groupe comme dans cet exemple:
-
-    \begin{minted}[frame=single, fontsize=\footnotesize]{python}
-choix_media = [
-    ['Audio', [('vinyl', 'Vinyl'), ('cd', 'CD')]],
-    ['Vidéo', [('vhs', 'Cassette VHS'), ('dvd', 'DVD')]],
-    ('unknown', 'Unknown'),
-]
-    \end{minted}
-
-    \item[\mintinline{python}{default}]~
-
-    C'est la valeur par défaut du champ, cela peut être un objet ou un objet exécutable (dans ce cas, il est appelé lors de la création de l'objet). Il ne peut pas s'agir d'un objet muable! En effet, le système de noms de Python ferait que plusieurs instances de modèles seraient référencés vers une même instance de cet objet. Au lieu de cela, on crée une fonction qui retourne cet objet muable.
-
-    \item[\mintinline{python}{help_text}]~
-
-    C'est une chaîne de caractère qui décrit le champ concerné, utilise lorsque l'on utilise la documentation générée automatiquement par Django.
-
-    \item[\mintinline{python}{primary_key}]~
-
-    Si la valeur est \code{True}, alors ce champ représentera une clé primaire du modèle. Si aucun champ n'est renseigné, Django en crée un automatiquement: \code{id}.
-
-    \item[\mintinline{python}{verboose_name}]~
-
-    Chaîne de caractère qui est le \og nom verbeux \fg{} de l'attribut, c'est-à-dire un nom humainement compréhensible pour cet attribut. Il sera affiché à la place du nom de l'attribut dans le formulaire de l'administration (Django l'utilise en convertissant les soulignés en espaces). A l'exception des champs de relations, ce nom verbeux peut-être renseigné en tant que premier paramètre non nommé du champ. Pour ces exceptions, on doit nommer cette option.
-\end{description}
-
-\subsubsection{Les métadonnées}
-On \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/options/}{\petitcode{Meta}}} peut attribuer des métadonnées à un modèle grâce à une classe \code{Meta} incorporée dans la classe du modèle. C'est une classe facultative. Elle permet d'enrichir l'interface administrateur. On y renseigne plusieurs options, en voici quelques unes:
-\begin{description}
-    \item[\mintinline{python}{ordering="-order_date"}]~
-
-    Définit une méthode de tri des instances d'un modèle. C'est une liste ou un tuple de chaîne de caractères. Chaque chaîne correspond à un nom de champ, préfixé par un \code{-} si l'on veut que le tri soit descendant (on ne met rien pour un tri ascendant). Les tris sont rangés dans la liste par ordre de priorité (Django trie par rapport au premier critère, puis second, etc.)
-
-    \item[\mintinline{python}{verbose_name}, \mintinline{python}{verbose_name_plural}]~
-
-    Noms verbeux (même principe que pour les champs) respectivement dans le cas du singulier et dans le cas du pluriel.
-
-    \item[\mintinline{python}{db_table}]~
-
-    Nom de la table dans la base de données. Par défaut, Django la nomme \code{application\_modèle}.
-\end{description}
-
-\subsubsection{Les gestionnaires}
-Le gestionnaire \marginpar{\href{https://docs.djangoproject.com/fr/2.0/topics/db/managers/}{\petitcode{models.Manager}}} est l'interface par laquelle on fait des requêtes à la base de données avec l'\href{https://docs.djangoproject.com/fr/2.0/topics/db/queries/}{API Django} (voir le didacticiel pour un exemple, dans les vues \code{liste\_artistes} ou \code{liste\_chansons}).
-
-\begin{description}
-    \item[\mintinline{python}{class Manager}]~
-
-    Gestionnaire de la classe concernée. Par défaut, on a (on ne l'écrit pas mais c'est comme-ci):
-    \begin{minted}[frame=single, fontsize=\footnotesize]{python}
-class Modèle:
-    # ...
-    objects = models.Manager()
-    \end{minted}
-
-    On peut définir un gestionnaire personnalisé (par exemple pour une classe \code{Personne}, on peut le nommer \code{personnes}), dans ce cas, \code{Modèle.objects} produira une exception \code{AttributeError}.
-\end{description}
-
-\subsection{Les requêtes HTTP: vues et URL}
-Comme \marginpar{\href{https://docs.djangoproject.com/fr/2.0/topics/http/}{\petitcode{http}}}indiqué dans le didacticiel:
-\begin{enumerate}
-    \item Les vues sont des fonctions, rangées dans le fichier \code{views.py} de l'application.
-    \item Elles prennent en paramètre obligatoirement une requête Web (à laquelle peuvent s'ajouter des paramètres facultatifs) et renvoient une réponse Web.
-    \item La gestion des URL associées aux vues se fait dans le fichier \code{urls.py}.
-\end{enumerate}
-
-\paragraph{Documentation} Documentation Django 2 --- \href{https://docs.djangoproject.com/fr/2.0/topics/http/views/}{Ecrire des vues} ---  \href{https://docs.djangoproject.com/fr/2.0/topics/http/urls/}{Distribution des URL}
-
-
-\subsubsection{La gestion des URL}
-Les URL (Uniforme Resource Locators) sont gérés dans les différents fichiers \code{urls.py}. Il y en a un dans chaque application et un dans le répertoire racine. Les URL sont configurées dans la liste \code{urlpatterns}. Voici les principales fonctions à utiliser.
-
-\begin{description}
-    \item[\code{path(route, view, kwargs=None, name=None)}]~
-
-    Cette fonction est utilisée dans la liste \code{urlpatterns}. Elle prend deux paramètres obligatoires: la route, une chaîne de caractère qui correspond à une URL, et une vue (ou bien la fonction \code{include} qui appelle d'autres URL). La route peut contenir des éléments entre chevrons \code{<paramètre>} qui servent de paramètres pour la vue (rappel: les vues sont des fonctions).
-
-    \item[\code{include(module, namespace=None)}]~
-
-    Cette fonction, en général utilisée comme second paramètre de la fonction \code{path()} prend en argument un module d'URL qu'il faut inclure après l'URL mise en premier paramètre.
-\end{description}
-
-\href{https://docs.djangoproject.com/fr/2.0/ref/urls/}{Plus d'info}
-
-
-\subsection{Les vues}
-
-
-
-\section{twilio}
-\index{twilio}
-\section{win10toast}
-\index{win10toast}
-\section{splinter}
-\index{splinter}
-\section{pylint}
-\index{pylint}
-
-\subsection{autopy}
-\index{autopy}
+\subsection{autopy}\index{autopy}
 
 
 %\addcontentsline{toc}{section}{Index}

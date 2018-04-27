@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Modèle}\PYG{p}{:}
+    \PYG{c+c1}{\PYGZsh{} ...}
+    \PYG{n}{objects} \PYG{o}{=} \PYG{n}{models}\PYG{o}{.}\PYG{n}{Manager}\PYG{p}{()}
+\end{Verbatim}

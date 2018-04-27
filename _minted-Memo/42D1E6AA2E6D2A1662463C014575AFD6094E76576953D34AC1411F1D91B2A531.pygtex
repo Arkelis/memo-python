@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Singleton}\PYG{p}{:}
+    \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Classe qui ne peut instancier qu\PYGZsq{}une fois.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{n}{instance} \PYG{o}{=} \PYG{n+nb+bp}{None}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}new\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{cls}\PYG{p}{,} \PYG{o}{*}\PYG{n}{args}\PYG{p}{,} \PYG{o}{**}\PYG{n}{kwargs}\PYG{p}{):}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{instance}\PYG{p}{:}
+            \PYG{n+nb+bp}{cls}\PYG{o}{.}\PYG{n}{instance} \PYG{o}{=} \PYG{n+nb}{super}\PYG{p}{()}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}new\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{cls}\PYG{p}{,} \PYG{o}{*}\PYG{n}{args}\PYG{p}{,} \PYG{o}{**}\PYG{n}{kwargs}\PYG{p}{)}
+            \PYG{k}{return} \PYG{n+nb+bp}{cls}\PYG{o}{.}\PYG{n}{instance}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{k}{raise} \PYG{n+ne}{TypeError}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Cette classe singleton possède déjà une instance\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{o}{*}\PYG{n}{args}\PYG{p}{,} \PYG{o}{**}\PYG{n}{kwargs}\PYG{p}{):}
+        \PYG{k}{pass}
+\end{Verbatim}

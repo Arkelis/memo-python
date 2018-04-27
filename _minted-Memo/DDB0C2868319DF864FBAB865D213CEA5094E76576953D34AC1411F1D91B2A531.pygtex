@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Meuble}\PYG{p}{:}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{couleur}\PYG{p}{,} \PYG{n}{materiau}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{couleur} \PYG{o}{=} \PYG{n}{couleur}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{materiau} \PYG{o}{=} \PYG{n}{materiau}
+
+\PYG{k}{class} \PYG{n+nc}{Bibliotheque}\PYG{p}{(}\PYG{n}{Meuble}\PYG{p}{):}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{couleur}\PYG{p}{,} \PYG{n}{materiau}\PYG{p}{,} \PYG{n}{n}\PYG{p}{):}
+        \PYG{n+nb}{super}\PYG{p}{()}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n}{couleur}\PYG{p}{,} \PYG{n}{materiau}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nb\PYGZus{}livres} \PYG{o}{=} \PYG{n}{n}
+\end{Verbatim}

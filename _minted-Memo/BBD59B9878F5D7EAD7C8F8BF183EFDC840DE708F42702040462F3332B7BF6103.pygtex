@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGZdl{} python manage.py makemigrations monapplication \PYG{c+c1}{\PYGZsh{} on n\PYGZsq{}est pas obligé de mettre le nom de}
+                                                 \PYG{c+c1}{\PYGZsh{} l\PYGZsq{}application}
+\end{Verbatim}

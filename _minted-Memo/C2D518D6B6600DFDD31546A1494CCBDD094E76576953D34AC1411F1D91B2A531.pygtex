@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{django.urls} \PYG{k+kn}{import} \PYG{n}{path}
+\PYG{k+kn}{from} \PYG{n+nn}{.} \PYG{k+kn}{import} \PYG{n}{views}
+
+\PYG{n}{urlpatterns} \PYG{o}{=} \PYG{p}{[}
+    \PYG{n}{path}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{,} \PYG{n}{views}\PYG{o}{.}\PYG{n}{index}\PYG{p}{),}
+    \PYG{n}{path}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}chanson/\PYGZlt{}chanson\PYGZus{}id\PYGZgt{}/\PYGZsq{}}\PYG{p}{,} \PYG{n}{views}\PYG{o}{.}\PYG{n}{chanson}\PYG{p}{),}
+    \PYG{n}{path}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}artiste/\PYGZlt{}artiste\PYGZus{}id\PYGZgt{}/\PYGZsq{}}\PYG{p}{,} \PYG{n}{views}\PYG{o}{.}\PYG{n}{artiste}\PYG{p}{)}
+\PYG{p}{]}
+\end{Verbatim}
