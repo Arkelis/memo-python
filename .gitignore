@@ -9,3 +9,11 @@
 *.yaml
 *.fls
 *.xdv
+_minted-Memo/
+*.tex
+*.pdf
+*.html
+*.bak.tex
+test.py
+*.zip
+*.rst
