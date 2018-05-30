@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{incrementor}\PYG{p}{(}\PYG{n+nb}{max}\PYG{p}{):}
+    \PYG{n}{n} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{k}{while} \PYG{n}{n} \PYG{o}{\PYGZlt{}=} \PYG{n+nb}{max}\PYG{p}{:}
+        \PYG{k}{yield} \PYG{n}{n}
+        \PYG{n}{n} \PYG{o}{+=} \PYG{l+m+mi}{1}
+\end{Verbatim}

@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{HttpResponse}\PYG{o}{.}\PYG{n}{status\PYGZus{}code}
+\end{Verbatim}

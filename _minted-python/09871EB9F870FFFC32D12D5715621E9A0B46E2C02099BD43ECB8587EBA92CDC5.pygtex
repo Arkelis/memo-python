@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Exemple de balise nommée balise. \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+\PYGZob{}\PYGZpc{} balise \PYGZpc{}\PYGZcb{}
+\PYG{c}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Contenu \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+\PYGZob{}\PYGZpc{} endbalise \PYGZpc{}\PYGZcb{}
+\end{Verbatim}

@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{class} \PYG{n+nc}{MaClasse}\PYG{p}{:}
-    \PYG{o}{\PYGZlt{}}\PYG{n}{contenu}\PYG{o}{\PYGZgt{}}
-\end{Verbatim}

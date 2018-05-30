@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGZob{}\PYGZpc{} for elemt in liste \PYGZpc{}\PYGZcb{}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZob{}\PYGZpc{} cycle \PYGZsq{}chaine\PYGZus{}1\PYGZsq{} \PYGZsq{}chaine\PYGZus{}2\PYGZsq{} as chaine \PYGZpc{}\PYGZcb{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+        \PYG{c}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} contenu \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZob{}\PYGZob{} chaine \PYGZcb{}\PYGZcb{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+\PYGZob{}\PYGZpc{} endfor \PYGZpc{}\PYGZcb{}
+\end{Verbatim}

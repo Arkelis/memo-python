@@ -1,0 +1,23 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} Cette fonction accepte tous les arguments}
+\PYG{k}{def} \PYG{n+nf}{fonction}\PYG{p}{(}\PYG{o}{*}\PYG{n}{args}\PYG{p}{,} \PYG{o}{**}\PYG{n}{kwargs}\PYG{p}{):}
+    \PYG{k}{pass}
+
+\PYG{c+c1}{\PYGZsh{} Celle\PYGZhy{}ci en accepte 4. On va tester sur celle\PYGZhy{}ci l\PYGZsq{}unpacking.}
+\PYG{k}{def} \PYG{n+nf}{fonction}\PYG{p}{(}\PYG{n}{par1}\PYG{p}{,} \PYG{n}{par2}\PYG{p}{,} \PYG{n}{par3}\PYG{p}{,} \PYG{n}{par4}\PYG{p}{):}
+    \PYG{k}{for} \PYG{p}{(}\PYG{n}{arg}\PYG{p}{,} \PYG{n}{value}\PYG{p}{)} \PYG{o+ow}{in} \PYG{n+nb}{locals}\PYG{p}{()}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+        \PYG{k}{print}\PYG{p}{(}\PYG{n}{arg}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}:\PYGZsq{}}\PYG{p}{,} \PYG{n}{value}\PYG{p}{)}
+
+\PYG{n}{arg1}\PYG{p}{,} \PYG{n}{arg2}\PYG{p}{,} \PYG{n}{arg3}\PYG{p}{,} \PYG{n}{arg4} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}
+\PYG{n}{tuple\PYGZus{}args} \PYG{o}{=} \PYG{p}{(}\PYG{n}{arg1}\PYG{p}{,} \PYG{n}{arg2}\PYG{p}{)}
+\PYG{n}{dict\PYGZus{}args} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}par3\PYGZsq{}}\PYG{p}{:} \PYG{n}{arg3}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}par4\PYGZsq{}}\PYG{p}{:} \PYG{n}{arg4}\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{\PYGZsh{} Testons l\PYGZsq{}unpacking}
+\PYG{n}{fonction}\PYG{p}{(}\PYG{o}{*}\PYG{n}{tuple\PYGZus{}args}\PYG{p}{,} \PYG{o}{**}\PYG{n}{dict\PYGZus{}args}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Sortie}
+\PYG{c+c1}{\PYGZsh{} par4 : 4}
+\PYG{c+c1}{\PYGZsh{} par3 : 3}
+\PYG{c+c1}{\PYGZsh{} par2 : 2}
+\PYG{c+c1}{\PYGZsh{} par1 : 1}
+\end{Verbatim}

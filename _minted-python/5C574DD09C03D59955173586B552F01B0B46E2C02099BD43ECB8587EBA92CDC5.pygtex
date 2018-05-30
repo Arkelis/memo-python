@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGZob{}\PYGZpc{} firstof var1 var2 var3 \PYGZdq{}dernier recours\PYGZdq{} \PYGZpc{}\PYGZcb{}
+\PYG{c}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} est l\PYGZsq{}équivalent de \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+\PYGZob{}\PYGZpc{} if var1 \PYGZpc{}\PYGZcb{}
+    \PYGZob{}\PYGZob{} var1 \PYGZcb{}\PYGZcb{}
+\PYGZob{}\PYGZpc{} elif var2 \PYGZpc{}\PYGZcb{}
+    \PYGZob{}\PYGZob{} var2 \PYGZcb{}\PYGZcb{}
+\PYGZob{}\PYGZpc{} elif var3 \PYGZpc{}\PYGZcb{}
+    \PYGZob{}\PYGZob{} var3 \PYGZcb{}\PYGZcb{}
+\PYGZob{}\PYGZpc{} else \PYGZpc{}\PYGZcb{}
+    \PYGZdq{}dernier recours\PYGZdq{}
+\PYGZob{}\PYGZpc{} endif \PYGZpc{}\PYGZcb{}
+\end{Verbatim}

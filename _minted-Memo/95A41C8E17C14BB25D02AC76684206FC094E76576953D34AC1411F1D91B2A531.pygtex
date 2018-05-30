@@ -1,6 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{class} \PYG{n+nc}{MaClasse}\PYG{p}{:}
-    \PYG{k}{pass}
-
-\PYG{k}{print}\PYG{p}{(}\PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{MaClasse}\PYG{p}{))} \PYG{c+c1}{\PYGZsh{} \PYGZlt{}class \PYGZsq{}type\PYGZsq{}\PYGZgt{}}
-\end{Verbatim}

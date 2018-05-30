@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{django.shortcuts} \PYG{k+kn}{import} \PYG{n}{render}
+\PYG{k+kn}{from} \PYG{n+nn}{.models} \PYG{k+kn}{import} \PYG{n}{Question}
+
+\PYG{k}{def} \PYG{n+nf}{index}\PYG{p}{(}\PYG{n}{request}\PYG{p}{):}
+    \PYG{n}{latest\PYGZus{}question\PYGZus{}list} \PYG{o}{=} \PYG{n}{Question}\PYG{o}{.}\PYG{n}{objects}\PYG{o}{.}\PYG{n}{order\PYGZus{}by}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZhy{}pub\PYGZus{}date\PYGZsq{}}\PYG{p}{)[:}\PYG{l+m+mi}{5}\PYG{p}{]}
+    \PYG{n}{context} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}latest\PYGZus{}question\PYGZus{}list\PYGZsq{}}\PYG{p}{:} \PYG{n}{latest\PYGZus{}question\PYGZus{}list}\PYG{p}{\PYGZcb{}}
+    \PYG{k}{return} \PYG{n}{render}\PYG{p}{(}\PYG{n}{request}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}polls/index.html\PYGZsq{}}\PYG{p}{,} \PYG{n}{context}\PYG{p}{)}
+\end{Verbatim}

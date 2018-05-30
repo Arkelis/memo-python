@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{\PYGZgt{}\PYGZgt{}\PYGZgt{}} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{liste\PYGZus{}artistes}\PYG{p}{)}
+\PYG{l+m+mi}{3}
+\end{Verbatim}

@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{incrementor}\PYG{p}{(}\PYG{n+nb}{max}\PYG{p}{):}
+    \PYG{n}{n} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{k}{while} \PYG{n}{n} \PYG{o}{\PYGZlt{}=} \PYG{n+nb}{max}\PYG{p}{:}
+        \PYG{k}{print}\PYG{p}{(}\PYG{n}{f}\PYG{l+s+s2}{\PYGZdq{}max\PYGZus{}pre : \PYGZob{}max\PYGZcb{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{add\PYGZus{}max} \PYG{o}{=} \PYG{k}{yield} \PYG{n}{n}
+        \PYG{k}{print}\PYG{p}{(}\PYG{n}{f}\PYG{l+s+s2}{\PYGZdq{}max\PYGZus{}post : \PYGZob{}max\PYGZcb{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{print}\PYG{p}{(}\PYG{n}{f}\PYG{l+s+s2}{\PYGZdq{}add\PYGZus{}max : \PYGZob{}add\PYGZus{}max\PYGZcb{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{n} \PYG{o}{+=} \PYG{l+m+mi}{1}
+        \PYG{n+nb}{max} \PYG{o}{=} \PYG{n+nb}{max} \PYG{o}{+} \PYG{n}{add\PYGZus{}max} \PYG{k}{if} \PYG{n}{add\PYGZus{}max} \PYG{k}{else} \PYG{n+nb}{max}
+\end{Verbatim}

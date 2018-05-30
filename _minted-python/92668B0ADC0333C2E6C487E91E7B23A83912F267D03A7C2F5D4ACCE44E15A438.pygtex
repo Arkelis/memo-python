@@ -1,0 +1,17 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Incrementor}\PYG{p}{:}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n+nb}{max}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{max} \PYG{o}{=} \PYG{n+nb}{max}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}iter\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.} \PYG{n}{n} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}
+
+    \PYG{k}{def} \PYG{n+nf}{\PYGZus{}\PYGZus{}next\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{n} \PYG{o}{\PYGZlt{}=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{max}\PYG{p}{:}
+            \PYG{n}{result} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{n}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{n} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{k}{return} \PYG{n}{result}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{k}{raise} \PYG{n+ne}{StopIteration}
+\end{Verbatim}

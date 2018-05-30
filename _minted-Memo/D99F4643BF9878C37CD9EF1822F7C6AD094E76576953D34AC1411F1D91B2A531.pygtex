@@ -1,6 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{def} \PYG{n+nf}{fonction}\PYG{p}{():}
-    \PYG{k}{pass}
-
-\PYG{n}{fonction} \PYG{o}{=} \PYG{n}{decorateur}\PYG{p}{(}\PYG{n}{fonction}\PYG{p}{)}
-\end{Verbatim}

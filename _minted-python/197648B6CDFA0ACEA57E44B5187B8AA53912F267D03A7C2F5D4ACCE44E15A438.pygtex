@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} schéma}
+\PYG{n}{query\PYGZus{}set} \PYG{o}{=} \PYG{n}{Mod}\PYG{err}{è}\PYG{n}{le}\PYG{o}{.}\PYG{n}{gestionnaire}\PYG{o}{.}\PYG{n}{methode}\PYG{p}{()}
+\PYG{c+c1}{\PYGZsh{} exemple}
+\PYG{n}{liste\PYGZus{}artistes} \PYG{o}{=} \PYG{n}{Artiste}\PYG{o}{.}\PYG{n}{objects}\PYG{o}{.}\PYG{n}{all}\PYG{p}{()} \PYG{c+c1}{\PYGZsh{}  objects est le nom par défaut du gestionnaire}
+\PYG{c+c1}{\PYGZsh{} on peut aussi appeler ces méthodes sur des QuerySet}
+\PYG{n}{liste\PYGZus{}artistes\PYGZus{}inversee} \PYG{o}{=} \PYG{n}{liste\PYGZus{}artistes}\PYG{o}{.}\PYG{n}{reverse}\PYG{p}{()}
+\end{Verbatim}

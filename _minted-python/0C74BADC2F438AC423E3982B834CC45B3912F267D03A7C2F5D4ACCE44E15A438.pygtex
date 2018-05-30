@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{response} \PYG{o}{=} \PYG{n}{HttpResponse}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Voici du texte de page Web.\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}
