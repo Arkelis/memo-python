@@ -9,7 +9,7 @@
 *.yaml
 *.fls
 *.xdv
-_minted-Memo/
+_minted-python/
 *.tex
 *.pdf
 *.html

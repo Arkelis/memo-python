@@ -1,0 +1,7 @@
+class MaClasse:
+    CONSTANTE = ...
+    def __init__(self, att1, att2):
+        """Initialiseur"""
+        self.attribut_1 = att1
+        self.attribut_2 = att2
+        self.attribut_3 = MaClasse.CONSTANTE

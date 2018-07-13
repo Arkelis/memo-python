@@ -1,3 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYGZdl{} pip install virtualenv \PYG{c+c1}{\PYGZsh{} ou pip3 selon votre version de Python}
-\end{Verbatim}

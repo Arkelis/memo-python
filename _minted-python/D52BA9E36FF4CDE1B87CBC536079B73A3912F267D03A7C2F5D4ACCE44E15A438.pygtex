@@ -1,7 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{n}{choix\PYGZus{}media} \PYG{o}{=} \PYG{p}{[}
-    \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Audio\PYGZsq{}}\PYG{p}{,} \PYG{p}{[(}\PYG{l+s+s1}{\PYGZsq{}vinyl\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Vinyl\PYGZsq{}}\PYG{p}{),} \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}cd\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}CD\PYGZsq{}}\PYG{p}{)]],}
-    \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Vidéo\PYGZsq{}}\PYG{p}{,} \PYG{p}{[(}\PYG{l+s+s1}{\PYGZsq{}vhs\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Cassette VHS\PYGZsq{}}\PYG{p}{),} \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}dvd\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}DVD\PYGZsq{}}\PYG{p}{)]],}
-    \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}unknown\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Unknown\PYGZsq{}}\PYG{p}{),}
-\PYG{p}{]}
-\end{Verbatim}

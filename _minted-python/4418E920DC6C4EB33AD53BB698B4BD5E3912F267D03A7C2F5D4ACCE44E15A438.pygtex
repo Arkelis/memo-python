@@ -1,7 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{class} \PYG{n+nc}{Mere}\PYG{p}{:}
-    \PYG{k}{pass}
-
-\PYG{k}{class} \PYG{n+nc}{Fille}\PYG{p}{(}\PYG{n}{Mere}\PYG{p}{):}
-    \PYG{k}{pass}
-\end{Verbatim}

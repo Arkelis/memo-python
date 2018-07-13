@@ -1,3 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{class} \PYG{n+nc}{HttpResponseNotFound}\PYG{p}{(}\PYG{n}{HttpResponse}\PYG{p}{)}
-\end{Verbatim}

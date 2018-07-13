@@ -1,5 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYGZob{}\PYGZpc{} load static \PYGZpc{}\PYGZcb{}
-
-\PYG{p}{\PYGZlt{}}\PYG{n+nt}{link} \PYG{n+na}{rel}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}stylesheet\PYGZdq{}} \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text/css\PYGZdq{}} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZob{}\PYGZpc{} static \PYGZsq{}polls/style.css\PYGZsq{} \PYGZpc{}\PYGZcb{}\PYGZdq{}} \PYG{p}{/\PYGZgt{}}
-\end{Verbatim}
