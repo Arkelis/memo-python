@@ -19,3 +19,4 @@ test.py
 *.rst
 .vscode/
 *.listing
+.directory
