@@ -10,8 +10,8 @@
 *.fls
 *.xdv
 _minted-python/
-*.tex
-*.pdf
+__latexindent_temp.tex
+.pdf
 *.html
 *.bak.tex
 test.py
