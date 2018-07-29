@@ -17,3 +17,5 @@ _minted-python/
 test.py
 *.zip
 *.rst
+.vscode/
+*.listing
