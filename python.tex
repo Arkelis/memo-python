@@ -5,13 +5,13 @@
 \usepackage{makeidx}
 \usepackage{fontspec}
 %% Décommenter si Windows
-\setmainfont{Linux Libertine}
-\setsansfont{Linux Biolinum}
-\setmonofont{Consolas}
+% \setmainfont{Linux Libertine}
+% \setsansfont{Linux Biolinum}
+% \setmonofont{Consolas}
 %% Décommenter si sur Linux
-%\setmainfont{Linux Libertine O}
-%\setsansfont{Linux Biolinum O}
-%\setmonofont{DejaVu Sans Mono}
+\setmainfont{Linux Libertine O}
+\setsansfont{Linux Biolinum O}
+\setmonofont{DejaVu Sans Mono}
 \usepackage{xcolor}
 \usepackage{color}
 %\rmfamily % To load Latin Modern Roman and enable the following NFSS declarations.
@@ -659,7 +659,7 @@ Les itérateurs sont implémentés sous forme de classes et doivent respecter le
 \begin{description}
     \item[\mintinline{python}{iterateur.__iter__()}]~
 
-    Cette méthode retourne l'itérateur lui-même, on peut y effectuer quelques opérations d’initialisation. Appel:
+    Cette méthode doit retourner l'itérateur lui-même, on peut auparavant y effectuer quelques opérations d’initialisation. Appel:
     \begin{minted}{python}
 iter(iterateur)
     \end{minted}
@@ -726,7 +726,7 @@ On peut aussi utiliser une boucle \mintinline{python}{for} pour itérer notre it
 \index{générateur}
 \subsection{Fonction génératrice et mot-clé \mintinline{python}{yield}}
 
-Les générateurs sont une façon plus simple d'utiliser les itérateurs. Au lieu de créer une classe avec les deux méthodes du protocole d'itération, on définit une fonction qui retourne les résultats avec le mot clé \mintinline{python}{yield}. Lorsqu'une fonction possède ce mot-clé, l'appeler crée un générateur, et rien d'autre n'est exécuté. Un générateur est un itérateur auquel on peut ajouter des méthodes supplémentaires (cf. plus bas); ce sont en quelque sorte des itérateurs upgradés. On appelle par abus de langage les fonctions qui retournent des générateurs (des \og fonctions génératrices \fg{}) des générateurs aussi (alors que ce sont de simples fonctions).\bigskip
+Les générateurs sont une façon plus simple d'implémenter les itérateurs. Au lieu de créer une classe avec les deux méthodes du protocole d'itération, on définit une fonction qui retourne les résultats avec le mot clé \mintinline{python}{yield}. Lorsqu'une fonction possède ce mot-clé, l'appeler crée un générateur (rien d'autre n'est exécuté). Un générateur est un itérateur qui possède quelques méthodes supplémentaires (cf. plus bas); ce sont en quelque sorte des itérateurs upgradés. On appelle par abus de langage les fonctions qui retournent des générateurs (des \og fonctions génératrices \fg{}) des générateurs aussi (alors que ce sont de simples fonctions).\bigskip
 
 Pour faire le lien avec les itérateurs, on peut réécrire l'exemple précédent à l'aide d'un générateur.
 \begin{minted}{python}
@@ -757,23 +757,30 @@ StopIteration
 
 On n'appelle pas la méthode \mintinline{python}{iter()} sur un générateur. Ainsi, pour réinitialiser le générateur, on doit le recréer en appelant une nouvelle fois la fonction génératrice.
 
+\paragraph{Remarque} Distinction entre fonction génératrice et générateur
+\begin{minted}{python}
+>>> incrementor
+<function incrementor at 0x00000240AA034D08> # simple fonction
+>>> incrementor(1)
+<generator object incrementor at 0x00000240A9FC74F8> # générateur
+\end{minted}
+
 \subsection{Fonctions supplémentaires}
 En plus du mot-clé \mintinline{python}{yield}, on peut utiliser des fonctions supplémentaires dans les générateurs:
 \begin{description}
     \item[\mintinline{python}{generateur.send()}]~
 
-    Cette méthode permet de communiquer avec l'itérateur en lui envoyant une valeur. Lorsqu'elle est appelée avec un argument, celui-ci est retourné par le \mintinline{python}{yield} actuellement atteint, et le générateur reprend le parcours jusqu'au \mintinline{python}{yield} suivant. Ainsi, appeler cette méthode consomme une itération ! C'est comme si l'on appelait \mintinline{python}{__next__()} en même temps.
+    Cette méthode permet de communiquer avec le générateur en lui envoyant une valeur. Lorsqu'elle est appelée avec un argument, celui-ci est envoyé au \mintinline{python}{yield} actuellement atteint, et le générateur reprend le parcours jusqu'au \mintinline{python}{yield} suivant. Ainsi, appeler cette méthode consomme une itération ! Lorsqu'on utilise cette méthode, il ne faut pas oublier d'affecter \mintinline{python}{yield} à une variable, sinon l'argument donné par \mintinline{python}{send} sera perdu. Séquentiellement, cela donne:
+    \begin{enumerate}
+        \item Le générateur vient d'être créé. On appelle \mintinline{python}{__next__()}, le générateur parcourt la fonction jusqu'au premier \mintinline{python}{yield}.
+        \item Le générateur rencontre un \mintinline{python}{yield}. Il envoie ce que le \mintinline{python}{yield} lui fournit et se met en pause.
+        \item Le générateur est à nouveau appelé. Si c'est avec un \mintinline{python}{send()}, il passe son argument au \mintinline{python}{yield} qui la donne à la variable à laquelle il est affecté.
+        \item Une fois que c'est fait, le générateur reprend le parcours de la fonction jusqu'au \mintinline{python}{yield} suivant, (retour à l'étape 2).
+    \end{enumerate}
+
 \end{description}
 
-Ainsi, l'instruction \mintinline{python}{yield} renvoie quelque chose, en plus de fournir au générateur la valeur suivante. Cela se passe dans cet ordre:
-\begin{enumerate}
-    \item On appelle \mintinline{python}{__next__()}, le générateur parcourt la fonction jusqu'au premier \mintinline{python}{yield}.
-    \item Le générateur rencontre un \mintinline{python}{yield}. Il envoie ce que le \mintinline{python}{yield} lui fournit et se met en pause.
-    \item Le générateur est à nouveau appelé. Si c'est avec un \mintinline{python}{send()}, il donne le paramètre du \mintinline{python}{send()} au \mintinline{python}{yield} qui le retourne à la variable à laquelle il est affectée.
-    \item Une fois que c'est fait, le générateur reprend le parcours de la fonction jusqu'au \mintinline{python}{yield} suivant, (retour à l'étape 2).
-\end{enumerate}
-
-\paragraph{Exemple} On reprend l'incrémenteur et on veut pourvoir l'étendre, c'est à dire lui envoyer un nombre et l'ajouter au maximum initial. On modifie la fonction génératrice. On ajoute des \mintinline{python}{print()} pour voir comment fonctionne \mintinline{python}{send()}
+\paragraph{Exemple} On reprend l'incrémenteur et on veut pourvoir l'étendre, c'est à dire lui envoyer un nombre et l'ajouter au maximum initial. Pour cela, on modifie la fonction génératrice et on ajoute des \mintinline{python}{print()} pour voir comment fonctionne \mintinline{python}{send()} (on utilise les f-strings).
 \begin{minted}{python}
 def incrementor(max):
     n = 0
@@ -824,6 +831,10 @@ En fait, on s'aperçoit que \mintinline{python}{next(gen)} et \mintinline{python
     Envoie une exception au générateur
 \end{description}
 
+\section{Coroutines}
+\section{Objets \emph{awaitables}}
+
+
 \section{Décorateurs}
 \index{décorateur}
 Les décorateurs sont des fonctions ou des classes qui permettent de modifier le comportement d'une autre fonction (ou classe). Les décorateurs sont utiles lorsque l'on souhaite qu'un certain nombre de fonctions effectuent des tâches communes comme par exemple donner leur temps d'exécution. On appelle un décorateur de la manière suivante.
@@ -834,7 +845,7 @@ def fonction():
     pass
 \end{minted}
 
-Le code précédent a le même comportement que le code suivant.
+Le code précédent a le même comportement que le code suivant:
 
 \begin{minted}{python}
 def fonction():
@@ -899,11 +910,13 @@ def depasse_max(max):
 Ces deux syntaxes sont équivalentes:
 
 \begin{minted}{python}
+# Syntaxe 1
 @depasse_max(10)
 def demande_nombre():
     n = int(input("Entrer un nombre : "))
     return n
 
+# Syntaxe 2
 def demande_nombre():
     n = int(input("Entrer un nombre : "))
     return n
@@ -932,6 +945,8 @@ print(type(MaClasse)) # <class 'type'>
 \end{minted}
 
 \subsection{La métaclasse \mintinline{python}{type}}
+
+
 
 \subsection{Application pythonique: propriété de classe}
 On pourrait imaginer des propriétés de classes afin d'ajouter une couche de logique sur une simple variable de classe. Au lieu de définir un descripteur générique, on créer une métaclasse qui aura comme popriété la future propriété de classe.
@@ -2036,7 +2051,66 @@ Si la valeur de la variable est une fonction (ou n'importe quel objet exécutabl
 \subsection{Les formulaires}
 \paragraph{Documentation} \href{https://docs.djangoproject.com/fr/2.0/topics/forms/}{Documentation Django 2 --- Les formulaires}
 
+\section{WSGI}
+Ce module permet de faire tourner Python sur un serveur comme Apache. On voit ici comment déployer une application Flask ou Django avec Apache 2.4 sur un système d'exploitation Debian 9 (Stretch). On considère qu'Apache est connu. Premièrement, installer le module d'Apache pour Python 3:
 
+\begin{minted}{bash}
+$ sudo apt install libapache2-mod-wsgi-py3
+\end{minted}
+
+\subsection{Déploiement de Flask}
+\subsubsection{Hôte virtuel}
+
+Notre application respecte l'arborescence:
+\begin{minted}{bash}
+app/
+|---flaskapp.wsgi
+|---FlaskApp/
+    |---__init__.py
+    ...
+\end{minted}
+
+On crée un hôte virtuel pour notre application Flask.
+
+\begin{minted}{bash}
+$ cd /etc/apache2/sites-availables
+\end{minted}
+
+\begin{minted}{text}
+<VirtualHost *:80>
+    ServerName domain.com
+    ServerAdmin youremail@email.com
+    WSGIScriptAlias / /var/www/chemin/votre/app/flaskapp.wsgi
+
+    <Directory /var/www/chemin/votre/app/FlaskApp>
+        Require all granted # signifie que toute requête est acceptée
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/FlaskApp-error.log
+    LogLevel warn
+    CustomLog ${APACHE_LOG_DIR}/FlaskApp-access.log combined
+</VirtualHost>
+\end{minted}
+
+On peut prendre n'importe quel nom pour les logs.
+
+Voici le contenu de notre fichier WSGI :
+
+\begin{minted}{python}
+#!/usr/bin/python
+# on dit à Debian d'utiliser python3
+
+import sys
+import logging
+
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/chemin/votre/app/")
+
+# en assumant que l'on a app=Flask(__name__)
+from FlaskApp import app as application
+\end{minted}
+
+Voilà! Normalemnt ça marche :) À tester avec un Hello World.
 
 
 \section{twilio}
