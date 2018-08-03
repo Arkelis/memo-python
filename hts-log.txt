@@ -1,0 +1,20 @@
+HTTrack3.49-2 launched on Fri, 03 Aug 2018 19:37:26 at www.pycolore.fr Test
+(httrack www.pycolore.fr Test )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+19:37:57	Warning: 	Moved Permanently for www.pycolore.fr/robots.txt
+19:37:57	Warning: 	Redirected link is identical because of 'URL Hack' option: www.pycolore.fr/robots.txt and https://www.pycolore.fr/robots.txt
+19:37:57	Warning: 	Warning moved treated for www.pycolore.fr/robots.txt (real one is https://www.pycolore.fr/robots.txt)
+19:38:03	Warning: 	Retry after error -4 (No data (connection closed)) at link www.pycolore.fr/ (from primary/primary)
+19:38:08	Error: 	"Unable to get server's address: unknown error" (-5) after 2 retries at link test/robots.txt (from primary/primary)
+19:38:08	Warning: 	Retry after error -5 (Unable to get server's address: Name or service not known) at link test/ (from primary/primary)
+19:38:09	Warning: 	Moved Permanently for www.pycolore.fr/
+19:38:09	Warning: 	Redirected link is identical because of 'URL Hack' option: www.pycolore.fr/ and https://www.pycolore.fr/
+19:38:09	Warning: 	File has moved from www.pycolore.fr/ to https://www.pycolore.fr/
+19:38:09	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link test/ (from primary/primary)
+19:38:09	Error: 	"Unable to get server's address: unknown error" (-5) after 2 retries at link test/ (from primary/primary)
+19:38:09	Warning: 	No data seems to have been transferred during this session! : restoring previous one!
