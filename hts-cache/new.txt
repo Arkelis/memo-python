@@ -1,3 +1,0 @@
-date	size'/'remotesize	flags(request:Update,Range state:File response:Modified,Chunked,gZipped)	statuscode	status ('servermsg')	MIME	Etag|Date	URL	localfile	(from URL)
-19:37:56	323/323	---M--	301	error ('Moved%20Permanently')	text/html	date:Fri,%2003%20Aug%202018%2017:37:56%20GMT	http://www.pycolore.fr/robots.txt		(from )
-19:38:08	313/313	---M--	301	error ('Moved%20Permanently')	text/html	date:Fri,%2003%20Aug%202018%2017:38:08%20GMT	http://www.pycolore.fr/	www.pycolore.fr/index.html	(from )

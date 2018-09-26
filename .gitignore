@@ -10,6 +10,8 @@
 *.fls
 *.xdv
 _minted-python/
+_minted-python-planmeric/
+python-planmeric.*
 __latexindent_temp.tex
 .pdf
 *.html
