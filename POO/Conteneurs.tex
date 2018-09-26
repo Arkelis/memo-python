@@ -1,0 +1,76 @@
+\section{Conteneurs}
+
+\paragraph{Remarque préléminaire} Pour les méthodes spéciales spécifiques aux types des parties suivantes, je me base sur le module \hyperref[abc]{\mintinline{python3}{collections.abc}}\bigskip
+
+
+Les conteneurs sont des objets voués à contenir d'autres objets. Les principaux exemples de conteneurs sont les listes, les chaînes de caractères, les tuples, les dictionnaires ou encore les ensembles. Un objet est dit conteneur s'il possède la méthode spéciale \mintinline{python3}{__contains__()}.
+
+\begin{description}
+    \item[\mintinline{python3}{conteneur.__contains__(objet)}]~
+
+    Retourne \mintinline{python3}{True} si \mintinline{python3}{objet} est présent dans \mintinline{python3}{conteneur}, \mintinline{python3}{False} sinon. On appelle cette méthode spéciale comme ceci:
+    \begin{minted}{python3}
+objet in conteneur
+    \end{minted}
+\end{description}
+
+\paragraph{Remarque} La fonction \mintinline{python3}{__contains__()} est définie chez les itérateurs, mais ceux-ci ne sont pas pas des conteneurs ! Implémenter cette méthode n'est donc pas une condition suffisante pour qu'un objet soit un conteneur (voir la section sur les \hyperref[iterateur]{itérateurs}).\bigskip
+
+La plupart des conteneurs possède une taille. Elle calculée par la méthode spéciale \mintinline{python3}{__len__()}.
+\begin{description}
+    \item[\mintinline{python3}{conteneur.__len__()}]~
+
+    Retourne la taille du conteneur. Devrait retourner un entier positif ou nul. Si cette fonction retourne autre chose, une exception est levée. On l'appelle comme ceci:
+    \begin{minted}{python3}
+len(conteneur)
+    \end{minted}
+\end{description}
+\paragraph{Exemples} Des \og sized \fg{} capricieux
+\begin{minted}{python3}
+class StrSized:
+    def __len__(self):
+        return 'Ma taille !'
+
+class NegativeSized:
+    def __len__(self):
+        return -1
+
+len(StrSized()) # TypeError: 'str' object cannot be interpreted as an integer
+len(NegativeSized()) # ValueError: __len__() should return >= 0
+\end{minted}
+
+Notons qu'un objet peut avoir une taille sans pour autant être un conteneur (on appelle ça un \emph{sized}).
+
+\subsection{Conteneurs indexables}
+Parmi ces conteneurs se distinguent les conteneurs que l'on peut indexer. Ce sont les conteneurs sur lesquels on peut utiliser les crochets \mintinline{python3}{[]} pour faire référence à un objet dans le conteneur; on parle de table de correspondance (\emph{mapping}, non détaillé ici), et de séquence lorsque les index sont des entiers. Parmi les exemples cités précédemment, seuls les ensembles ne sont pas indexables. On rend un objet indexable en implémentant une méthode spéciale.
+
+\begin{description}
+    \item[\mintinline{python3}{indexable.__getitem__(index)}]~
+
+    Retourne l'objet référencé par \mintinline{python3}{index} (cet indice peut être n'importe quel objet). Appelée en faisant:
+    \begin{minted}{python3}
+indexable[index]
+    \end{minted}
+\end{description}
+
+On peut rendre mutables les objets indexables grâce à deux méthodes spéciales.
+
+\begin{description}
+    \item[\mintinline{python3}{indexable.__setitem__(index, valeur)}]~
+
+    Assigne la nouvelle \mintinline{python3}{valeur} à l'objet référencé par \mintinline{python3}{index}. Appel:
+    \begin{minted}{python3}
+indexable[index] = valeur
+    \end{minted}
+
+    \item[\mintinline{python3}{indexable.__delitem__(index)}]~
+
+    Détruit l'objet référencé par \mintinline{python3}{index}. Appel:
+    \begin{minted}{python3}
+del indexable[index]
+    \end{minted}
+\end{description}
+
+\subsection{Objets séquentiels}
+
+Les objets séquentiels sont des objets indexables qui n'acceptent que des entiers comme index. <a venir : Slices>

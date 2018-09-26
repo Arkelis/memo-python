@@ -1,0 +1,37 @@
+\section{Fonctions et objets appelables}
+La façon la plus basique de définir une fonction est d'utiliser le mot-clé \mintinline{python3}{def}. Lorsque l'on appelle, on spécifie des arguments aux paramètres de la fonction.
+
+\begin{minted}{python3}
+fonction(argument_de_paramètre_non_nommé, paramètre_nommé=argument)
+\end{minted}
+
+On peut utiliser les opérateurs d'\emph{unpacking} (\og déballage \fg{}) :
+\begin{itemize}
+    \item Lorsque l'on écrit les paramètres pour capter tous les paramètres possibles.
+    \item Pour renseigner les arguments.
+\end{itemize}
+
+\paragraph{Exemple}
+\begin{minted}{python3}
+# Cette fonction accepte tous les arguments
+def fonction(*args, **kwargs):
+    pass
+
+# Celle-ci en accepte 4. On va tester sur celle-ci l'unpacking.
+def fonction(par1, par2, par3, par4):
+    for (arg, value) in locals().items():
+        print(arg, ':', value)
+
+arg1, arg2, arg3, arg4 = 1, 2, 3, 4
+tuple_args = (arg1, arg2)
+dict_args = {'par3': arg3, 'par4': arg4}
+
+# Testons l'unpacking
+fonction(*tuple_args, **dict_args)
+
+# Sortie
+# par4 : 4
+# par3 : 3
+# par2 : 2
+# par1 : 1
+\end{minted}

@@ -1,0 +1,22 @@
+\section{Descripteurs}
+Les descripteurs sont une généralisation des propriétés. On dit qu'un objet est un descripteur s'il possède au moins une méthode \mintinline{python3}{__get__()} (accesseur), \mintinline{python3}{__set__()} (mutateur), ou \mintinline{python3}{__delete__()} (destructeur).
+
+\paragraph{Exemple} Exemple d'implémentation
+\begin{minted}{python3}
+class Attribut:
+    def __get__(self, inst, insttype):
+        print("Accès à l'attribut")
+        return inst._attribut
+
+    def __set__(self, inst, valeur):
+        print("Modification de l'attribut")
+        inst._attribut = valeur
+
+class MaClasse:
+    def __init__(self):
+        self._attribut = 'Je suis un attribut'
+
+    attribut = Attribut()
+\end{minted}
+
+\paragraph{Plus d'informations} \href{https://docs.python.org/3/howto/descriptor.html}{Documentation Python 3}
