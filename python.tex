@@ -163,11 +163,11 @@ print(MaClasse.propriete) #5
 
 \part{Bibliothèque standard}
 
-\section{Classes abstraites : abc, collections.abc}\label{abc}
+\section{\texttt{abc}, \texttt{collections.abc} --- Classes mères abstraites}\label{abc}
 
-\section{re}
+\section{\texttt{re} --- Expressions régulières}
 \index{re}\index{expression régulière}
-Le module \mintinline{python3}{re} permet d'utiliser les expressions régulières en Python.
+Le module \mintinline{python3}{re} \marginpar{\href{https://docs.python.org/fr/3/library/re.html}{\mintinline{python3}{re}}} permet d'utiliser les expressions régulières en Python.
 \paragraph{Plus d'informations} \href{https://docs.python.org/fr/3/library/re.html}{Documentation Python 3}
 
 \subsection{Ecrire une expression régulière}
@@ -198,12 +198,12 @@ Les expressions régulières sont un excellent moyen de retrouver des motifs com
 	      \end{itemize}
 \end{description}
 
-Les quatre derniers qualificateurs sont dits gourmands : ils valident autant de caractères que possible. Par exemple pour \mintinline{python3}{"aaaaa"}, \mintinline{python3}{a\{3,5\}} validera la chaine en entier. Pour une version non gourmande, on suit le qualificateur d'un \mintinline{python3}{?} : \mintinline{python3}{*?}, \mintinline{python3}{+?}, \mintinline{python3}{??} et \mintinline{python3}{\{n,m\}?}. Un qualificateur non gourmand valide le moins de caractères possibles.\bigskip
+Les quatre derniers qualificateurs sont dits gourmands : ils valident autant de caractères que possible. Par exemple pour \mintinline{text}{"aaaaa"}, \mintinline{text}{a\{3,5\}} validera la chaine en entier. Pour une version non gourmande, on suit le qualificateur d'un \mintinline{text}{?} : \mintinline{text}{*?}, \mintinline{text}{+?}, \mintinline{text}{??} et \mintinline{text}{\{n,m\}?}. Un qualificateur non gourmand valide le moins de caractères possibles.\bigskip
 
-Pour contrôler le nombre d'apparitions d'un groupe de caractères, on met ceux-ci entre parenthèses (\mintinline{python3}{(abc)+}: \mintinline{python3}{abc}, \mintinline{python3}{abcabc}, etc.). Cela crée un groupe de caractères, on peut le nommer en suivant la parenthèses ouvrante de \mintinline{python3}{?P<nom>}. Cela est utile par exemple quand on veut remplacer des caractères. On peut séparer des expression régulières par un \mintinline{python3}{|} afin d'indiquer que plusieurs possibilités sont possibles.\bigskip
+Pour contrôler le nombre d'apparitions d'un groupe de caractères, on met ceux-ci entre parenthèses (\mintinline{text}{(abc)+}: \mintinline{text}{abc}, \mintinline{text}{abcabc}, etc.). Cela crée un groupe de caractères, on peut le nommer en suivant la parenthèses ouvrante de \mintinline{text}{?P<nom>}. Cela est utile par exemple quand on veut remplacer des caractères. On peut séparer des expression régulières par un \mintinline{text}{|} afin d'indiquer que plusieurs possibilités sont possibles.\bigskip
 
 \subsection{Méthodes}
-On compile une expression régulière en utilisant la fonction \mintinline{python3}{compile}\marginpar{re.compile}. Cette fonction retourne un objet expression régulière (regex) sur lequel on peut évaluer diverses méthodes. Si l'on cherche une phrase, la syntaxe sera:
+On compile une expression régulière en utilisant la fonction \mintinline{python3}{compile} \marginpar{\href{https://docs.python.org/fr/3/library/re.html\#re.compile}{\mintinline{python3}{re.compile}}}. Cette fonction retourne un objet expression régulière (un objet Pattern) sur lequel on peut évaluer diverses méthodes. Si l'on cherche une phrase, la syntaxe sera:
 
 \begin{minted}{python3}
 import re
@@ -211,33 +211,23 @@ import re
 regex = re.compile(r"[A-Z]\w*\s?(\w+\s?)*.")
 \end{minted}
 
-\paragraph{Remarque} On utilise le préfixe \mintinline{python3}{r} devant la chaine de caractère pour éviter d'avoir à écrire \Verb[fontsize = \small]|\\| au lieu d'un unique \Verb[fontsize = \small]|\|.\bigskip
+\paragraph{Remarque} On utilise le préfixe \mintinline{text}{r} devant la chaine de caractère pour éviter d'avoir à écrire \Verb[fontsize = \small]|\\| au lieu d'un unique \Verb[fontsize = \small]|\|.\bigskip
 
-On peut rechercher toutes les occurences du motif grâce à la méthode \mintinline{python3}{re.finditer(motif, chaine)}\marginpar{regex.finditer}. Cela retourne un objet iterable. On accède aux objets en appelant \mintinline{python3}{next(iterable)}, qui retourne un objet expression rationnelle. Celui-ci contient plusieurs chaînes de caractères (une pour chaque groupe du motif), on y accède en appelant les différents groupes : \mintinline{python3}{objet.group(numéro ou nom)}.\bigskip
+On peut rechercher toutes les occurences du motif grâce à la méthode \mintinline{python3}{re.finditer(motif, chaine)} \marginpar{\href{https://docs.python.org/fr/3/library/re.html\#re.Pattern.finditer}{\mintinline{python3}{Pattern.finditer}}}. Cela retourne un objet iterable. On accède aux objets en appelant \mintinline{python3}{next(iterable)}, qui retourne un objet expression rationnelle. Celui-ci contient plusieurs chaînes de caractères (une pour chaque groupe du motif), on y accède en appelant les différents groupes : \mintinline{python3}{objet.group(numéro ou nom)}.\bigskip
 
 \paragraph{Exemple} On veut extraire les phrases d'une chaîne de caractères.
-\begin{description}
-	\item[Script]~
-
-	      \begin{minted}{python3}
-chaine = r"Je suis une phrase. Moi aussi"
-regex = re.compile(r"[A-Z]\w*\s?(?:\w+\s?)*.")
-resultats = regex.finditer(chaine)
-while True:
-    try:
-        print(next(resultats).group(0))
-    except:
-        break
-\end{minted}
-	\item[Sortie]~
-
-	      \begin{minted}{pycon}
+\begin{minted}{pycon}
+>>> chaine = r"Je suis une phrase. Moi aussi"
+>>> regex = re.compile(r"[A-Z]\w*\s?(?:\w+\s?)*.")
+>>> resultats = regex.finditer(chaine)
+>>> for phrase in resultats:
+...     print(phrase.group(0))
+...
 Je suis une phrase.
 Moi aussi.
 \end{minted}
-\end{description}
 
-On peut remplacer les motifs par d'autres motifs en utilisant la méthode \mintinline{python3}{re.sub}\marginpar{regex.sub}. Elle prend en paramètres:
+On peut remplacer les motifs par d'autres motifs en utilisant la méthode \mintinline{python3}{re.sub}\marginpar{\href{https://docs.python.org/fr/3/library/re.html\#re.Pattern.sub}{\mintinline{python3}{Pattern.sub}}}. Elle prend en paramètres:
 \begin{enumerate}
 	\item le motif (chaîne de caractères ou objet expression rationnelle.)
 	\item le remplacement (peut être une fonction)
@@ -246,14 +236,14 @@ On peut remplacer les motifs par d'autres motifs en utilisant la méthode \minti
 \end{enumerate}
 et renvoie la chaine de caractères modifiée. Lorsque l'on veut appeler un groupe de caractères nommé avec \mintinline{python3}{(?P<nom>)}, on y fait référence dans la chaine de remplacement par \Verb[fontsize = \small]|\g<nom>|.
 
-\paragraph{Exemple}
-\begin{minted}{python3}
-pass
-\end{minted}
+% \paragraph{Exemple}
+% \begin{minted}{python3}
+% pass
+% \end{minted}
 
 
 
-\section{datetime}\label{datetime}
+\section{\texttt{datetime} --- Objets dates}\label{datetime}
 \index{datetime}
 
 Le module \mintinline{python3}{datetime}\marginpar{\mintinline{python3}{datetime}} permet de créer des objets représentant des dates et de faire des opérations. La classe \mintinline{python3}{datetime.date} représente une date par son année, son mois et son jour: \mintinline{python3}{jour = datetime.date(2017, 1, 1)} correspond à la date 1\ier{} janvier 2017.
@@ -272,7 +262,7 @@ datetime.date(2017, 1, 31)
 
 \paragraph*{Documentation} \href{https://docs.python.org/fr/3/library/datetime.html}{Documentation Python 3}
 
-\section{functools}
+\section{\texttt{functools} --- Outils pour les fonctions}
 Ce module fournit des outils pour la manipulation de fonctions
 
 \subsection{Préservation de la signature d'une fonction décorée}
@@ -324,7 +314,7 @@ Done.
 <function f at 0x00000223E312DEA0>
 \end{minted}
 
-\section{turtle}
+\section{\texttt{turtle} --- Dessins basiques}
 \index{turtle}
 
 Contient des classes pour dessiner des formes simples en faisant avancer des tortues. Elles peuvent avancer, reculer, tourner d'un certain angle.
@@ -366,7 +356,7 @@ Terrain.exitonclick()
 
 \paragraph{Plus d'informations} \href{https://docs.python.org/fr/3.6/library/turtle.html#methods-specific-to-screen-not-inherited-from-turtlescreen}{Documentation Python 3}, \href{https://fr.wikibooks.org/wiki/Programmation_Python/Turtle}{Wikilivres}
 
-\section{ctypes}
+\section{\texttt{ctypes} --- Appeler des fonctions en C}
 \index{ctypes}
 Ce module sert à appeler des fonctions écrites en langage C dans des librairies DLL par exemple.
 \subsection{Boites de dialogue}
@@ -400,15 +390,15 @@ ctypes.windll.user32.MessageBoxW(0, "That's an error", "Warning!", 16)
 	\end{center}
 \end{figure}
 
-\section{keyboard}\index{keyboard}
+\section{\texttt{keyboard} --- Manipulation du clavier}\index{keyboard}
 
-\section{os}\index{os}
+\section{\texttt{os} --- Diverses interfaces avec le systèle d'exploitation}\index{os}
 
-\section{sys}\index{sys}
+\section{\texttt{sys} --- Fonctions et paramètres spécifiques au système}\index{sys}
 
-\section{threading}\index{threading}
+\section{\texttt{threading} --- Programmation parallèle}\index{threading}
 
-\section{asyncio}\index{asyncio}
+\section{\texttt{asyncio} --- Programmation asynchrone}\index{asyncio}
 
 \paragraph{Nota Bene} Pour l'instant, cette section sort un peu de nulle part, mais tout s'éclaircira quand la syntaxe des \mintinline{python3}{async} et \mintinline{python3}{await} sera expliquée.\bigskip
 
@@ -505,7 +495,7 @@ Durée 5.994143724441528
 Dans le 2e exemple, le programme n'attend pas de recevoir la réponse pour envoyer les autres requêtes.
 
 \part{Modules à télécharger}
-\section{virtualenv}\label{virtualenv}\index{virtualenv}
+\section{\texttt{virtualenv} --- Environnements virtuels}\label{virtualenv}\index{virtualenv}
 
 Les environnement virtuels \marginpar{\href{https://pypi.org/project/virtualenv/}{\mintinline{python3}{virtualenv}}} sont un bon moyen pour:
 \begin{enumerate}
@@ -549,7 +539,7 @@ env
 \paragraph{Plus d'informations} \href{https://virtualenv.pypa.io/en/stable/}{Documentation de virtualenv}, \href{http://sametmax.com/les-environnement-virtuels-python-virtualenv-et-virtualenvwrapper/}{informations supplémentaires}
 
 
-\section{django}\index{django}
+\section{\texttt{django} --- Framework Web Full Stack}\index{django}
 Ce \marginpar{\href{https://pypi.org/project/Django/}{\mintinline{python3}{django}}} module permet de créer des sites web en Python. \emph{Il est question ici de la version 2}.
 \paragraph{Plus d'informations} \href{https://docs.djangoproject.com/fr/2.0/}{Documentation officielle de Django 2.0} \href{https://docs.djangoproject.com/fr/2.0/intro/}{Tutoriel de la documentation}
 
@@ -1448,17 +1438,13 @@ from FlaskApp import app as application
 
 Voilà! Normalemnt ça marche :) À tester avec un Hello World.
 
-
-\section{twilio}
-\index{twilio}
-\section{win10toast}
+\section{\texttt{win10toast} --- Notifications Windows 10}
 \index{win10toast}
-\section{splinter}
+\section{\texttt{splinter} --- Naviguer sur Internet}
 \index{splinter}
-\section{pylint}
-\index{pylint}
 
-\section{pytaglib --- Tags de fichiers audio}
+
+\section{\texttt{pytaglib} --- Tags de fichiers audio}
 Ce module premet l'accès et l'écriture aux métadonnées (tags) de fichiers audio. Ce module utilise \mintinline{text}{taglib}.
 
 \subsection{Installation}
@@ -1489,7 +1475,7 @@ Principaux tags:
 	\item \mintinline{text}{DATE}: Année de sortie
 \end{itemize}
 
-\section{autopy}
+\section{\texttt{autopy} --- Tâches automatiques}
 \index{autopy}
 
 \part{Conventions des Python Enhancement Proposals}

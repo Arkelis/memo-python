@@ -226,17 +226,50 @@ AttributeError: 'Temperature' object has no attribute '_fahrenheit'
 \subsection{Méthodes statiques et méthodes de classes}
 \subsubsection{Méthode statique}
 \index{méthode statique}\label{sec:staticmethod}
-Les méthodes que l'on a vues jusqu'à maintenant agissent sur les instances des classes : elles prennent toujours en premier argument le mot clé \mintinline{python3}{self} qui renvoie à l'instance elle même. Lorsque l'on appelle une telle méthode sur une instance comme ceci:
+
+Les méthodes que l'on a vues jusqu'à maintenant agissent sur les instances des classes : elles prennent toujours en premier argument le mot clé \mintinline{python3}{self} qui correspond à l'instance elle même. Lorsque l'on appelle une telle méthode sur une instance comme ceci:
 \mint{python}|instance.methode(*args, **kwargs)|
 Python exécute en fait: \mint{python}|type(instance).methode(instance, *args, **kwargs)|
-Évaluer \mintinline{python3}{type()} sur un objet renvoie sa classe.
+Évaluer \mintinline{python3}{type()} sur un objet renvoie sa classe.\bigskip
 
-En fait, ces deux objets sont différents. \mintinline{python3}{Classe.methode} est une simple fonction, alors que \mintinline{python3}{instance.methode} est une méthode évaluée sur l'instance (méthode liée, en anglais \og bound method \fg{}\index{bound method}), c'est-à-dire que l'instance est mise en premier argument. On considère cet exemple:
+En fait, ces deux objets sont différents. \mintinline{python3}{Classe.methode} est une simple fonction, alors que \mintinline{python3}{instance.methode} est une méthode partiellement évaluée sur l'instance (méthode liée, en anglais \og bound method \fg{}\index{bound method}), c'est-à-dire que l'instance est mise en premier argument.\bigskip
 
-\paragraph{Exemple}
+Parfois, on écrit des méthodes qui n'ont pas d'incidence sur les instances de la classe. Imaginons une classe \mintinline{python3}{Maths} qui regrouperait des opérations basiques:
+
 \begin{minted}{python3}
 class Maths:
+    def addition(x, y):
+        return x + y
 
+    def multiplication(x, y):
+        return x * y
+
+    def division(x, y):
+        return x / y
+\end{minted}
+
+\begin{minted}{pycon}
+>>> Math.addition(1, 3)
+4
+\end{minted}
+
+Jusqu'ici tout va bien. Mais imaginons que la classe se développe et que l'on instancie des objets \mintinline{text}{Maths}. On aura un soucis :
+
+\begin{minted}{pycon}
+>>> Maths().addition(1, 3)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: addition() takes 2 positional arguments but 3 were given
+\end{minted}
+
+Le problème étant que Python a en fait exécuté:
+
+\mint{python3}|Maths.addition(Maths(), x, y)|
+
+Pour remédier à cela, il existe le décorateur \mintinline{python3}{@staticmethod}. On doit écrire alors:
+
+\begin{minted}{python3}
+class Maths:
     @staticmethod
     def addition(x, y):
         return x + y
@@ -249,11 +282,63 @@ class Maths:
     def division(x, y):
         return x / y
 \end{minted}
-On choisit ici de grouper trois fonctions car elles sont logiquement liées. Elles n'influent pas les instances donc elles ne prennent pas \mintinline{python3}{self} en argument. Si l'on appelle ces méthodes sur une instance, une exception sera levée car Python entrera automatiquement l'argument \mintinline{python3}{self} (donc en tout trois arguments) alors que les méthodes n'en prennent que deux. Pour remédier à cela, on les décore avec \mintinline{python3}{@staticmethod}. On peut maintenant les appeler indifféremment sur la classe ou sur des instances. On fait rarement ce genre de classe en Python, mais il peut arriver d'avoir des méthodes statiques dans une classe.
+
+On peut ainsi écrire sans crainte:
+
+\begin{minted}{pycon}
+>>> Maths().addition(1, 3)
+4
+\end{minted}
 
 \subsubsection{Méthode de classe}
 \index{méthode de classe}\label{sec:classmethod}
-Lorsque l'on veut manipuler des variables de classe et non des attributs d'instances, on crée des méthodes de classe. Celles-ci prennent la classe en premier paramètre, par convention on le note \mintinline{python3}{cls}; elles ne prennent logiquement pas \mintinline{python3}{self} comme paramètre. Cette méthode est donc évaluée sur la classe. Sans autre modification, on ne peut peut appeler cette méthode que sur les instances car Python attend l'argument \mintinline{python3}{cls}. Pour pouvoir appeler cette méthode sur la classe (logique car c'est une méthode de classe), on la décore avec \mintinline{python3}{@classmethod}.
+
+Parfois, on veut pouvoir agir sur la classe et non sur l'instance. Dans ce cas, la méthode de classe prend en premier paramètre \mintinline{python3}{cls} (la classe) au lieu de \mintinline{python3}{self} (l'instance).
+
+\begin{minted}{pycon}
+>>> class Foo:
+...     CONSTANT = "Bar"
+...     def print_constant(cls):
+...         print(cls.CONSTANT)
+...
+>>> Foo().print_constant()
+Bar
+\end{minted}
+
+Deux problèmes surviennent. Tout d'abord, même si le premier paramètre s'appelle \mintinline{python3}{cls}, c'est encore l'instance qui est mise en paramètre.
+
+\begin{minted}{pycon}
+>>> foo = Foo()
+>>> foo.CONSTANT = "Baz"
+>>> foo.print_constant()
+Baz # On veut Bar !
+\end{minted}
+
+Deuxième problème: on ne peut pas appeler la méthode de classe sur la classe (même problème que pour les méthodes statiques):
+
+\begin{minted}{pycon}
+>>> Foo.print_constant()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: print_constant() missing 1 required positional argument: 'cls'
+\end{minted}
+
+Pour remédier à cela, on utilise le décorateur \mintinline{python3}{@classmethod}.
+
+\begin{minted}{pycon}
+>>> class Foo:
+...     CONSTANT = "Bar"
+...     @classmethod
+...     def print_constant(cls):
+...         print(cls.CONSTANT)
+...
+>>> foo = Foo()
+>>> foo.CONSTANT = "Baz"
+>>> foo.print_constant()
+Bar # Youpi !
+>>> Foo.print_constant()
+Bar # Youyoupi !
+\end{minted}
 
 \subsubsection{Cas de l'héritage}
 En résumé:
