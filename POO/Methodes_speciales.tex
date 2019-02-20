@@ -115,7 +115,7 @@ Instance de MaClasse ayant comme attribut Exemple.
 \end{minted}
 
 \subsection{Accès et modification des attributs}
-On a vu précédemment les propriétés qui permettent une sore d'encapsulation des attributs. Lorsqu'on veut accéder à un attribut par la syntaxe \mint{python}|instance.attr| Python appelle en premier une méthode spéciale.
+On a vu précédemment les propriétés qui permettent une sorte d'encapsulation des attributs. Lorsqu'on veut accéder à un attribut par la syntaxe \mint{python}|instance.attr| Python appelle en premier une méthode spéciale.
 
 \begin{description}
     \item[\mintinline{python3}{object.__getattribute__(self, name)}]~
@@ -190,7 +190,7 @@ J'accède à l'attribut a...
 1
 \end{minted}
 
-À ce stade, on peut se demander quelle solution choisir pour contrôler les accès aux attributs ou faire des attributs dynamiques: propriétés, descripteurs --- leur généralisation ---, méthodes spéciales ?) La réponse pythonique est: si on peut faire ce que l'on veut facilement, ne pas choisir une solution compliquée inutilement! Une réponse sur StackOverflow (voir \og Plus d'informations \fg{} propose ceci:
+À ce stade, on peut se demander quelle solution choisir pour contrôler les accès aux attributs ou faire des attributs dynamiques: propriétés, descripteurs --- leur généralisation ---, méthodes spéciales ?) La réponse pythonique est: si on peut faire ce que l'on veut facilement, ne pas choisir une solution compliquée inutilement! Une réponse sur StackOverflow (voir \og Plus d'informations \fg{}) propose ceci:
 \begin{itemize}
     \item La première solution la plus simple: affecter simplement les valeurs aux attributs avec le mécanisme par défaut
     \item Si ce mécanisme est insuffisant, utiliser les propriétés.

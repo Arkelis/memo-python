@@ -90,23 +90,17 @@
 
 Je \marginpar{\href{http://python.pycolore.fr}{Permalien}} rédige ce pdf au fur et à mesure que j'en apprends sur Python... Bonne lecture!\bigskip
 
-Ne sont pas reprises les opérations \og basiques \fg{} (boucles, manipulation des listes). On s'intéresse directement à la programmation orientée objet. Ensuite sont détaillés quelques fonctionnalités apportées par des modules. Une partie sur Django est particulièrement plus développée.\bigskip
+Le document considère que le lecteur a un niveau \og prépa \fg{} en Python: la définition de fonctions, les boucles, les conditions et la manipulation des listes est supposée connue. La première partie concerne la programmation orientée objet et le modèle de données de Python. Les deux parties suivantes concernent des modules de la bibliothèque standard et des modules communautaires. Il y a de nombreux liens en bleu, ne pas hésiter à cliquer dessus!\bigskip
 
 Sauf exception, on considère qu'on travaille sur \textbf{Python 3.7} et sur une distribution GNU/Linux (par exemple: Linux Mint, Fedora, Solus, Debian, Arch Linux).\bigskip
 
-De nombreux liens sont disponibles. De manière générale:
-\begin{enumerate}
-	\item Des liens vers les documentations sont fournis.
-	\item Des liens plus précis sont fournis en cliquant sur les termes dans la marge. < en cours! (càd incomplet)
-	\item Pour le reste, tout ce qui est en bleu = lien (sauf dans les cadres de code).
-\end{enumerate}\bigskip
+Ce document est écrit au format TeX puis compilé avec XeLaTeX (et minted pour les sections de code) tantôt sur Windows, tantôt sur Fedora (ça ne change pas le résultat). Il est disponible au téléchargement (pour mettre le document à jour) en cliquant sur ce lien: \href{https://python.pycolore.fr}{python.pycolore.fr}.\bigskip
 
-Ce document est écrit au format TeX puis compilé avec XeLaTeX (et minted pour les sections de code) tantôt sur Windows, tantôt sur Fedora (ça ne change pas le résultat). Il est disponible au téléchargement (pour mettre le document à jour) en cliquant sur ce lien: \href{https://python.pycolore.fr}{python.pycolore.fr}.
-
-\paragraph{Notation} Toutes les fonctions sont notées avec des parenthèses : \mintinline{python3}{function()}.
-\bigskip
-
-\paragraph{Auteur} Guillaume Fayard.
+\begin{description}
+	\item[{\sffamily Notation}] Toutes les fonctions sont notées avec des parenthèses : \mintinline{python3}{function()}.
+	\item[{\sffamily Auteur}] Guillaume Fayard.
+	\item[{\sffamily Code source}] \href{https://github.com/Arkelis/memo-python}{GitHub}.
+\end{description}
 
 \newpage
 \part{Programmation orientée objet en Python}
@@ -162,6 +156,17 @@ print(MaClasse.propriete) #5
 \newpage
 
 \part{Bibliothèque standard}
+\section{Fonctions natives}
+\subsection{Exécuter, évaluer du code}
+\begin{description}
+    \item[\mintinline{python3}{exec(instruction)}]~
+    
+    Exécute la chaîne de caractères \mintinline{text}{instruction} en argument.
+
+    \item[\mintinline{python3}{eval(expression)}]~
+
+    Évalue la chaîne de caractères \mintinline{text}{expression} en argument et renvoie le résultat.
+\end{description}
 
 \section{\texttt{abc}, \texttt{collections.abc} --- Classes mères abstraites}\label{abc}
 

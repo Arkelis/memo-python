@@ -13,7 +13,7 @@ _minted-python/
 _minted-python-planmeric/
 python-planmeric.*
 __latexindent_temp.tex
-.pdf
+*.pdf
 *.html
 *.bak.tex
 test.py

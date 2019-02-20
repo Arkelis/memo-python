@@ -1,9 +1,76 @@
-\section{Fonctions et objets appelables}
-La façon la plus basique de définir une fonction est d'utiliser le mot-clé \mintinline{python3}{def}. Lorsque l'on appelle, on spécifie des arguments aux paramètres de la fonction.
+\section{Fonctions et objets {\normalfont\bfseries\itshape callable}}
+Un objet est dit \textit{callable} (que l'on peut traduire par \og appelable \fg{}) si lui appliquer des parenthèses déclenche quelque chose.
 
 \begin{minted}{python3}
-fonction(argument_de_paramètre_non_nommé, paramètre_nommé=argument)
+obj() # on appelle l'objet obj
+obj(arg) # on lui passe un argument positionnel
+obj(arg1, param=arg2) # on lui passe aussi un argument nommé
+result = obj() 
+# en général appeler un objet retourne quelque chose en fait, appeler un objet retourne toujours
+# au moins None.
 \end{minted}
+
+\subsection{Déclaration de fonctions}
+
+Les fonctions et les méthodes sont \textit{callable}, elles sont créées avec le mot-clé \mintinline{python3}{def}. On
+peut utiliser des annotations pour indiquer les types des paramètres et le type de la valeur renvoyée.
+
+\begin{minted}{pycon}
+>>> def func(arg1: int = 1) -> int:
+...     """Docstring."""
+...     return arg1
+\end{minted}
+
+Ces objets possèdent quelques attributs:
+
+\begin{minted}{pycon}
+>>> func.__name__
+'func'
+>>> func.__module__
+'main'
+>>> func.__annotations__
+{'arg1': <class 'int'>, 'return': <class 'int'>}
+>>> func.__defaults__
+(1,)
+>>> func.__doc__
+'Docstring.'
+\end{minted}
+
+Les méthodes ont en plus un attribut spécial \mintinline{python3}{__self__} et un attribut spécial \mintinline{python3}{__func__}. On peut aussi créer une fonction anonyme avec \mintinline{python3}{lambda}:
+
+\begin{minted}{pycon}
+>>> func = lambda x: x
+>>> func.__name__
+'<lambda>'
+\end{minted}
+
+Ce mécanisme si l'on veut créer une fonction à la volée, par exemple quand on utilise \mintinline{python3}{map()}.
+
+\subsection{Gérer les paramètres d'une fonction}
+
+On peut assigner à certains paramètres une valeur par défaut:
+
+\begin{minted}{pycon}
+>>> def function(arg1, arg2=5):
+...     return arg1 + arg2
+... 
+>>> function(1)
+6
+\end{minted}
+
+Les paramètres ayant une valeur par défaut doivent être placé \emph{après} ceux qui n'en ont pas.
+
+\paragraph*{Remarque} Les valeurs par défaut sont assignées lors de la définition de la fonction. Si l'objet associé est
+muable, la valeur par défaut restera toujours celle d'origine même si la fonction est appelée alors que l'objet associé
+a mué.\bigskip
+
+On peut passer deux types d'arguments à une fonction:
+\begin{itemize}
+    \item les arguments dits \emph{positionnels}: ils sont interprétés par la fonction grâce à leur position dans
+          la liste des arguments passés à la fonction;
+    \item les arguments dits \emph{nommés}: on spécifie le nom de leur paramètre quand on les passe à la fonction.
+          On doit avoir passé tous les arguments positionnels avant de passer des arguments nommés.
+\end{itemize}
 
 On peut utiliser les opérateurs d'\emph{unpacking} (\og déballage \fg{}) :
 \begin{itemize}
@@ -11,27 +78,83 @@ On peut utiliser les opérateurs d'\emph{unpacking} (\og déballage \fg{}) :
     \item Pour renseigner les arguments.
 \end{itemize}
 
-\paragraph{Exemple}
-\begin{minted}{python3}
-# Cette fonction accepte tous les arguments
-def fonction(*args, **kwargs):
-    pass
-
-# Celle-ci en accepte 4. On va tester sur celle-ci l'unpacking.
-def fonction(par1, par2, par3, par4):
-    for (arg, value) in locals().items():
-        print(arg, ':', value)
-
-arg1, arg2, arg3, arg4 = 1, 2, 3, 4
-tuple_args = (arg1, arg2)
-dict_args = {'par3': arg3, 'par4': arg4}
-
-# Testons l'unpacking
-fonction(*tuple_args, **dict_args)
-
-# Sortie
-# par4 : 4
-# par3 : 3
-# par2 : 2
-# par1 : 1
+Cette fonction prend tous les arguments qui lui sont passés:
+\begin{minted}{pycon}
+>>> def fonction(*args, **kwargs):
+...     print(locals())
+...
+>>> fonction(1, 2, 3, 'A', 'B', 'C', kwarg1=4, kwarg2='D')
+{'args': (1, 2, 3, 'A', 'B', 'C'), 'kwargs': {'kwarg1': 4, 'kwarg2': 'D'}}
 \end{minted}
+
+\mintinline{python3}{*args} va contenir tous les arguments positionnels dans un tuple et \mintinline{python3}{**kwargs}
+tous les arguments nommés dans un dictionnaire. Cette syntaxe est utilise quand on définit une fonction qui en enrobe une
+autre pour lui transmettre tous les arguments (voir les décorateurs).\bigskip
+
+On peut aussi utiliser le déballage lors d'appels de fonctions:
+\begin{minted}{pycon}
+>>> def fonction(par1, par2, par3, par4):
+...     print(locals())
+...
+>>> arg1, arg2, arg3, arg4 = 1, 2, 3, 4
+>>> tuple_args = (arg1, arg2)
+>>> dict_args = {'par3': arg3, 'par4': arg4}
+>>> fonction(*tuple_args, **dict_args)
+{'par1': 1, 'par2': 2, 'par3': 3, 'par4': 4}
+\end{minted}
+
+\paragraph*{Remarque} Le déballage, ce n'est pas que pour les paramètres de fonctions:
+\begin{minted}{pycon}
+>>> L = [1, 2, 3]
+>>> a, b, c = L
+>>> print(a, b, c)
+1 2 3
+>>> char1, char2 = "12" # ça fonctionne pour tout itérable
+>>> print(char1, char2)
+1 2
+>>> a, b = (b, a)
+>>> a, b = b, a # équivalent à la ligne précédente, l'assignation simultanée est en fait du déballage
+>>> d = {'a': 1, 'b': 2, 'c': 3}
+>>> for k, v in d.items():
+...     print(k, ":", v)
+... 
+a : 1
+b : 2
+c : 3
+\end{minted}
+
+\subsection{Créer un objet {\normalfont\bfseries\itshape callable}}
+
+Pour qu'une classe puisse instancier des objets \emph{callable}, il suffit qu'elle définisse une méthode
+\mintinline{python3}{__call__()}.
+
+\begin{description}
+    \item[\mintinline{python3}{callable.__call__(*args, **kwargs)}]~
+ 
+    Cette méthode est appelée lorsqu'on appelle un objet. Tout objet possédant cette méthode est \emph{callable}.
+\end{description}
+
+\begin{minted}{pycon}
+>>> class CallableCreator:
+...     def __call__(self):
+...             return "Hello"
+...
+>>> CallableCreator()() # () pour instancier puis () pour appeler
+Hello
+\end{minted}
+
+
+Les classes sont \emph{callable}: on les appelle pour instancier.
+\begin{minted}{pycon}
+>>> class Bar: pass
+...
+>>> hasattr(Bar, "__call__")
+True
+\end{minted}
+
+\subsection*{Plus d'informations}
+\begin{itemize}
+    \item \href{https://docs.python.org/3/reference/datamodel.html\#index-32}{les fonctions} (documentation Python 3);
+    \item \href{http://sametmax.com/quest-ce-que-lunpacking-en-python-et-a-quoi-ca-sert/}{déballage} et \href{http://sametmax.com/quest-ce-quun-callable-en-python/}{callables} (Sam \& Max);
+    \item \href{https://stackoverflow.com/a/32856533/9214306}{fonctionnement interne des callables} (StackOverflow).
+\end{itemize}
