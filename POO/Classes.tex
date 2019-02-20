@@ -143,10 +143,6 @@ True
 On a dit précédemment que le constructeur était composé d'un initialiseur et d'un créateur d'instance ; cependant l'exemple ne définissait pas de créateur d'instance : c'est parce qu'il est défini dans une classe \mintinline{python3}{object}. Toutes les classes en Python 3 héritent implicitement de cette classe. Elle définit de nombreuses méthodes, notamment les méthodes dites spéciales, que l'on peut surcharger pour les personnaliser.
 
 \begin{minted}{pycon}
->>> class Foo:
-...    pass
->>> issubclass(Foo, object)
-True
 >>> object
 <class 'object'>
 >>> help(object)
@@ -164,49 +160,26 @@ True
 
 \subsection{Propriétés}
 \label{sec:proprietes}\index{propriété}\index{accesseur}\index{mutateur}\index{destructeur}
-Les propriétés représentent en Python le principe d'encapsulation. Elles sont utiles si on souhaite contrôler l'accès à un attribut ou si on veut que le changement d'une valeur d'un attribut engendre des modifications sur d'autres attributs. Les propriétés sont un cas particulier des descripteurs.\bigskip
+Les propriétés représentent en Python le principe d'encapsulation. Elles sont utiles si on souhaite contrôler l'accès à un attribut ou si on veut que le changement d'une valeur d'un attribut engendre des modifications sur d'autres attributs. Du côté utilisateur, ce mécanisme est complètement transparent car il permet de garder la syntaxe classique \mintinline{python3}{inst.attr = valeur}. Les propriétés sont un cas particulier des descripteurs.\bigskip
 
-On crée les propriétés en utilisant des décorateurs. Elles contiennent un accesseur, un mutateur, un destructeur et une aide (docstring de l'accesseur).\bigskip
+On crée les propriétés en utilisant des décorateurs. Elles contiennent un accesseur, un mutateur, un destructeur et une aide (docstring de l'accesseur). Dans certains cas, il n'est pas nécessaire d'avoir un attribut associé, un simple calcul suffit:
 
-Les propriétés sont aussi un moyen de simuler des attributs privés: pour simuler un attribut privé, on précède son nom d'un souligné. Ainsi, on appelle cet attribut sans le souligné dans le code grâce aux propriétés. Par convention, on n'agit pas sur les attributs qui commencent par un souligné en Python.
-
-\paragraph{Exemple}~
 \begin{minted}{python3}
 class Temperature:
     def __init__(self, celsius):
-        self._celsius = celsius
-        self._fahrenheit = self._celsius * 1.8 + 32
-
-    @property
-    def celsius(self):
-        """Propriété 'celsius'."""
-        return self._celsius
-
-    @celsius.setter
-    def celsius(self, valeur):
-        self._celsius = valeur
-        self._fahrenheit = valeur * 1.8 + 32
-
-    @celsius.deleter
-    def celsius(self):
-        del self._celsius
+        self.celsius = celsius
     
     @property
     def fahrenheit(self):
         """Propriété 'fahrenheit'."""
-        return self._fahrenheit
+        return self.celsius * 1.8 + 32
     
     @fahrenheit.setter
-    def fahrenheit(self, valeur):
-        self._fahrenheit = valeur
-        self._celsius = (valeur - 32) / 1.8
-
-    @fahrenheit.deleter
-    def fahrenheit(self):
-        del self._fahrenheit
+    def fahrenheit(self, value):
+        self.celsius = (value - 32) / 1.8
 \end{minted}
 
-On utilise la propriété de la manière suivante:
+Ainsi, on peut écrire:
 \begin{minted}{pycon}
 >>> temp = Temperature(20)
 >>> temp.fahrenheit
@@ -214,11 +187,65 @@ On utilise la propriété de la manière suivante:
 >>> temp.fahrenheit = 69
 >>> temp.celsius
 20.555555555555554
->>> del temp.fahrenheit
->>> temp.fahrenheit
+\end{minted}
+
+Parfois, il est nécessaire d'ajouter des attributs \og cachés \fg{}, par exemple si l'on veut aussi contrôler le changement de 
+température en degrés Celsius:
+
+\begin{minted}{python3}
+class Temperature:
+    def __init__(self, celsius):
+    if celsius < -273:
+        raise ValueError("Une température en degrés Celsius doit être supérieure à -273°C.")
+    self._celsius = celsius
+    
+    @property
+    def celsius(self):
+        """Propriété 'celsius'.
+        
+        Vérifie si la température est supérieure à -273°C avant d'assigner."""
+        return self._celsius
+
+    @celsius.setter
+    def celsius(self, value):
+        if value < -273:
+            raise ValueError("Une température en degrés Celsius doit être supérieure à -273°C.")
+        self._celsius = value
+            
+    @property
+    def fahrenheit(self):
+        """Propriété 'fahrenheit'."""
+        return self.celsius * 1.8 + 32
+
+    @fahrenheit.setter
+    def fahrenheit(self, value):
+        self.celsius = (value - 32) / 1.8
+\end{minted}
+
+Dans d'autres cas, on peut stocker le résultat de calculs dans un attribut caché. Ici, le calcul des degrés Fahrenheit est
+rapide, mais il peut s'avérer utile de stocker le résultat pour ne pas avoir à recalculer à chaque fois.\bigskip
+
+On utilise la propriété de la manière suivante:
+\begin{minted}{pycon}
+>>> help(Temperature.celsius)
+Help on property:
+
+    Propriété 'celsius'.
+    
+    Vérifie si la température est supérieure à -273°C avant d'assigner.
+    
+>>> temp.celsius = -300
 Traceback (most recent call last):
-...
-AttributeError: 'Temperature' object has no attribute '_fahrenheit'
+  File "<stdin>", line 1, in <module>
+  File ".../*.py", line 18, in celsius
+    raise ValueError("Une température en degrés Celsius doit être supérieure à -273°C.")
+ValueError: Une température en degrés Celsius doit être supérieure à -273°C.
+>>> temp.fahrenheit = -462 # ça marche aussi car cette propriété fait appel à celle des celsius !
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File ".../*.py", line 18, in celsius
+    raise ValueError("Une température en degrés Celsius doit être supérieure à -273°C.")
+ValueError: Une température en degrés Celsius doit être supérieure à -273°C.
 \end{minted}
 
 \paragraph{Plus d'informations}\href{https://docs.python.org/fr/3/library/functions.html?highlight=property#property}{Documentation Python 3}, \href{https://stackoverflow.com/questions/15750522/class-properties-and-setattr/15751159#15751159}{Priorités entre propriété et méthodes spéciales}

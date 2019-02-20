@@ -201,6 +201,8 @@ J'accède à l'attribut a...
 
 Les propriétés sont particulièrement adaptées pour gérer un petit nombre d'attributs spécifiques; pour changer le comportement de tous les attributs ou presque, c'est \mintinline{python3}{__getattr__()} qui sera plus avantageux. En dernier recours \mintinline{python3}{__getattribute__()} permettra d'agir sur les attributs qui sont vraiment définis, alors que \mintinline{python3}{__getattr__()} permet de simuler la présence d'attributs. Cette dernière fonction a l'inconvénient d'agir sur tous les attributs, donc peut engendrer un comportement indésirable chez quelques attributs si l'on ne fait pas bien attention.
 
+\paragraph*{Plus d'informations} \href{https://stackoverflow.com/a/22617259/9214306}{Quand utiliser les propriétés et les méthodes spéciales}
+
 \subsection{Surcharges d'opérateur}
 \index{surcharge d'opérateur}
 Les surcharges d'opérateur permettent de faire des opérations arithmétiques avec des objets, c'est-à-dire d'indiquer à Python ce qu'il faut faire lorsque l'on exécute \mintinline{python3}{objet1 + objet2}. Ces méthodes prennent en arguments \mintinline{python3}{self} (l'objet 1) et l'objet 2.

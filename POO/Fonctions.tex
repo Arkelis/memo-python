@@ -10,10 +10,18 @@ result = obj()
 # au moins None.
 \end{minted}
 
+\paragraph*{Plus d'informations}
+\begin{itemize}
+    \item \href{https://docs.python.org/3/reference/datamodel.html\#index-32}{les fonctions} (documentation Python 3);
+    \item \href{http://sametmax.com/quest-ce-que-lunpacking-en-python-et-a-quoi-ca-sert/}{déballage} et \href{http://sametmax.com/quest-ce-quun-callable-en-python/}{callables} (Sam \& Max);
+    \item \href{https://stackoverflow.com/a/32856533/9214306}{fonctionnement interne des callables} (StackOverflow).
+\end{itemize}
+
 \subsection{Déclaration de fonctions}
 
 Les fonctions et les méthodes sont \textit{callable}, elles sont créées avec le mot-clé \mintinline{python3}{def}. On
-peut utiliser des annotations pour indiquer les types des paramètres et le type de la valeur renvoyée.
+peut utiliser des annotations pour indiquer les types des paramètres et le type de la valeur renvoyée (les annotations
+peuvent être plus généralement n'importe quelle expression Python).
 
 \begin{minted}{pycon}
 >>> def func(arg1: int = 1) -> int:
@@ -151,10 +159,3 @@ Les classes sont \emph{callable}: on les appelle pour instancier.
 >>> hasattr(Bar, "__call__")
 True
 \end{minted}
-
-\subsection*{Plus d'informations}
-\begin{itemize}
-    \item \href{https://docs.python.org/3/reference/datamodel.html\#index-32}{les fonctions} (documentation Python 3);
-    \item \href{http://sametmax.com/quest-ce-que-lunpacking-en-python-et-a-quoi-ca-sert/}{déballage} et \href{http://sametmax.com/quest-ce-quun-callable-en-python/}{callables} (Sam \& Max);
-    \item \href{https://stackoverflow.com/a/32856533/9214306}{fonctionnement interne des callables} (StackOverflow).
-\end{itemize}
