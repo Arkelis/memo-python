@@ -16,7 +16,7 @@ def incrementor(max):
 \end{minted}
 
 On utilise les générateurs comme des itérateurs (les générateurs sont des itérateurs). Lorsque l'on évalue la méthode \mintinline{python3}{__next__()} sur un générateur (en faisant \mintinline{python3}{next(generateur)}), celui-ci parcourt la fonction génératrice jusqu'au premier \mintinline{python3}{yield} qu'il rencontre, puis s'arrête. Lorsque la méthode \mintinline{python3}{__next__()} est de nouveau appelée, le générateur continue le parcours jusqu'au \mintinline{python3}{yield} suivant, et ainsi de suite. Lorsqu'il n'y en a plus, le générateur lève une exception \mintinline{python3}{StopIteration}.
-\begin{minted}{python3}
+\begin{minted}{pycon}
 >>> gen = incrementor(2)
 >>> next(gen)
 0
@@ -71,7 +71,7 @@ def incrementor(max):
         max = max + add_max if add_max else max
 \end{minted}
 Lorsque l'on appelle \mintinline{python3}{send}, la valeur est stockée dans \mintinline{python3}{add_max}. On peut alors étendre l'incrémenteur.
-\begin{minted}{python3}
+\begin{minted}{pycon}
 >>> gen = incrementor(2)
 >>> next(gen)   # Le générateur est appelé, il commence le parcours
 max_pre : 2     # Il rencontre le premier print()

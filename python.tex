@@ -97,7 +97,11 @@ Sauf exception, on considère qu'on travaille sur \textbf{Python 3.7} et sur une
 Ce document est écrit au format TeX puis compilé avec XeLaTeX (et minted pour les sections de code) tantôt sur Windows, tantôt sur Fedora (ça ne change pas le résultat). Il est disponible au téléchargement (pour mettre le document à jour) en cliquant sur ce lien: \href{https://python.pycolore.fr}{python.pycolore.fr}.\bigskip
 
 \begin{description}
-	\item[{\sffamily Notation}] Toutes les fonctions sont notées avec des parenthèses : \mintinline{python3}{function()}.
+	\item[{\sffamily Notation}] Toutes les fonctions sont notées avec des parenthèses : \mintinline{python3}{fonction()}.	\item[{\sffamily Notation}] Pour la documentation des méthodes:
+		\begin{itemize}
+			\item on note \mintinline{python3}{Classe.methode(self, *args, **kwargs)} (avec le nom de classe en \mintinline{text}{PascalCase});
+			\item on note \mintinline{python3}{obj.methode(*args, **kwargs)} (avec le nom de l'objet en \mintinline{text}{snake_case}).
+		\end{itemize} 
 	\item[{\sffamily Auteur}] Guillaume Fayard.
 	\item[{\sffamily Code source}] \href{https://github.com/Arkelis/memo-python}{GitHub}.
 \end{description}

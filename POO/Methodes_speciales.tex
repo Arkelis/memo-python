@@ -27,13 +27,13 @@ fonction()                  # fonction.__call__() <- intéressant celui-là !
 
 \subsection{Création, initialisation et finalisation}
 \begin{description}
-    \item[\mintinline{python3}{object.__new__(cls[, *args, **kwargs])}]~
+    \item[\mintinline{python3}{Objet.__new__(cls[, *args, **kwargs])}]~
 
     Créateur de l'instance. C'est une méthode statique qui prend en premier paramètre obligatoire la classe de l'instance à créer. Les arguments suivants sont ceux passés à l'initialiseur. Cette méthode doit renvoyer une nouvelle instance. L'initialiseur est alors appelé. En général, on n'implémente pas cette méthode, sauf dans certains cas particuliers.\bigskip
 
     Cette méthode statique est un cas particulier qui ne nécessite pas de décorateur \mintinline{python3}{@staticmethod}.
 
-    \item[\mintinline{python3}{object.__init__(self[, *args, **kwargs])}]~
+    \item[\mintinline{python3}{Objet.__init__(self[, *args, **kwargs])}]~
 
     Initialiseur de l'instance. C'est ici qu'on initialise les attributs de l'instance.
 \end{description}
@@ -63,7 +63,7 @@ class Singleton:
 \end{minted}
 
 \begin{description}
-    \item[\mintinline{python3}{object.__del__(self)}]~
+    \item[\mintinline{python3}{Objet.__del__(self)}]~
 
     Finaliseur de l'instance. Cette méthode est appelée lorsqu'un objet est sur le point d'être détruit, mais n'est pas responsable de sa destruction. Lorsqu'on hérite uniquement d'\mintinline{python3}{object}, il n'est pas nécessaire d'appeler \mintinline{python3}{super().__del__()} car elle ne fait rien. La syntaxe \mint{python}|del obj| décrémente le nombre de références de \mintinline{python3}{obj}. Si celui-ci atteint zéro, alors \mintinline{python3}{obj.__del__()} est appelée.
 \end{description}
@@ -80,7 +80,7 @@ Si on crée une instance de la classe \mintinline{python3}{Singleton} précéden
 On doit donc définir une méthode de représentation.
 
 \begin{description}
-    \item[\mintinline{python3}{object.__repr__(self)}]~
+    \item[\mintinline{python3}{Objet.__repr__(self)}]~
 
     Appelée par \mintinline{python3}{repr()}, ou bien lorsqu'on demande l'objet dans l'interpréteur. Cette méthode calcule et renvoie une chaîne de caractères compréhensible \og officielle \fg{}, c'est-à-dire qu'elle doit ressembler à une expression Python à partir de laquelle on doit pouvoir recréer un objet de la même valeur. Si ce n'est pas possible, elle devrait renvoyer une description entre chevrons \mintinline{python3}{"<description>"}. 
 \end{description}
@@ -88,7 +88,7 @@ On doit donc définir une méthode de représentation.
 Parfois, on veut quelque chose de plus joli destiné à un véritable affichage (quand on appelle \mintinline{python3}{print()}). On peut vouloir aussi avoir la capacité de convertir un objet en une chaîne de caractère avec \mintinline{python3}{str()}. On doit alors définir une autre méthode spéciale:
 
 \begin{description}
-    \item[\mintinline{python3}{object.__str__(self)}]~
+    \item[\mintinline{python3}{Objet.__str__(self)}]~
 
     Appelée par \mintinline{python3}{str()}, \mintinline{python3}{print()} et \mintinline{python3}{format()}. Cette méthode renvoie une chaîne de caractère correspondant à la représentation informelle de l'objet. Si cette méthode n'est pas définie, alors \mintinline{python3}{__repr__()} est utilisée à la place.
 \end{description}
@@ -118,7 +118,7 @@ Instance de MaClasse ayant comme attribut Exemple.
 On a vu précédemment les propriétés qui permettent une sorte d'encapsulation des attributs. Lorsqu'on veut accéder à un attribut par la syntaxe \mint{python}|instance.attr| Python appelle en premier une méthode spéciale.
 
 \begin{description}
-    \item[\mintinline{python3}{object.__getattribute__(self, name)}]~
+    \item[\mintinline{python3}{Objet.__getattribute__(self, name)}]~
     
     Appelée en premier lorsque l'on veut accéder à un attribut par les syntaxes
     \begin{minted}{python3}
@@ -127,11 +127,11 @@ getattr(instance, 'attr') # instance.__getattribute__('attr')
     \end{minted} 
     Cette méthode renvoie l'attribut \mintinline{python3}{name} demandé s'il existe et lève une exception \mintinline{python3}{AttributeError} sinon. Dans ce cas, une autre méthode est appelée. Pour éviter une récursivité infinie, cette méthode doit utiliser \mintinline{python3}{__getattribute__()} d'une classe parente (par exemple \mintinline{python3}{super().__getattribute__()}) pour avoir accès aux attributs dont elle a besoin. En particulier, elle doit retourner \mintinline{python3}{super().__getattribute__(self, name)}.
 
-    \item[\mintinline{python3}{object.__getattr__(self, name)}]~
+    \item[\mintinline{python3}{Objet.__getattr__(self, name)}]~
 
     Appelée si \mintinline{python3}{__getattribute__()} lève une exception \mintinline{python3}{AttributeError}. Par défaut, cette méthode fait la même chose, mais c'est ici que l'on peut calculer des attributs dynamiques: des attributs qui ne sont pas initialisés mais dont on veut pouvoir calculer la valeur.
 
-    \item[\mintinline{python3}{object.__setattr__(self, name, value)}]~
+    \item[\mintinline{python3}{Objet.__setattr__(self, name, value)}]~
 
 Appelée lorsque l'on assigne une valeur à un attribut: 
     \begin{minted}{python3}
@@ -141,7 +141,7 @@ setattr(instance, 'attr', value) # instance.__setattr__('attr', value)
     
     Par défaut, le mécanisme est de changer la valeur de clé \mintinline{python3}{'name'} dans le dictionnaire de l'instance. Pour assigner des valeurs à des attributs, cette méthode doit utilise \mintinline{python3}{super().__setattr__()} afin d'éviter une récursivité infinie.
 
-    \item[\mintinline{python3}{object.__delattr__(self, name)}]~
+    \item[\mintinline{python3}{Objet.__delattr__(self, name)}]~
 
     Appelée lorsque l'on veut détruire un attribut : 
     \begin{minted}{python3}

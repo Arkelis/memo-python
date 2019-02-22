@@ -1,7 +1,42 @@
 \section{Descripteurs}
 Les descripteurs sont une généralisation des propriétés (plus précisément, les propriétés sont des descripteurs), ce sont
-des objets qui doivent implémenter au moins une des méthodes spéciales \mintinline{python3}{__get__()}, \mintinline{python3}{__set__()}, \mintinline{python3}{__del__()}. Elles sont appelées lorsqu'on accède à l'attribut ou lorsqu'on essaye d'en
-changer la valeur. Les descripteurs sont utiles pour créer des \og propriétés générales \fg{} qui n'ont pas besoin d'en savoir
+des objets qui doivent implémenter au moins une des méthodes spéciales suivantes:
+
+\begin{description}
+    \item[\mintinline{python3}{Descripteur.__get__(self, inst, owner)}]~
+    
+    Appelée lorsqu'on essaie d'accéder à l'attribut:
+    \begin{minted}{python3}
+inst.descripteur
+    \end{minted}
+    \mintinline{text}{inst} est l'instance sur laquelle on essaie d'accéder à l'attribut et \mintinline{text}{owner}
+    est le type de \mintinline{text}{inst}, la classe propriétaire du descripteur. Dans le cas particulier où l'on
+    accède à un attribut par la classe:
+    \begin{minted}{python3}
+Class.descripteur
+    \end{minted}
+    \mintinline{text}{inst} vaut \mintinline{python3}{None} et \mintinline{text}{owner} est la classe en question.\medskip
+
+    Cette méthode doit retourner l'attribut en question ou le calcul de sa valeur, ou bien lever une exception \mintinline
+    {python3}{AttributeError}.
+
+    \item[\mintinline{python3}{Descripteur.__set__(self, inst, value)}]~
+    
+    Appelée lorsqu'on essaie de modifier la valeur d'un attribut d'\mintinline{text}{inst} de la classe propriétaire à
+    \mintinline{text}{value}:
+    \begin{minted}{python3}
+inst.descripteur = value
+    \end{minted}
+    
+    \item[\mintinline{python3}{Descripteur.__delete__(self, inst)}]~
+    
+    Appelée lorsqu'on essaie de supprimer l'attribut de \mintinline{text}{inst} de la classe propriétaire:
+    \begin{minted}{python3}
+del inst.descripteur
+    \end{minted}
+\end{description}
+
+Les descripteurs sont utiles pour créer des \og propriétés générales \fg{} qui n'ont pas besoin d'en savoir
 beaucoup sur les classes propriétaires des attributs et qui peuvent être utilisées par différents types d'objets.
 
 \paragraph{Exemple} Un descripteur d'entier borné
@@ -53,7 +88,15 @@ des instances concernées. Si on avait stocké l'attribut dans l'instance du des
 {text}{t1} (cf. l'exemple précédent) aurait affecté \mintinline{text}{t2}! En effet, le descripteur est instancié \emph{au
 moment où la classe est définie et non à l'initialisation des instances de celle-ci}. En résumé, tous les attributs \mintinline
 {text}{h} pointent vers la même instance de \mintinline{text}{BoundedIntDescriptor}, de même pour \mintinline{text}{m}
-et \mintinline{text}{s}.\bigskip
+et \mintinline{text}{s}.\medskip
+
+Pour récupérer le nom de l'attribut afin d'afficher une erreur explicite, j'ai utilisé la méthode \mintinline{python3}{__set_name__()}.
+
+\begin{description}
+    \item[\mintinline{python3}{Descripteur.__set_name__(self, owner, name)}]~
+    
+    Appelée lors de la création de la classe, c'est-à-dire quand le descripteur est instancié. Le nom de l'instance de \mintinline{text}{Descripteur} est assigné à \mintinline{text}{name}.
+\end{description}
 
 Jouons avec notre descripteur:
 
@@ -64,6 +107,15 @@ Jouons avec notre descripteur:
 --> __set__ du descripteur appelé.
 >>> t1
 1 h 2 min 3 s
+>>> t1.h
+--> __get__ du descripteur appelé.
+1
+>>> t1.m
+--> __get__ du descripteur appelé.
+2
+>>> t1.s
+--> __get__ du descripteur appelé.
+3
 >>> t1.h = 6
 --> __set__ du descripteur appelé.
 >>> t1
@@ -120,4 +172,4 @@ Traceback (most recent call last):
 ValueError: m doit être compris entre 0 et 59 (-1 donné).
 \end{minted}
 
-\paragraph{Plus d'informations} \href{https://docs.python.org/3/howto/descriptor.html}{Documentation Python 3}
+\paragraph{Plus d'informations} \href{https://docs.python.org/fr/3/howto/descriptor.html}{Guide sur les descripteurs} (documentation officielle).
