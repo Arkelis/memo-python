@@ -1,22 +1,123 @@
 \section{Descripteurs}
-Les descripteurs sont une généralisation des propriétés. On dit qu'un objet est un descripteur s'il possède au moins une méthode \mintinline{python3}{__get__()} (accesseur), \mintinline{python3}{__set__()} (mutateur), ou \mintinline{python3}{__delete__()} (destructeur).
+Les descripteurs sont une généralisation des propriétés (plus précisément, les propriétés sont des descripteurs), ce sont
+des objets qui doivent implémenter au moins une des méthodes spéciales \mintinline{python3}{__get__()}, \mintinline{python3}{__set__()}, \mintinline{python3}{__del__()}. Elles sont appelées lorsqu'on accède à l'attribut ou lorsqu'on essaye d'en
+changer la valeur. Les descripteurs sont utiles pour créer des \og propriétés générales \fg{} qui n'ont pas besoin d'en savoir
+beaucoup sur les classes propriétaires des attributs et qui peuvent être utilisées par différents types d'objets.
 
-\paragraph{Exemple} Exemple d'implémentation
+\paragraph{Exemple} Un descripteur d'entier borné
 \begin{minted}{python3}
-class Attribut:
-    def __get__(self, inst, insttype):
-        print("Accès à l'attribut")
-        return inst._attribut
+class BoundedIntDescriptor:
+    """Entier borné.
+    
+    Vérifie que l'attribut est compris entre mini et maxi.
+    """
+    
+    def __init__(self, mini, maxi, doc=None):
+        self.min = mini
+        self.max = maxi
+        self.__doc__ = doc
 
-    def __set__(self, inst, valeur):
-        print("Modification de l'attribut")
-        inst._attribut = valeur
+    def __get__(self, inst, owner):
+        print("--> __get__ du descripteur appelé.")
+        return getattr(inst, '_' + self.name)
 
-class MaClasse:
-    def __init__(self):
-        self._attribut = 'Je suis un attribut'
+    def __set__(self, inst, value):
+        print("--> __set__ du descripteur appelé.")
+        if not self.min <= value <= self.max:
+            raise ValueError("{} doit être compris entre {} et {} ({} donné).".format(
+                self.name, self.min, self.max, value
+            ))
+        setattr(inst, '_' + self.name, value)
+    
+    def __set_name__(self, owner, name):
+        self.name = name
 
-    attribut = Attribut()
+
+class Time:
+    def __init__(self, h, m, s):
+        self.h = h
+        self.m = m
+        self.s = s
+
+    h = BoundedIntDescriptor(0, 23, "Entier compris entre 0 et 23 représentant les heures.")
+    m = BoundedIntDescriptor(0, 59, "Entier compris entre 0 et 59 représentant les minutes.")
+    s = BoundedIntDescriptor(0, 59, "Entier compris entre 0 et 59 représentant les secondes.")
+
+    def __repr__(self):
+        return "{} h {} min {} s".format(self._h, self._m, self._s)
+\end{minted}
+
+Le recours aux fonctions \mintinline{python3}{getattr()} et \mintinline{python3}{setattr()} permet d'accéder aux attributs
+des instances concernées. Si on avait stocké l'attribut dans l'instance du descripteur par exemple avec un \mintinline{python3}
+{self.attr} au lieu de \mintinline{python3}{inst._attr}, changer par exemple la valeur de \mintinline{text}{h} pour \mintinline
+{text}{t1} (cf. l'exemple précédent) aurait affecté \mintinline{text}{t2}! En effet, le descripteur est instancié \emph{au
+moment où la classe est définie et non à l'initialisation des instances de celle-ci}. En résumé, tous les attributs \mintinline
+{text}{h} pointent vers la même instance de \mintinline{text}{BoundedIntDescriptor}, de même pour \mintinline{text}{m}
+et \mintinline{text}{s}.\bigskip
+
+Jouons avec notre descripteur:
+
+\begin{minted}{pycon}
+>>> t1 = Time(1, 2, 3)
+--> __set__ du descripteur appelé.
+--> __set__ du descripteur appelé.
+--> __set__ du descripteur appelé.
+>>> t1
+1 h 2 min 3 s
+>>> t1.h = 6
+--> __set__ du descripteur appelé.
+>>> t1
+6 h 2 min 3 s
+>>> t2 = Time(10, 11, 12)
+--> __set__ du descripteur appelé.
+--> __set__ du descripteur appelé.
+--> __set__ du descripteur appelé.
+>>> t2
+10 h 11 min 12 s
+>>> t1
+6 h 2 min 3 s
+>>> help(t1)
+--> __get__ du descripteur appelé.
+--> __get__ du descripteur appelé.
+--> __get__ du descripteur appelé.
+
+Help on Time in module __main__ object:
+
+class Time(builtins.object)
+ |  Time(h, m, s)
+ |  
+ |  Methods defined here:
+ |  
+ |  __init__(self, h, m, s)
+ |      Initialize self.  See help(type(self)) for accurate signature.
+ |  
+ |  __repr__(self)
+ |      Return repr(self).
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  __dict__
+ |      dictionary for instance variables (if defined)
+ |  
+ |  __weakref__
+ |      list of weak references to the object (if defined)
+ |  
+ |  h
+ |      Entier compris entre 0 et 23 représentant les heures.
+ |  
+ |  m
+ |      Entier compris entre 0 et 59 représentant les minutes.
+ |  
+ |  s
+ |      Entier compris entre 0 et 59 représentant les secondes.
+
+>>> t1.m = -1
+--> __set__ du descripteur appelé.
+Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+    File "<string>", line 19, in __set__
+ValueError: m doit être compris entre 0 et 59 (-1 donné).
 \end{minted}
 
 \paragraph{Plus d'informations} \href{https://docs.python.org/3/howto/descriptor.html}{Documentation Python 3}
