@@ -1,2 +1,2 @@
 # Mémo Python
-Mémo regroupant diverses info sur le langage Python. Pour lire le mémo, ouvrir le fichier pdf.
+Mémo regroupant diverses info sur le langage Python écrit en LaTeX. Le PDF résultant se trouve [ici](http://python.pycolore.fr).
