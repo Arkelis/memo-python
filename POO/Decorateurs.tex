@@ -52,7 +52,7 @@ def compteur(f):
     return wrapper
 \end{minted}
 
-\paragraph{Remarques} On voit dans cet exemple que l'on peut définir des fonctions dans les définitions de fonctions. La mention \mintinline{python3}{*args} fait référence à tous les arguments non nommés que l'on a entrés (c'est un tuple, par exemple \mintinline{python3}{(arg1, arg2)}). La mention \mintinline{python3}{**kwargs} fait référence aux arguments nommés (c'est un dictionnaire). Ainsi on est sûr de récupérer tous les arguments.\bigskip
+\paragraph{Remarques} On voit dans cet exemple que l'on peut définir des fonctions dans les définitions de fonctions. La mention \mintinline{python3}{*args} fait référence à tous les arguments non nommés que l'on a entrés (c'est un tuple, par exemple \mintinline{python3}{(arg1, arg2)}). La mention \mintinline{python3}{**kwargs} fait référence aux arguments nommés (c'est un dictionnaire). Ainsi on est sûr de récupérer tous les arguments.\medskip
 
 Dans cet exemple, on assigne à \mintinline{python3}{wrapper} un attribut de fonction (on peut le faire, puisqu'une fonction est un objet -- de la classe \mintinline{python3}{function}). On le définit après avoir défini cette fonction.
 

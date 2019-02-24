@@ -29,7 +29,7 @@ fonction()                  # fonction.__call__() <- intéressant celui-là !
 \begin{description}
     \item[\mintinline{python3}{Objet.__new__(cls[, *args, **kwargs])}]~
 
-    Créateur de l'instance. C'est une méthode statique qui prend en premier paramètre obligatoire la classe de l'instance à créer. Les arguments suivants sont ceux passés à l'initialiseur. Cette méthode doit renvoyer une nouvelle instance. L'initialiseur est alors appelé. En général, on n'implémente pas cette méthode, sauf dans certains cas particuliers.\bigskip
+    Créateur de l'instance. C'est une méthode statique qui prend en premier paramètre obligatoire la classe de l'instance à créer. Les arguments suivants sont ceux passés à l'initialiseur. Cette méthode doit renvoyer une nouvelle instance. L'initialiseur est alors appelé. En général, on n'implémente pas cette méthode, sauf dans certains cas particuliers.\medskip
 
     Cette méthode statique est un cas particulier qui ne nécessite pas de décorateur \mintinline{python3}{@staticmethod}.
 
@@ -65,7 +65,7 @@ class Singleton:
 \begin{description}
     \item[\mintinline{python3}{Objet.__del__(self)}]~
 
-    Finaliseur de l'instance. Cette méthode est appelée lorsqu'un objet est sur le point d'être détruit, mais n'est pas responsable de sa destruction. Lorsqu'on hérite uniquement d'\mintinline{python3}{object}, il n'est pas nécessaire d'appeler \mintinline{python3}{super().__del__()} car elle ne fait rien. La syntaxe \mint{python}|del obj| décrémente le nombre de références de \mintinline{python3}{obj}. Si celui-ci atteint zéro, alors \mintinline{python3}{obj.__del__()} est appelée.
+    Finaliseur de l'instance. Cette méthode est appelée lorsqu'un objet est sur le point d'être détruit, mais n'est pas responsable de sa destruction. Lorsqu'on hérite uniquement d'\mintinline{python3}{object}, il n'est pas nécessaire d'appeler \mintinline{python3}{super().__del__()} car elle ne fait rien. La syntaxe \mint{python}|del variable| décrémente le nombre de références vers l'\mintinline{text}{objet} correspondant. Si celui-ci atteint zéro, alors \mintinline{python3}{objet.__del__()} est appelée.
 \end{description}
 
 \subsection{Représentation et chaîne de caractères d'un objet}
@@ -122,23 +122,31 @@ On a vu précédemment les propriétés qui permettent une sorte d'encapsulation
     
     Appelée en premier lorsque l'on veut accéder à un attribut par les syntaxes
     \begin{minted}{python3}
-instance.attr             # instance.__getattribute__('attr')
-getattr(instance, 'attr') # instance.__getattribute__('attr')
+objet.attr             # objet.__getattribute__('attr')
+getattr(objet, 'attr') # objet.__getattribute__('attr')
     \end{minted} 
     Cette méthode doit renvoyer l'attribut \mintinline{python3}{name} demandé s'il existe (ou calculer sa valeur) ou lever une exception \mintinline{python3}{AttributeError} sinon. Dans ce cas, la méthode \mintinline{python3}{__getattr__()} est appelée.\medskip
     
     Cette méthode est définie dans la classe \mintinline{python3}{object}, le mécanisme d'accès par défaut aux attributs est
     donc le suivant:
     \begin{enumerate}
-        \item \mintinline{python3}{object.__getattribute__()} commence par rechercher \mintinline{text}{name} sous forme de \hyperref[sec:descripteur]{descipteur} dans le dic\-tion\-naire \mintinline{python3}{__dict__} de la classe de l'instance (et de ses classes parentes s'il ne trouve pas). Elle essaie en fait d'appeler la méthode \mintinline{python3}{__get__()} de \mintinline{text}{name}.
+        \item \mintinline{python3}{object.__getattribute__()} commence par rechercher \mintinline{text}{name} sous forme de \hyperref[sec:descripteur]{descipteur} dans le dic\-tion\-naire \mintinline{python3}{__dict__} de la classe de l'instance (et de ses classes parentes s'il ne trouve pas).
+        \begin{minted}{python3}
+type(objet).__dict__[name].__get__(objet, type(objet))
+        \end{minted}
         \item \mintinline{python3}{object.__getattribute__()} recherche ensuite \mintinline{text}{name} sous forme de simple variable dans le dictionnaire \mintinline{python3}{__dict__} de l'instance, puis dans celui de sa classe si elle ne le trouve pas, ainsi que dans celui de chaque classe parente jusqu'à le trouver.
+        \begin{minted}{python3}
+objet.__dict__[name]        
+        \end{minted}
         \item Si \mintinline{python3}{object.__getattribute__()} n'a pas trouvé \mintinline{text}{name} dans aucun \mintinline
         {python3}{__dict__}, elle lève une exception\break \mintinline{python3}{AttributeError}.
     \end{enumerate}
 
     Surcharger cette méthode va donc modifier le mécanisme par défaut. Cependant, pour les attributs dont on ne veut pas
     modifier l'accès, il faut penser à appeler la méthode \mintinline{python3}{__getattribute__()} d'\mintinline{python3}{object}
-    ou de la classe parente.
+    ou de la classe parente. Pour les attributs dont on veut modifier le comportement d'accès, il ne faut pas utiliser
+    la syntaxe classique \mintinline{python3}{objet.attr} car cela va créer une récursivité infinie, il faut avoir
+    recours à\break\mintinline{python3}{super().__getattribute__()} ou bien accéder directement aux descripteurs ou clé du dictionnaire.
 
     \item[\mintinline{python3}{Objet.__getattr__(self, name)}]~
 
@@ -148,69 +156,98 @@ getattr(instance, 'attr') # instance.__getattribute__('attr')
 
 Appelée lorsque l'on assigne une valeur à un attribut: 
     \begin{minted}{python3}
-instance.attr = value            # instance.__setattr__('attr', value)
-setattr(instance, 'attr', value) # instance.__setattr__('attr', value)
+objet.attr = value            # objet.__setattr__('attr', value)
+setattr(objet, 'attr', value) # objet.__setattr__('attr', value)
     \end{minted}
     
     Cette méthode est définie dans la classe \mintinline{python3}{object}, l'ordre de recherche de l'attribut à modifier
     est le suivant:
     \begin{enumerate}
         \item Si un descripteur est trouvé, il est utilisé pour modifier la valeur de \mintinline{text}{name}.
+        \begin{minted}{python3}
+type(objet).__dict__[name].__set__(objet, value)
+        \end{minted}
         \item Sinon une nouvelle clé est créée dans le \mintinline{python3}{__dict__} de l'instance avec pour valeur
         \mintinline{text}{value}.
+        \begin{minted}{python3}
+objet.__dict__[name] = value
+        \end{minted}
     \end{enumerate}
 
     Surcharger cette méthode va donc modifier le mécanisme par défaut. Cependant, pour les attributs dont on ne veut pas
-    modifier le comportement de modification, il faut penser à appeler la méthode \mintinline{python3}{__setattr__()} d'\mintinline{python3}{object} ou de la classe parente.
+    modifier le comportement de modification, il faut penser à appeler la méthode \mintinline{python3}{__setattr__()} d'\mintinline{python3}{object} ou de la classe parente. Pour les attributs dont on veut surcharger le mécanisme de
+    modification, il y a le même problème que pour \mintinline{python3}{__getattribute__()}, attention de ne pas créer 
+    de récursivité infinie.
 
     \item[\mintinline{python3}{Objet.__delattr__(self, name)}]~
 
     Appelée lorsque l'on veut détruire un attribut : 
     \begin{minted}{python3}
-del instance.attr         # instance.__delattr__('attr')
-delattr(instance, 'attr') # instance.__delattr__('attr')
+del objet.attr         # objet.__delattr__('attr')
+delattr(objet, 'attr') # objet.__delattr__('attr')
     \end{minted}
     
     Finalise l'attribut avant sa suppression s'il existe et lève une exception \mintinline{python3}{AttributeError} sinon. Cette méthode doit appeler \mintinline{python3}{super().__delattr__()} pour éviter une récursivité infinie lors de l'appel à la suppression de l'attribut.
 \end{description}  
 
-
-\paragraph{Exemple}
+Par exemple, en reprenant \hyperref[sec:proprietes]{la classe \mintinline{text}{Temperature} vue précédemment}, on voudrait que l'attribut \mintinline{text}{_celsius} ne soit pas accessible (même par si convention, on n'utilise pas directement les attributs commençant par \mintinline{text}{_} en Python): cela casserait tout le contrôle que l'on essaie d'avoir! Une solution à cela serait le recours à \mintinline{python3}{__getattribute__()} et \mintinline{python3}{__setattr__()}. Ci-dessous un exemple de classe qui possède
+une propriété qui utilise un attribut que l'on désire \og privé \fg{}:
 \begin{minted}{python3}
-class MaClasse:
-    def __init__(self)
-        self.a = int()
-
-    def __getattribute__(self, attribut):
-        print("J'accède à l'attribut {}...".format(attribut))
-        return object.__getattribute__(self, attribut)
-
-    def __getattr__(self, attribut):
-        print("L'attribut {} est inaccessible !".format(attribut))
-
-    def __setattr__(self, attribut, valeur):
-        object.__setattr__(self, attribut, valeur)
-        print("L'attribut a été changé !")
-        # Il est nécessaire d'appeler la méthode par défaut, car appeler self.__setattr__
-        # donnerait une récursivité infinie. En fait, on ne sait à ce stade pas comment
-        # Python change concrètement la valeur de l'attribut.
+class ClassWithAPrivateAttribute:
+    def __init__(self, attr):
+        self.attr = attr
+    
+    # la propriété qui sera parfaitement accessible
+    @property
+    def attr(self):
+        """Accès public à attr."""
+        # on cherche directement dans __dict__ pour ne pas appeler __getattribute__()
+        return self.__dict__['_attr']
+    
+    # son setter
+    @attr.setter
+    def attr(self, value):
+        print("Calculs et autres logiques...")
+        # idem, on modifie directement __dict__ pour ne pas appeler __setattr__()
+        self.__dict__['_attr'] = value
+    
+    # c'est ici que l'on va restreindre l'accès à _attr
+    def __getattribute__(self, name):
+        """Bloque l'accès aux attributs préfixés de '_'."""
+        if name[0] == '_' and name[1] != '_':
+            raise AttributeError("'{}' est un attribut privé.".format(name))
+        return super().__getattribute__(name)
+    
+    # et ici que l'on bloque les modifs
+    def __setattr__(self, name, value):
+        """Bloque la modification des attributs préfixés de '_'."""
+        if name[0] == '_' and name[1] != '_':
+            raise AttributeError("'{}' est un attribut privé.".format(name))
+        super().__setattr__(name, value)
 \end{minted}
 
-Cela permet de faire:
+L'accès à \mintinline{text}{_attr} est restreint:
 \begin{minted}{pycon}
->>> objet = MaClasse()
-L'attribut a été changé !
->>> objet.b
-L'attribut b est inaccessible !
->>> objet.a
-J'accède à l'attribut a...
-0
->>> objet.attribut = 1
-L'attribut a été changé !
->>> objet.a
-J'accède à l'attribut a...
-1
+>>> instance = ClassWithAPrivateAttribute(123)
+>>> instance.attr
+123
+>>> instance.attr = 456
+'Calculs et autres logiques...'
+>>> instance.attr
+456
+>>> instance._attr = 123 # tentative d'accès direct à l'attribut caché
+Traceback (most recent call last):
+  File "<pyshell#28>", line 1, in <module>
+    instance._attr = 123
+  File "....py", line 28, in __setattr__
+    raise AttributeError("'{}' est un attribut privé.".format(name))
+AttributeError: '_attr' est un attribut privé.
+>>> instance.__dict__['_attr']
+456
 \end{minted}
+
+Cet exemple peut paraître incomplet puisqu'on peut encore modifier les attributs en passant par \mintinline{python3}{__dict__}.
+Tout dépend à quel point on veut restreindre l'accès.
 
 \subsection{Surcharges d'opérateur}
 \index{surcharge d'opérateur}

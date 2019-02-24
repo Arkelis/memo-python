@@ -244,7 +244,7 @@ True
 
 \subsection{Propriétés}
 \label{sec:proprietes}\index{propriété}\index{accesseur}\index{mutateur}\index{destructeur}
-Les propriétés représentent en Python le principe d'encapsulation. Elles sont utiles si on souhaite contrôler l'accès à un attribut ou si on veut que le changement d'une valeur d'un attribut engendre des modifications sur d'autres attributs. Du côté utilisateur, ce mécanisme est complètement transparent car il permet de garder la syntaxe classique \mintinline{python3}{inst.attr = valeur}. Les propriétés sont un cas particulier des descripteurs.\bigskip
+Les propriétés représentent en Python le principe d'encapsulation. Elles sont utiles si on souhaite contrôler l'accès à un attribut ou si on veut que le changement d'une valeur d'un attribut engendre des modifications sur d'autres attributs. Du côté utilisateur, ce mécanisme est complètement transparent car il permet de garder la syntaxe classique \mintinline{python3}{inst.attr = valeur}. Les propriétés sont un cas particulier des descripteurs.\medskip
 
 On crée les propriétés en utilisant des décorateurs. Elles contiennent un accesseur, un mutateur, un destructeur et une aide (docstring de l'accesseur). Dans certains cas, il n'est pas nécessaire d'avoir un attribut associé, un simple calcul suffit:
 
@@ -307,7 +307,7 @@ class Temperature:
 \end{minted}
 
 Dans d'autres cas, on peut stocker le résultat de calculs dans un attribut caché. Ici, le calcul des degrés Fahrenheit est
-rapide, mais il peut s'avérer utile de stocker le résultat pour ne pas avoir à recalculer à chaque fois.\bigskip
+rapide, mais il peut s'avérer utile de stocker le résultat pour ne pas avoir à recalculer à chaque fois.\medskip
 
 On utilise la propriété de la manière suivante:
 \begin{minted}{pycon}
@@ -341,9 +341,9 @@ ValueError: Une température en degrés Celsius doit être supérieure à -273°
 Les méthodes que l'on a vues jusqu'à maintenant agissent sur les instances des classes : elles prennent toujours en premier argument le mot clé \mintinline{python3}{self} qui correspond à l'instance elle même. Lorsque l'on appelle une telle méthode sur une instance comme ceci:
 \mint{python}|instance.methode(*args, **kwargs)|
 Python exécute en fait: \mint{python}|type(instance).methode(instance, *args, **kwargs)|
-Évaluer \mintinline{python3}{type()} sur un objet renvoie sa classe.\bigskip
+Évaluer \mintinline{python3}{type()} sur un objet renvoie sa classe.\medskip
 
-En fait, ces deux objets sont différents. \mintinline{python3}{Classe.methode} est une simple fonction, alors que \mintinline{python3}{instance.methode} est une méthode partiellement évaluée sur l'instance (méthode liée, en anglais \og bound method \fg{}\index{bound method}), c'est-à-dire que l'instance est mise en premier argument.\bigskip
+En fait, ces deux objets sont différents. \mintinline{python3}{Classe.methode} est une simple fonction, alors que \mintinline{python3}{instance.methode} est une méthode partiellement évaluée sur l'instance (méthode liée, en anglais \og bound method \fg{}\index{bound method}), c'est-à-dire que l'instance est mise en premier argument.\medskip
 
 Parfois, on écrit des méthodes qui n'ont pas d'incidence sur les instances de la classe. Imaginons une classe \mintinline{python3}{Maths} qui regrouperait des opérations basiques:
 

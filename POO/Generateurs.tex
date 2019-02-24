@@ -4,7 +4,7 @@
 \paragraph{Plus d'informations} \href{https://zestedesavoir.com/tutoriels/954/notions-de-python-avancees/3-further/1-generators/}{L'excellent cours d'Antoine Rozo}
 \subsection{Fonction génératrice et mot-clé \mintinline{python3}{yield}}
 
-Les générateurs sont une façon plus simple d'implémenter les itérateurs. Au lieu de créer une classe avec les deux méthodes du protocole d'itération, on définit une fonction qui retourne les résultats avec le mot clé \mintinline{python3}{yield}. Lorsqu'une fonction possède ce mot-clé, l'appeler crée un générateur (rien d'autre n'est exécuté). Un générateur est un itérateur qui possède quelques méthodes supplémentaires (cf. plus bas); ce sont en quelque sorte des itérateurs upgradés. On appelle par abus de langage les fonctions qui retournent des générateurs (des \og fonctions génératrices \fg{}) des générateurs aussi (alors que ce sont de simples fonctions).\bigskip
+Les générateurs sont une façon plus simple d'implémenter les itérateurs. Au lieu de créer une classe avec les deux méthodes du protocole d'itération, on définit une fonction qui retourne les résultats avec le mot clé \mintinline{python3}{yield}. Lorsqu'une fonction possède ce mot-clé, l'appeler crée un générateur (rien d'autre n'est exécuté). Un générateur est un itérateur qui possède quelques méthodes supplémentaires (cf. plus bas); ce sont en quelque sorte des itérateurs upgradés. On appelle par abus de langage les fonctions qui retournent des générateurs (des \og fonctions génératrices \fg{}) des générateurs aussi (alors que ce sont de simples fonctions).\medskip
 
 Pour faire le lien avec les itérateurs, on peut réécrire l'exemple précédent à l'aide d'un générateur.
 \begin{minted}{python3}

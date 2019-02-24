@@ -29,7 +29,7 @@ peuvent être plus généralement n'importe quelle expression Python).
 ...     return arg1
 \end{minted}
 
-Ces objets possèdent quelques attributs:
+Ces objets possèdent quelques attributs spéciaux:
 
 \begin{minted}{pycon}
 >>> func.__name__
@@ -70,7 +70,7 @@ Les paramètres ayant une valeur par défaut doivent être placé \emph{après} 
 
 \paragraph*{Remarque} Les valeurs par défaut sont assignées lors de la définition de la fonction. Si l'objet associé est
 muable, la valeur par défaut restera toujours celle d'origine même si la fonction est appelée alors que l'objet associé
-a mué.\bigskip
+a mué.\medskip
 
 On peut passer deux types d'arguments à une fonction:
 \begin{itemize}
@@ -97,7 +97,7 @@ Cette fonction prend tous les arguments qui lui sont passés:
 
 \mintinline{python3}{*args} va contenir tous les arguments positionnels dans un tuple et \mintinline{python3}{**kwargs}
 tous les arguments nommés dans un dictionnaire. Cette syntaxe est utilise quand on définit une fonction qui en enrobe une
-autre pour lui transmettre tous les arguments (voir les décorateurs).\bigskip
+autre pour lui transmettre tous les arguments (voir les décorateurs).\medskip
 
 On peut aussi utiliser le déballage lors d'appels de fonctions:
 \begin{minted}{pycon}

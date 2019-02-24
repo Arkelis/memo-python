@@ -23,7 +23,7 @@
 %\DeclareFontShape{T1}{lmr}{b}{sc}{<->ssub*cmr/bx/sc}{}
 %\DeclareFontShape{T1}{lmr}{bx}{sc}{<->ssub*cmr/bx/sc}{}
 \usepackage[colorlinks=true]{hyperref}
-\hypersetup{urlcolor=blue,linkcolor=black,citecolor=blue,colorlinks=true}
+\hypersetup{pdfborderstyle={/S/U/W 1},urlcolor=blue,linkcolor=black,citecolor=blue,colorlinks=true}
 \usepackage{sectsty}
 \allsectionsfont{\bfseries\sffamily}
 \usepackage{caption}
@@ -88,13 +88,13 @@
 \newpage
 \section*{Avant de commencer (sauf pour les impatients)}
 
-Je \marginpar{\href{https://python.pycolore.fr}{\mintinline{text}{permalien}}} rédige ce pdf au fur et à mesure que j'en apprends sur Python... Bonne lecture!\bigskip
+Je \marginpar{\href{https://python.pycolore.fr}{\mintinline{text}{permalien}}} rédige ce pdf au fur et à mesure que j'en apprends sur Python... Bonne lecture!\medskip
 
-Le document considère que le lecteur a un niveau \og prépa \fg{} en Python: la définition de fonctions, les boucles, les conditions et la manipulation des listes est supposée connue. La première partie concerne la programmation orientée objet et le modèle de données de Python. Les deux parties suivantes concernent des modules de la bibliothèque standard et des modules communautaires. Il y a de nombreux liens en bleu, ne pas hésiter à cliquer dessus! Les liens \og Plus d'informations \fg{}   pointent vers les sources utilisées.\bigskip
+Le document considère que le lecteur a un niveau \og prépa \fg{} en Python: la définition de fonctions, les boucles, les conditions et la manipulation des listes est supposée connue. La première partie concerne la programmation orientée objet et le modèle de données de Python. Les deux parties suivantes concernent des modules de la bibliothèque standard et des modules communautaires. Il y a de nombreux liens en bleu, ne pas hésiter à cliquer dessus! Les liens \og Plus d'informations \fg{}   pointent vers les sources utilisées.\medskip
 
-Sauf exception, on considère qu'on travaille sur \textbf{Python 3.7} et sur une distribution GNU/Linux (par exemple: Linux Mint, Fedora, Solus, Debian, Arch Linux).\bigskip
+Sauf exception, on considère qu'on travaille sur \textbf{Python 3.7} et sur une distribution GNU/Linux (par exemple: Linux Mint, Fedora, Solus, Debian, Arch Linux).\medskip
 
-Ce document est écrit au format TeX puis compilé avec XeLaTeX (et minted pour les sections de code) tantôt sur Windows, tantôt sur Fedora (ça ne change pas le résultat). Il est disponible au téléchargement (pour mettre le document à jour) en cliquant sur ce lien: \href{https://python.pycolore.fr}{python.pycolore.fr}.\bigskip
+Ce document est écrit au format TeX puis compilé avec XeLaTeX (et minted pour les sections de code) tantôt sur Windows, tantôt sur Fedora (ça ne change pas le résultat). Il est disponible au téléchargement (pour mettre le document à jour) en cliquant sur ce lien: \href{https://python.pycolore.fr}{python.pycolore.fr}.\medskip
 
 \begin{description}
 	\item[{\sffamily Notation}] Toutes les fonctions sont notées avec des parenthèses : \mintinline{python3}{fonction()}.	\item[{\sffamily Notation}] Pour la documentation des méthodes:
@@ -169,9 +169,9 @@ Les expressions régulières sont un excellent moyen de retrouver des motifs com
 	      \end{itemize}
 \end{description}
 
-Les quatre derniers qualificateurs sont dits gourmands : ils valident autant de caractères que possible. Par exemple pour \mintinline{text}{"aaaaa"}, \mintinline{text}{a\{3,5\}} validera la chaîne en entier. Pour une version non gourmande, on suit le qualificateur d'un \mintinline{text}{?} : \mintinline{text}{*?}, \mintinline{text}{+?}, \mintinline{text}{??} et \mintinline{text}{\{n,m\}?}. Un qualificateur non gourmand valide le moins de caractères possibles.\bigskip
+Les quatre derniers qualificateurs sont dits gourmands : ils valident autant de caractères que possible. Par exemple pour \mintinline{text}{"aaaaa"}, \mintinline{text}{a\{3,5\}} validera la chaîne en entier. Pour une version non gourmande, on suit le qualificateur d'un \mintinline{text}{?} : \mintinline{text}{*?}, \mintinline{text}{+?}, \mintinline{text}{??} et \mintinline{text}{\{n,m\}?}. Un qualificateur non gourmand valide le moins de caractères possibles.\medskip
 
-Pour contrôler le nombre d'apparitions d'un groupe de caractères, on met ceux-ci entre parenthèses (\mintinline{text}{(abc)+}: \mintinline{text}{abc}, \mintinline{text}{abcabc}, etc.). Cela crée un groupe de caractères, on peut le nommer en suivant la parenthèses ouvrante de \mintinline{text}{?P<nom>}. Cela est utile par exemple quand on veut remplacer des caractères. On peut séparer des expression régulières par un \mintinline{text}{|} afin d'indiquer que plusieurs possibilités sont possibles.\bigskip
+Pour contrôler le nombre d'apparitions d'un groupe de caractères, on met ceux-ci entre parenthèses (\mintinline{text}{(abc)+}: \mintinline{text}{abc}, \mintinline{text}{abcabc}, etc.). Cela crée un groupe de caractères, on peut le nommer en suivant la parenthèses ouvrante de \mintinline{text}{?P<nom>}. Cela est utile par exemple quand on veut remplacer des caractères. On peut séparer des expression régulières par un \mintinline{text}{|} afin d'indiquer que plusieurs possibilités sont possibles.\medskip
 
 \subsection{Méthodes}
 On compile une expression régulière en utilisant la fonction \mintinline{python3}{compile} \marginpar{\href{https://docs.python.org/fr/3/library/re.html\#re.compile}{\mintinline{python3}{re.compile}}}. Cette fonction retourne un objet expression régulière (un objet Pattern) sur lequel on peut évaluer diverses méthodes. Si l'on cherche une phrase, la syntaxe sera:
@@ -182,9 +182,9 @@ import re
 regex = re.compile(r"[A-Z]\w*\s?(\w+\s?)*.")
 \end{minted}
 
-\paragraph{Remarque} On utilise le préfixe \mintinline{text}{r} devant la chaîne de caractère pour éviter d'avoir à écrire \Verb[fontsize = \small]|\\| au lieu d'un unique \Verb[fontsize = \small]|\|.\bigskip
+\paragraph{Remarque} On utilise le préfixe \mintinline{text}{r} devant la chaîne de caractère pour éviter d'avoir à écrire \Verb[fontsize = \small]|\\| au lieu d'un unique \Verb[fontsize = \small]|\|.\medskip
 
-On peut rechercher toutes les occurrences du motif grâce à la méthode \mintinline{python3}{re.finditer(motif, chaine)} \marginpar{\href{https://docs.python.org/fr/3/library/re.html\#re.Pattern.finditer}{\mintinline{python3}{Pattern.finditer}}}. Cela retourne un objet iterable. On accède aux objets en appelant \mintinline{python3}{next(iterable)}, qui retourne un objet expression rationnelle. Celui-ci contient plusieurs chaînes de caractères (une pour chaque groupe du motif), on y accède en appelant les différents groupes : \mintinline{python3}{objet.group(numéro ou nom)}.\bigskip
+On peut rechercher toutes les occurrences du motif grâce à la méthode \mintinline{python3}{re.finditer(motif, chaine)} \marginpar{\href{https://docs.python.org/fr/3/library/re.html\#re.Pattern.finditer}{\mintinline{python3}{Pattern.finditer}}}. Cela retourne un objet iterable. On accède aux objets en appelant \mintinline{python3}{next(iterable)}, qui retourne un objet expression rationnelle. Celui-ci contient plusieurs chaînes de caractères (une pour chaque groupe du motif), on y accède en appelant les différents groupes : \mintinline{python3}{objet.group(numéro ou nom)}.\medskip
 
 \paragraph{Exemple} On veut extraire les phrases d'une chaîne de caractères.
 \begin{minted}{pycon}
@@ -371,9 +371,9 @@ ctypes.windll.user32.MessageBoxW(0, "That's an error", "Warning!", 16)
 
 \section{\texttt{asyncio} --- Programmation asynchrone}\index{asyncio}
 
-\paragraph{Nota Bene} Pour l'instant, cette section sort un peu de nulle part, mais tout s'éclaircira quand la syntaxe des \mintinline{python3}{async} et \mintinline{python3}{await} sera expliquée.\bigskip
+\paragraph{Nota Bene} Pour l'instant, cette section sort un peu de nulle part, mais tout s'éclaircira quand la syntaxe des \mintinline{python3}{async} et \mintinline{python3}{await} sera expliquée.\medskip
 
-Cette bibliothèque permet de facilement effectuer de la programmation asynchrone (à ne pas confondre avec la programmation en parallèle). L'intérêt est de rendre les tâches non-bloquantes, typiquement les requêtes à des serveurs qui peuvent mettre du temps à obtenir une réponse. Cette librairie n'est pas adaptée pour les calculs longs, car elle ne permet pas de calculer plus rapidement !\bigskip
+Cette bibliothèque permet de facilement effectuer de la programmation asynchrone (à ne pas confondre avec la programmation en parallèle). L'intérêt est de rendre les tâches non-bloquantes, typiquement les requêtes à des serveurs qui peuvent mettre du temps à obtenir une réponse. Cette librairie n'est pas adaptée pour les calculs longs, car elle ne permet pas de calculer plus rapidement !\medskip
 
 \textbf{Exemple} Voici un code synchrone que l'on peut rendre asynchrone.
 \begin{minted}{python3}
@@ -646,7 +646,7 @@ class Chanson(models.Model):
     artiste = models.ForeignKey(Artiste, on_delete=models.CASCADE)
 \end{minted}
 
-Les champs sont représentés par des différentes instance de classe \mintinline{python3}{Field}, il en existe divers types. Le premier paramètre non nommé de ces instances permet sert à donner un nom plus lisible à ces champs (ici on l'a utilisé pour \mintinline{python3}{annee}).\bigskip
+Les champs sont représentés par des différentes instance de classe \mintinline{python3}{Field}, il en existe divers types. Le premier paramètre non nommé de ces instances permet sert à donner un nom plus lisible à ces champs (ici on l'a utilisé pour \mintinline{python3}{annee}).\medskip
 
 Une fois ces modèles créés, il faut les activer dans la base de données. Pour cela, il faut commencer par indiquer dans le fichier \mintinline{python3}{settings.py} que l'on a créé une nouvelle application. On ajoute dans \mintinline{python3}{INSTALLED\_APPS} une référence vers la classe de configuration de l'application (qui se trouve dans le fichier \mintinline{python3}{apps.py}). On se trouve donc avec, dans \mintinline{python3}{settings.py}:
 
@@ -823,7 +823,7 @@ Voici un simple gabarit pour la liste des artistes:
 {% endif %}
 \end{minted}
 
-\paragraph{Remarque} Même si dans nos modèles, on ne crée pas d'attribut \mintinline{python3}{id}, celui-ci est créé automatiquement.\bigskip
+\paragraph{Remarque} Même si dans nos modèles, on ne crée pas d'attribut \mintinline{python3}{id}, celui-ci est créé automatiquement.\medskip
 
 Il ne faut pas oublier de mettre à jour \mintinline{python3}{urls.py}:
 \begin{minted}{python3}
@@ -997,7 +997,7 @@ class Modèle:
 \end{description}
 
 \subsubsection{Modifier la base de données}
-L'administration \marginpar{\mintinline{python3}{models}\par\quad\mintinline{python3}{.base}\par\quad\quad\href{https://docs.djangoproject.com/fr/2.0/ref/models/instances/}{\mintinline{python3}{.Model}}} permet de facilement modifier la base de données à la main, mais on doit utiliser l'API Django si on veut modifier la base de données à partir des vues ou des modèles eux-mêmes (par exemple, en reprenant l'exemple du didacticiel, on peut imaginer que la sauvegarde d'un objet Chanson dans la base de données entraînera la création et sauvegarde de l'objet Artiste associé s'il n'existe pas).\bigskip
+L'administration \marginpar{\mintinline{python3}{models}\par\quad\mintinline{python3}{.base}\par\quad\quad\href{https://docs.djangoproject.com/fr/2.0/ref/models/instances/}{\mintinline{python3}{.Model}}} permet de facilement modifier la base de données à la main, mais on doit utiliser l'API Django si on veut modifier la base de données à partir des vues ou des modèles eux-mêmes (par exemple, en reprenant l'exemple du didacticiel, on peut imaginer que la sauvegarde d'un objet Chanson dans la base de données entraînera la création et sauvegarde de l'objet Artiste associé s'il n'existe pas).\medskip
 
 Pour insérer un objet dans la table de données, on commence déjà par l'instancier. Comme indiqué dans le didacticiel, tous les modèles héritent de la classe \mintinline{python3}{Model}.
 
