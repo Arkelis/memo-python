@@ -125,7 +125,20 @@ On a vu précédemment les propriétés qui permettent une sorte d'encapsulation
 instance.attr             # instance.__getattribute__('attr')
 getattr(instance, 'attr') # instance.__getattribute__('attr')
     \end{minted} 
-    Cette méthode renvoie l'attribut \mintinline{python3}{name} demandé s'il existe et lève une exception \mintinline{python3}{AttributeError} sinon. Dans ce cas, une autre méthode est appelée. Pour éviter une récursivité infinie, cette méthode doit utiliser \mintinline{python3}{__getattribute__()} d'une classe parente (par exemple \mintinline{python3}{super().__getattribute__()}) pour avoir accès aux attributs dont elle a besoin. En particulier, elle doit retourner \mintinline{python3}{super().__getattribute__(self, name)}.
+    Cette méthode doit renvoyer l'attribut \mintinline{python3}{name} demandé s'il existe (ou calculer sa valeur) ou lever une exception \mintinline{python3}{AttributeError} sinon. Dans ce cas, la méthode \mintinline{python3}{__getattr__()} est appelée.\medskip
+    
+    Cette méthode est définie dans la classe \mintinline{python3}{object}, le mécanisme d'accès par défaut aux attributs est
+    donc le suivant:
+    \begin{enumerate}
+        \item \mintinline{python3}{object.__getattribute__()} commence par rechercher \mintinline{text}{name} sous forme de \hyperref[sec:descripteur]{descipteur} dans le dic\-tion\-naire \mintinline{python3}{__dict__} de la classe de l'instance (et de ses classes parentes s'il ne trouve pas). Elle essaie en fait d'appeler la méthode \mintinline{python3}{__get__()} de \mintinline{text}{name}.
+        \item \mintinline{python3}{object.__getattribute__()} recherche ensuite \mintinline{text}{name} sous forme de simple variable dans le dictionnaire \mintinline{python3}{__dict__} de l'instance, puis dans celui de sa classe si elle ne le trouve pas, ainsi que dans celui de chaque classe parente jusqu'à le trouver.
+        \item Si \mintinline{python3}{object.__getattribute__()} n'a pas trouvé \mintinline{text}{name} dans aucun \mintinline
+        {python3}{__dict__}, elle lève une exception\break \mintinline{python3}{AttributeError}.
+    \end{enumerate}
+
+    Surcharger cette méthode va donc modifier le mécanisme par défaut. Cependant, pour les attributs dont on ne veut pas
+    modifier l'accès, il faut penser à appeler la méthode \mintinline{python3}{__getattribute__()} d'\mintinline{python3}{object}
+    ou de la classe parente.
 
     \item[\mintinline{python3}{Objet.__getattr__(self, name)}]~
 
@@ -139,7 +152,16 @@ instance.attr = value            # instance.__setattr__('attr', value)
 setattr(instance, 'attr', value) # instance.__setattr__('attr', value)
     \end{minted}
     
-    Par défaut, le mécanisme est de changer la valeur de clé \mintinline{python3}{'name'} dans le dictionnaire de l'instance. Pour assigner des valeurs à des attributs, cette méthode doit utilise \mintinline{python3}{super().__setattr__()} afin d'éviter une récursivité infinie.
+    Cette méthode est définie dans la classe \mintinline{python3}{object}, l'ordre de recherche de l'attribut à modifier
+    est le suivant:
+    \begin{enumerate}
+        \item Si un descripteur est trouvé, il est utilisé pour modifier la valeur de \mintinline{text}{name}.
+        \item Sinon une nouvelle clé est créée dans le \mintinline{python3}{__dict__} de l'instance avec pour valeur
+        \mintinline{text}{value}.
+    \end{enumerate}
+
+    Surcharger cette méthode va donc modifier le mécanisme par défaut. Cependant, pour les attributs dont on ne veut pas
+    modifier le comportement de modification, il faut penser à appeler la méthode \mintinline{python3}{__setattr__()} d'\mintinline{python3}{object} ou de la classe parente.
 
     \item[\mintinline{python3}{Objet.__delattr__(self, name)}]~
 
@@ -189,19 +211,6 @@ L'attribut a été changé !
 J'accède à l'attribut a...
 1
 \end{minted}
-
-À ce stade, on peut se demander quelle solution choisir pour contrôler les accès aux attributs ou faire des attributs dynamiques: propriétés, descripteurs --- leur généralisation ---, méthodes spéciales ?) La réponse pythonique est: si on peut faire ce que l'on veut facilement, ne pas choisir une solution compliquée inutilement! Une réponse sur StackOverflow (voir \og Plus d'informations \fg{}) propose ceci:
-\begin{itemize}
-    \item La première solution la plus simple: affecter simplement les valeurs aux attributs avec le mécanisme par défaut
-    \item Si ce mécanisme est insuffisant, utiliser les propriétés.
-    \item Si ce mécanisme est insuffisant, écrire des descripteurs adaptés.
-    \item Si ce mécanisme est inadapté, utiliser \mintinline{python3}{__getattr__()}
-    \item En dernier recours, utiliser \mintinline{python3}{__getattribute__()}
-\end{itemize}
-
-Les propriétés sont particulièrement adaptées pour gérer un petit nombre d'attributs spécifiques; pour changer le comportement de tous les attributs ou presque, c'est \mintinline{python3}{__getattr__()} qui sera plus avantageux. En dernier recours \mintinline{python3}{__getattribute__()} permettra d'agir sur les attributs qui sont vraiment définis, alors que \mintinline{python3}{__getattr__()} permet de simuler la présence d'attributs. Cette dernière fonction a l'inconvénient d'agir sur tous les attributs, donc peut engendrer un comportement indésirable chez quelques attributs si l'on ne fait pas bien attention.
-
-\paragraph*{Plus d'informations} \href{https://stackoverflow.com/a/22617259/9214306}{Quand utiliser les propriétés et les méthodes spéciales}
 
 \subsection{Surcharges d'opérateur}
 \index{surcharge d'opérateur}

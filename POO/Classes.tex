@@ -13,7 +13,7 @@ Les objets d'une classe partagent des caractéristiques communes à la classe:
 \end{enumerate}
 
 
-\subsubsection{Définition d'une classe}
+\subsubsection{Définition d'une classe et création d'objets}
 Pour définir une classe, la syntaxe est la suivante:
 \begin{minted}{python3}
 class MaClasse:
@@ -30,77 +30,161 @@ class Foo:
 La console affichera \mintinline{python3}{bar}. Pour créer une instance de classe, il faut appeler la classe. Appeler une classe revient à appeler son \hyperref[constructeur]{constructeur}, composé d'un créateur d'objet et d'un initialiseur. En reprenant la classe \mintinline{python3}{Foo}:
 
 \begin{minted}{pycon}
->>> Foo
+>>> Foo # évaluation de la classe Foo
 <class '__main__.Foo'>
->>> Foo()
+>>> Foo() # création d'un objet Foo
 <__main__.Foo object at 0x7f193dd99630>
 \end{minted}
 
-\subsubsection{Initialiseur}
-\index{initialiseur}\index{\_\_init\_\_()}
+\subsubsection{Attributs}
 
-L'initialiseur est une méthode spéciale appelée \mintinline{python3}{__init__()}, il prend en argument l'instance sur laquelle il est appliqué et tous les paramètres nécessaires à l'initialisation de l'instance. Par convention le premier paramètre, l'instance, est nommé \mintinline{python3}{self}.
+Créons un objet :
 
-\begin{minted}{python3}
-class MaClasse:
-
-    CONSTANTE = "Constante"
-
-    def __init__(self, att1, att2):
-        """Initialiseur"""
-        self.attribut_1 = att1
-        self.attribut_2 = att2
-        self.attribut_3 = type(self).CONSTANTE
+\begin{minted}{pycon}
+>>> foo = Foo()
 \end{minted}
 
-Ici, les deux premiers attributs sont personnalisables lors de la création des objets alors que le dernier est commun à tous. \mintinline{python3}{MaClasse.CONSTANTE} est une variable de classe\index{variable de classe}. Pour créer un objet on écrit simplement:
+Cet objet est pour l'instant vide, on peut lui donner un attribut:
 
-\begin{minted}{python3}
-objet = MaClasse(att1, att2)
+\begin{minted}{pycon}
+>>> foo.attr = 1
+>>> foo.attr
+1
 \end{minted}
 
 Les informations concernant les attributs d'une instance sont stockées dans le dictionnaire de l'instance, un attribut spécial nommé \mintinline{python3}{__dict__}.
 
 \begin{minted}{pycon}
->>> instance = MaClasse("attr1", "attr2")
-{'attribut_1': 'attr1', 'attribut_2': 'attr2', 'attribut_3': 'Constante'}
+>>> foo.__dict__
+{'attr': 1}
+\end{minted}
+
+Lorsqu'on accède un attribut avec la syntaxe \mintinline{python3}{foo.attr}, cette syntaxe est par défaut équivalente à:
+
+\begin{minted}{pycon}
+>>> foo.__dict__['attr']
+1
+\end{minted}
+
+Pour modifier la valeur d'un attribut, on lui assigne tout simplement une nouvelle valeur:
+
+\begin{minted}{pycon}
+>>> foo.attr = 456
+>>> foo.attr
+456
+>>> foo.__dict__['attr'] = 789 # équivalent
+>>> foo.attr
+789
+\end{minted}
+
+Une classe peut également définir des attributs de classe:
+
+\begin{minted}{python3}
+class Foo:
+    class_attr = "I'm a class attribute."
+\end{minted}
+
+Toutes les instances y ont accès:
+
+\begin{minted}{pycon}
+>>> Foo.class_attr
+"I'm a class attribute."
+>>> foo = Foo()
+>>> foo.class_attr
+"I'm a class attribute."
+\end{minted}
+
+Pourtant, cet attribut n'est pas dans \mintinline{python3}{foo.__dict__}. En effet, lorsqu'on accède à un attribut,
+Python va le rechercher dans le dictionnaire de l'instance, mais aussi de sa classe s'il ne l'a pas trouvé. Ainsi:
+
+\begin{itemize}
+    \item Modifier un attribut de classe pour une instance ajoutera une entrée dans son dictionnaire (on n'accède ainsi
+    par la suite plus à l'attribut de classe mais au nouvel attribut d'instance, on peut dire qu'on l'a surchargé).
+    \item Modifier un attribut de classe via la classe le modifie pour toutes les instances qui ne l'ont pas surchargé,
+    ainsi que pour toutes les instances qui seront créées ensuite.
+\end{itemize}
+
+\begin{minted}{pycon}
+>>> foo.class_attr = 'New value'
+>>> objet.__dict__
+{'class_attr': 'New value'}
+>>> bar = Foo()
+>>> bar.__dict__
+{}
+>>> Foo.class_attr = "I just got a new value."
+>>> bar.class_attr
+"I just got a new value."
+>>> foo.class_attr
+'New value'
 \end{minted}
 
 \subsubsection{Méthodes}
 \index{méthode}
-Les méthodes se définissent comme des fonctions, elles agissent en général sur les instances de la classe. Elles doivent toujours prendre \mintinline{python3}{self} en argument :
+Les méthodes se définissent comme des fonctions dans le corps de la classe, elles agissent en général sur les instances de la classe. Python leur passe \emph{toujours} l'instance sur laquelle elles sont appliquées en premier paramètre. Par convention,
+il est noté \mintinline{python3}{self}.
+
 \begin{minted}{python3}
 class MaClasse:
 
-    def __init__(self):
-         pass
-
     def methode(self, arg1, arg2):
-         pass
+        print(locals())
 \end{minted}
 
 Ensuite on les appelle de la manière suivante:
-\begin{minted}{python3}
-objet.methode(arg1, arg2)
+\begin{minted}{pycon}
+>>> objet = MaClasse()
+>>> objet
+<__main__.MaClasse object at 0x7f13337e50f0>
+>>> objet.methode(arg1, arg2)
+{'self': <__main__.MaClasse object at 0x7f13337e50f0>, 'arg1': 123, 'arg2': 'ABC'}
 \end{minted}
 
+C'est grâce à cette variable \mintinline{python3}{self} que l'on peut agir sur l'instance.
+
+\subsubsection{Initialiseur}
+\index{initialiseur}\index{\_\_init\_\_()}
+
+L'initialiseur est une méthode spéciale appelée \mintinline{python3}{__init__()}, il est appelé lorsqu'une instance vient
+d'être créée et permet d'en initialiser les attributs. L'exemple suivant permet d'initialiser deux attributs:
+
+\begin{minted}{python3}
+class MaClasse:
+
+    def __init__(self, att1, att2):
+        """Initialiseur"""
+        self.attribut1 = att1
+        self.attribut2 = att2
+\end{minted}
+
+Ces deux attributs sont initialisés lorsqu'on crée un nouvel objet. Les valeurs initiales des attributs sont automa\-tiquement 
+passés à \mintinline{python3}{__init__()} lorsqu'on appelle la classe pour instancier:
+
+\begin{minted}{pycon}
+>>> objet = MaClasse(123, 'ABC')
+>>> objet.__dict__
+{'attribut1': 123, 'attribut2': 'ABC'}
+\end{minted}
 
 \subsection{Héritage}
 \index{héritage}
 
 \subsubsection{Principe}
 
-L'héritage est un moyen de créer des classes dérivées (classes filles) d'une classe de base (classe mère). Une classe fille hérite de toutes les méthodes et variables de sa classe mère. Pour créer une classe fille, on utilise la syntaxe suivante.
+L'héritage est un moyen de créer des classes dérivées (classes filles) d'une classe de base (classe mère). Une classe fille hérite de toutes les méthodes et attributs de sa classe mère. Pour indiquer les classes parentes d'une nouvelle classe, on
+les indique en paramètres lors de sa définition. L'héritage en action dans un exemple on ne peut plus simple:
 
-\begin{minted}{python3}
-class Mere:
-    pass
-
-class Fille(Mere):
-    pass
+\begin{minted}{pycon}
+>>> class Mere:
+...     attr = 1
+...
+>>> class Fille(Mere):
+...     pass
+...
+>>> Fille().attr
+1
 \end{minted}
 
-Il est possible d'écraser une méthode héritée en la redéfinissant dans la classe fille. Si on veut accéder à une méthode héritée alors qu'on l'a redéfinie dans la classe fille, on utilise la fonction \mintinline{python3}{super()} qui permet d'appeler la méthode de la classe mère de la classe présente (sans l'argument self).
+Il est possible de surcharger (d'écraser) une méthode héritée en la redéfinissant dans la classe fille. Si on veut accéder à une méthode héritée alors qu'on l'a redéfinie dans la classe fille, on utilise la fonction \mintinline{python3}{super()} qui permet d'appeler la méthode de la classe mère de la classe présente (sans l'argument \mintinline{python3}{self}).
 
 \paragraph{Exemple}
 \begin{minted}{python3}

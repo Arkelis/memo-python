@@ -1,4 +1,4 @@
-\section{Descripteurs}
+\section{Descripteurs}\label{sec:descripteur}
 Les descripteurs sont une généralisation des propriétés (plus précisément, les propriétés sont des descripteurs), ce sont
 des objets qui doivent implémenter au moins une des méthodes spéciales suivantes:
 
@@ -172,4 +172,19 @@ Traceback (most recent call last):
 ValueError: m doit être compris entre 0 et 59 (-1 donné).
 \end{minted}
 
-\paragraph{Plus d'informations} \href{https://docs.python.org/fr/3/howto/descriptor.html}{Guide sur les descripteurs} (documentation officielle).
+À ce stade, on peut se demander quelle solution choisir pour contrôler les accès aux attributs ou faire des attributs dynamiques: propriétés, descripteurs, méthodes spéciales ? La réponse est: si on peut faire ce que l'on veut facilement, ne pas choisir une solution compliquée inutilement! Une réponse sur StackOverflow (voir \og Plus d'informations \fg{}) propose ceci:
+\begin{itemize}
+    \item La première solution la plus simple: utiliser le mécanisme par défaut qui utilise l'attribut spécial \mintinline{python3}{__dict__} de l'instance.
+    \item Si ce mécanisme est insuffisant, par exemple si on veut déclencher des calculs ou ajouter de la logique, utiliser les propriétés.
+    \item Si ce mécanisme est insuffisant, écrire des descripteurs adaptés; on vient de voir qu'ils sont utiles pour des propriétés génériques par exemple.
+    \item Si ce mécanisme est inadapté, utiliser \mintinline{python3}{__getattr__()}; cette méthode est utile pour simuler
+    la présence d'attributs. Cette méthode n'agit pas sur les attributs existants.
+    \item En dernier recours, utiliser \mintinline{python3}{__getattribute__()}; la différence avec la solution précédente est
+    que cette méthode est la première appelée lorsque l'on accède à un attribut. Ainsi, on a la main sur absolument tous les
+    attributs, ce qui peut engendrer des comportements indésirables... À utiliser avec précaution, donc.
+\end{itemize}
+
+\paragraph{Plus d'informations} \begin{itemize}
+    \item \href{https://docs.python.org/fr/3/howto/descriptor.html}{Guide sur les descripteurs} (documentation officielle).
+    \item \href{https://stackoverflow.com/a/22617259/9214306}{Quand utiliser les propriétés et les méthodes spéciales}
+\end{itemize}

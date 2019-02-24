@@ -108,7 +108,6 @@ Ce document est écrit au format TeX puis compilé avec XeLaTeX (et minted pour 
 
 \newpage
 \part{Programmation orientée objet}
-
 \input{POO/Classes}
 \input{POO/Methodes_speciales}
 \input{POO/Fonctions}
@@ -116,46 +115,9 @@ Ce document est écrit au format TeX puis compilé avec XeLaTeX (et minted pour 
 \input{POO/Conteneurs}
 \input{POO/Iterateurs}
 \input{POO/Generateurs}
-
-\section{Coroutines}
-\subsection{Objets \emph{awaitables}}
-
+\input{POO/Coroutines.tex}
 \input{POO/Decorateurs}
-
-\section{Métaclasses}
-\subsection{Principe}
-\index{métaclasse}\label{sec:metaclasses}
-Les métaclasses sont les classes qui instancient d'autres classes. Par défaut, une seule métaclasse est définie : la métaclasse \mintinline{python3}{type}. On s'en rend compte en demandant le type des classes que l'on crée.
-
-\begin{minted}{python3}
-class MaClasse:
-    pass
-
-print(type(MaClasse)) # <class 'type'>
-\end{minted}
-
-\subsection{La métaclasse \mintinline{python3}{type}}
-
-
-
-\subsection{Application pythonique: propriété de classe}
-On pourrait imaginer des propriétés de classes afin d'ajouter une couche de logique sur une simple variable de classe. Au lieu de définir un descripteur générique, on créer une métaclasse qui aura comme popriété la future propriété de classe.
-
-\paragraph{Exemple} Un exemple simple
-\begin{minted}{python3}
-class MaMetaclasse(type):
-    @property
-    def propriete(self):
-        return self._propriete
-    @propriete.setter
-    def propriete(self, value):
-        self._propriete = value
-
-class MaClasse(metaclass=MaMetaclasse):
-    _propriete = 5
-
-print(MaClasse.propriete) #5
-\end{minted}
+\input{POO/Metaclasses.tex}
 
 \newpage
 
