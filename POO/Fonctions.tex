@@ -1,4 +1,4 @@
-\section{Fonctions et objets {\normalfont\bfseries\itshape callable}}
+\section{Fonctions et objets {\normalfont\bfseries\itshape callable}}\label{sec:callable}
 Un objet est dit \textit{callable} (que l'on peut traduire par \og appelable \fg{}) si lui appliquer des parenthèses déclenche quelque chose.
 
 \begin{minted}{python3}
@@ -6,7 +6,7 @@ obj() # on appelle l'objet obj
 obj(arg) # on lui passe un argument positionnel
 obj(arg1, param=arg2) # on lui passe aussi un argument nommé
 result = obj() 
-# en général appeler un objet retourne quelque chose en fait, appeler un objet retourne toujours
+# En général appeler un objet retourne quelque chose. En fait, un callable renvoie toujours
 # au moins None.
 \end{minted}
 
@@ -17,21 +17,36 @@ result = obj()
     \item \href{https://stackoverflow.com/a/32856533/9214306}{fonctionnement interne des callables} (StackOverflow).
 \end{itemize}
 
-\subsection{Déclaration de fonctions}
+\subsection{Les objets fonctions}
 
-Les fonctions et les méthodes sont \textit{callable}, elles sont créées avec le mot-clé \mintinline{python3}{def}. On
-peut utiliser des annotations pour indiquer les types des paramètres et le type de la valeur renvoyée (les annotations
-peuvent être plus généralement n'importe quelle expression Python).
+Les fonctions et les méthodes sont des objets \textit{callable}, elles sont créées avec le mot-clé \mintinline{python3}{def}. On peut utiliser des annotations pour indiquer les types des paramètres et le type de la valeur renvoyée (les annotations peuvent être plus généralement n'importe quelle expression Python).
 
 \begin{minted}{pycon}
 >>> def func(arg1: int = 1) -> int:
 ...     """Docstring."""
-...     return arg1
+...     return arg1 # l'interpréteur s'arrête au premier return rencontré
 \end{minted}
 
-Ces objets possèdent quelques attributs spéciaux:
+Les fonctions sont des objets; à ce titre, on peut parfaitement leur définir des attributs de fonction. Un exemple farfelu
+pour montrer que ça existe:
 
 \begin{minted}{pycon}
+>>> def incrementor():
+...     incrementor.n += 1
+...     return incrementor.n
+...
+>>> incrementor.n = -1
+>>> incrementor()
+0
+>>> incrementor()
+1
+\end{minted}
+
+Ces objets sont des instances de \mintinline{python3}{function}, ils possèdent quelques attributs spéciaux:
+
+\begin{minted}{pycon}
+>>> type(func)
+<class 'function'>
 >>> func.__name__
 'func'
 >>> func.__module__
@@ -47,12 +62,14 @@ Ces objets possèdent quelques attributs spéciaux:
 Les méthodes ont en plus un attribut spécial \mintinline{python3}{__self__} et un attribut spécial \mintinline{python3}{__func__}. On peut aussi créer une fonction anonyme avec \mintinline{python3}{lambda}:
 
 \begin{minted}{pycon}
->>> func = lambda x: x
+>>> func = lambda x: x # fonction identité (syntaxe -> lambda <args>: <expression à renvoyer>)
+>>> type(func)
+<class 'function'>
 >>> func.__name__
 '<lambda>'
 \end{minted}
 
-Ce mécanisme si l'on veut créer une fonction à la volée, par exemple quand on utilise \mintinline{python3}{map()}.
+Ce mécanisme est utile si l'on veut créer une fonction à la volée, par exemple quand on utilise \mintinline{python3}{map()}.
 
 \subsection{Gérer les paramètres d'une fonction}
 
@@ -73,12 +90,12 @@ muable, la valeur par défaut restera toujours celle d'origine même si la fonct
 a mué.\medskip
 
 On peut passer deux types d'arguments à une fonction:
-\begin{itemize}
+\begin{enumerate}
     \item les arguments dits \emph{positionnels}: ils sont interprétés par la fonction grâce à leur position dans
           la liste des arguments passés à la fonction;
     \item les arguments dits \emph{nommés}: on spécifie le nom de leur paramètre quand on les passe à la fonction.
           On doit avoir passé tous les arguments positionnels avant de passer des arguments nommés.
-\end{itemize}
+\end{enumerate}
 
 On peut utiliser les opérateurs d'\emph{unpacking} (\og déballage \fg{}) :
 \begin{itemize}
@@ -96,8 +113,8 @@ Cette fonction prend tous les arguments qui lui sont passés:
 \end{minted}
 
 \mintinline{python3}{*args} va contenir tous les arguments positionnels dans un tuple et \mintinline{python3}{**kwargs}
-tous les arguments nommés dans un dictionnaire. Cette syntaxe est utilise quand on définit une fonction qui en enrobe une
-autre pour lui transmettre tous les arguments (voir les décorateurs).\medskip
+tous les arguments nommés dans un dictionnaire. Cette syntaxe est utilisée quand on définit une fonction qui en enrobe une
+autre pour lui transmettre tous les arguments (voir les \hyperref[sec:decorateur]{décorateurs}).\medskip
 
 On peut aussi utiliser le déballage lors d'appels de fonctions:
 \begin{minted}{pycon}
@@ -114,7 +131,7 @@ On peut aussi utiliser le déballage lors d'appels de fonctions:
 \paragraph*{Remarque} Le déballage, ce n'est pas que pour les paramètres de fonctions:
 \begin{minted}{pycon}
 >>> L = [1, 2, 3]
->>> a, b, c = L
+>>> a, b, c = L # on déballe L
 >>> print(a, b, c)
 1 2 3
 >>> char1, char2 = "12" # ça fonctionne pour tout itérable
@@ -143,11 +160,11 @@ Pour qu'une classe puisse instancier des objets \emph{callable}, il suffit qu'el
 \end{description}
 
 \begin{minted}{pycon}
->>> class CallableCreator:
+>>> class HelloCallable:
 ...     def __call__(self):
 ...             return "Hello"
 ...
->>> CallableCreator()() # () pour instancier puis () pour appeler
+>>> HelloCallable()() # () pour instancier puis () pour appeler
 Hello
 \end{minted}
 
@@ -157,5 +174,16 @@ Les classes sont \emph{callable}: on les appelle pour instancier.
 >>> class Bar: pass
 ...
 >>> hasattr(Bar, "__call__")
+True
+\end{minted}
+
+D'ailleurs, bien évidemment:
+
+\begin{minted}{pycon}
+>>> def f(): pass
+...
+>>> hasattr(f, "__call__")
+True
+>>> hasattr(lambda: None, "__call__")
 True
 \end{minted}

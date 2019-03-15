@@ -1,4 +1,4 @@
-\section{Décorateurs}
+\section{Décorateurs}\label{sec:decorateur}
 \index{décorateur}
 Les décorateurs sont des fonctions ou des classes qui permettent de modifier le comportement d'une autre fonction (ou classe). Les décorateurs sont utiles lorsque l'on souhaite qu'un certain nombre de fonctions effectuent des tâches communes comme par exemple donner leur temps d'exécution. On appelle un décorateur de la manière suivante.
 
@@ -17,12 +17,12 @@ def fonction():
 fonction = decorateur(fonction)
 \end{minted}
 
-Ainsi, \mintinline{python3}{fonction} devient l'objet retournée par \mintinline{python3}{decorateur(fonction)}. Le décorateur doit donc retourner un objet que l'on peut appeler en écrivant \mintinline{python3}{objet()} (avec d'éventuels arguments), on appelle ce type d'objet un \og appelable \fg{}\index{appelable}, une généralisation des fonctions. Le décorateur est lui même un appelable. Si on le définit comme une classe, on doit définir la méthode \mintinline{python3}{__call__()} qui permet de rendre ses instances appelables.
+Ainsi, \mintinline{python3}{fonction} devient l'objet retournée par \mintinline{python3}{decorateur(fonction)}. Le décorateur doit donc être un \hyperref[sec:callable]{callable}.
 
 \paragraph{Plus d'informations} \href{https://stackoverflow.com/questions/739654/how-to-make-a-chain-of-function-decorators/1594484#1594484}{Stack Overflow}
 
 \subsection{En tant que classe}
-Une façon d'implémenter un décorateur est d'utiliser les classes. La fonction décorée deviendra alors une instance de la classe de ce décorateur. Il faut obligatoirement définir la méthode \mintinline{python3}{__call__()} pour pouvoir rendre cette instance appelable.
+Une façon d'implémenter un décorateur est d'utiliser les classes. La fonction décorée deviendra alors une instance de la classe de ce décorateur. Il faut obligatoirement définir la méthode \mintinline{python3}{__call__()} pour pouvoir rendre cette instance \emph{callable}.
 
 \paragraph{Exemple} On considère ici un décorateur qui compte le nombre d'appels de la fonction décorée.
 \begin{minted}{python3}
@@ -39,7 +39,7 @@ class Compteur:
 
 
 \subsection{En tant que fonction}
-Comme un décorateur est un objet appelable qui n'a d'autre utilité que d'être appelé, il est aussi logique de le définir en tant que fonction.
+Comme un décorateur est un objet \emph{callable} qui n'a d'autre utilité que d'être appelé, il est aussi logique de le définir en tant que fonction.
 
 \paragraph{Exemple} Même décorateur que précédemment mais en l'implémentant en tant que fonction.
 \begin{minted}{python3}
@@ -52,9 +52,22 @@ def compteur(f):
     return wrapper
 \end{minted}
 
-\paragraph{Remarques} On voit dans cet exemple que l'on peut définir des fonctions dans les définitions de fonctions. La mention \mintinline{python3}{*args} fait référence à tous les arguments non nommés que l'on a entrés (c'est un tuple, par exemple \mintinline{python3}{(arg1, arg2)}). La mention \mintinline{python3}{**kwargs} fait référence aux arguments nommés (c'est un dictionnaire). Ainsi on est sûr de récupérer tous les arguments.\medskip
-
 Dans cet exemple, on assigne à \mintinline{python3}{wrapper} un attribut de fonction (on peut le faire, puisqu'une fonction est un objet -- de la classe \mintinline{python3}{function}). On le définit après avoir défini cette fonction.
+
+Les deux décorateurs précédents donnent ce comportement:
+
+\begin{minted}{pycon}
+>>> @compteur
+... def func():
+...     return "func got called!"
+...
+>>> func()
+La fonction func a été appelée 1 fois.
+'func got called!'
+>>> func()
+La fonction func a été appelée 2 fois.
+'func got called!'
+\end{minted}
 
 \subsection{Décorateurs à paramètres}
 On peut faire en sorte que le décorateur prenne un ou plusieurs paramètres. Dans ce cas, il faut définir le décorateur à l'intérieur d'une clôture qui prend en argument ces différents paramètres.

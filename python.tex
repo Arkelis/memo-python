@@ -39,30 +39,30 @@
 \usepackage{enumitem}
 
 \titlecontents
-	{section}
-	[0em]
-	{\addvspace{0.5em}}
-	{{\thecontentslabel.\ }}
-	{}
-	{\hfill\contentspage}
-	[\addvspace{0pt}]
-
-\titlecontents
-	{subsection}
-	[1em]
-	{\addvspace{0.25em}}
-	{\thecontentslabel.\ }
-	{}
-	{\hfill\contentspage}
+    {section}
+    [0em]
+    {\addvspace{0.5em}}
+    {\thecontentslabel.\ }
+    {}
+    {\hfill\contentspage}
     [\addvspace{0pt}]
 
 \titlecontents
-	{subsubsection}
-	[2em]
-	{\addvspace{0.25em}}
-	{\thecontentslabel.\ }
-	{}
-	{\hfill\contentspage}
+    {subsection}
+    [1em]
+    {\addvspace{0.25em}}
+    {\thecontentslabel.\ }
+    {}
+    {\hfill\contentspage}
+    [\addvspace{0pt}]
+
+\titlecontents
+    {subsubsection}
+    [2em]
+    {\addvspace{0.25em}}
+    {\thecontentslabel.\ }
+    {}
+    {\hfill\contentspage}
     [\addvspace{0pt}]
 
 % Réinitialise les numéros de sections à chaque partie
@@ -76,9 +76,9 @@
 \definecolor{blanc}{RGB}{255, 255, 255}
 
 \begin{center}
-	{\Huge{\sc\bfseries{Mémo Python}}}\\[20pt]
-	\includegraphics[scale=0.07]{python.png}
-	\vspace{20pt}
+    {\Huge{\sc\bfseries{Mémo Python}}}\\[20pt]
+    \includegraphics[scale=0.07]{python.png}
+    \vspace{20pt}
 \end{center}
 
 \tableofcontents
@@ -97,13 +97,13 @@ Sauf exception, on considère qu'on travaille sur \textbf{Python 3.7} et sur une
 Ce document est écrit au format TeX puis compilé avec XeLaTeX (et minted pour les sections de code) tantôt sur Windows, tantôt sur Fedora (ça ne change pas le résultat). Il est disponible au téléchargement (pour mettre le document à jour) en cliquant sur ce lien: \href{https://python.pycolore.fr}{python.pycolore.fr}.\medskip
 
 \begin{description}
-	\item[{\sffamily Notation}] Toutes les fonctions sont notées avec des parenthèses : \mintinline{python3}{fonction()}.	\item[{\sffamily Notation}] Pour la documentation des méthodes:
-		\begin{itemize}
-			\item on note \mintinline{python3}{Classe.methode(self, *args, **kwargs)} (avec le nom de classe en \mintinline{text}{PascalCase});
-			\item on note \mintinline{python3}{obj.methode(*args, **kwargs)} (avec le nom de l'objet en \mintinline{text}{snake_case}).
-		\end{itemize} 
-	\item[{\sffamily Auteur}] Guillaume Fayard.
-	\item[{\sffamily Code source}] \href{https://github.com/Arkelis/memo-python}{GitHub}.
+    \item[{\sffamily Notation}] Toutes les fonctions sont notées avec des parenthèses : \mintinline{python3}{fonction()}.	\item[{\sffamily Notation}] Pour la documentation des méthodes:
+        \begin{itemize}
+            \item on note \mintinline{python3}{Classe.methode(self, *args, **kwargs)} (avec le nom de classe en \mintinline{text}{PascalCase});
+            \item on note \mintinline{python3}{obj.methode(*args, **kwargs)} (avec le nom de l'objet en \mintinline{text}{snake_case}).
+        \end{itemize} 
+    \item[{\sffamily Auteur}] Guillaume Fayard.
+    \item[{\sffamily Code source}] \href{https://github.com/Arkelis/memo-python}{GitHub}.
 \end{description}
 
 \newpage
@@ -134,9 +134,9 @@ Ce document est écrit au format TeX puis compilé avec XeLaTeX (et minted pour 
     Évalue la chaîne de caractères \mintinline{text}{expression} en argument et renvoie le résultat.
 \end{description}
 
-\section{\texttt{abc}, \texttt{collections.abc} --- Classes mères abstraites}\label{abc}
+\section[{\footnotesize\texttt{abc}}, {\footnotesize\texttt{collections.abc}} --- Classes mères abstraites]{{\normalfont\bfseries\large\texttt{abc}}, {\normalfont\bfseries\large\texttt{collections.abc}} --- Classes mères abstraites}\label{abc}
 
-\section{\texttt{re} --- Expressions régulières}
+\section[{\footnotesize\texttt{re}} --- Expressions régulières]{{\normalfont\bfseries\large\texttt{re}} --- Expressions régulières}
 \index{re}\index{expression régulière}
 Le module \mintinline{python3}{re} \marginpar{\href{https://docs.python.org/fr/3/library/re.html}{\mintinline{python3}{re}}} permet d'utiliser les expressions régulières en Python.
 \paragraph{Plus d'informations} \href{https://docs.python.org/fr/3/library/re.html}{Documentation Python 3}
@@ -144,29 +144,29 @@ Le module \mintinline{python3}{re} \marginpar{\href{https://docs.python.org/fr/3
 \subsection{Écrire une expression régulière}
 Les expressions régulières sont un excellent moyen de retrouver des motifs complexes dans une chaîne de caractères. On écrit les motifs à rechercher grâce à plusieurs caractères spéciaux:
 \begin{description}
-	\item [Spécification du caractère]~
-	      \begin{itemize}
-		      \item \og\mintinline{text}{.}\fg{} désigne n'importe quel caractère.
-		      \item \og\mintinline{text}{[]}\fg{} permet de dire quels caractères on veut trouver (\mintinline{text}{[a-e]} : \mintinline{text}{a}, \mintinline{text}{b}, \mintinline{text}{c}, \mintinline{text}{d} ou \mintinline{text}{e}; \mintinline{text}{[a-eA-E]} idem avec les majuscule comprises; \mintinline{text}{[+-*]}: soit \mintinline{text}{*} soit \mintinline{text}{+} soit \mintinline{text}{-}).
-		      \item \og\Verb[fontsize=\small]|\w|\fg{} équivaut à \Verb[fontsize=\small]|[a-zA-Z0-9_]|.
-		      \item \og\Verb[fontsize=\small]|\W|\fg{} désigne tout caractère non alpha-numérique.
-		      \item \og\Verb[fontsize=\small]|\d|\fg{} équivaut à \mintinline{text}{[0-9]}.
-		      \item \og\Verb[fontsize=\small]|\D|\fg{} désigne tout caractère non numérique.
-		      \item \og\Verb[fontsize=\small]|\s|\fg{} désigne un espace.
-	      \end{itemize}
-	\item [Place du motif dans la chaîne]~
-	      \begin{itemize}
-		      \item \og\Verb[fontsize=\small]!^!\fg{} (se place au début) signifie que le début de la chaine doit correspondre au motif.
-		      \item \og\mintinline{text}{\$}\fg{} (se place à la fin) signifie que la fin de la chaine doit correspondre au motif.
-	      \end{itemize}
-	\item [Nombre d'apparition(s) consécutive(s)]~
-	      \begin{itemize}
-		      \item \og\mintinline{text}{\{n\}}\fg{} indique que le caractère précédent doit apparaître \mintinline{text}{n} fois.
-		      \item \og\mintinline{text}{\{n,m\}}\fg{} indique que le caractère précédent doit apparaître entre \mintinline{text}{n} et \mintinline{text}{m} fois.
-		      \item \og\mintinline{text}{*}\fg{} indique que le caractère précédent n'apparaît pas ou apparaît sans maximum d'occurrences (\mintinline{text}{ab*} correspond à \mintinline{text}{a}, \mintinline{text}{ab}, ou bien \mintinline{text}{abbbbbb}, etc.).
-		      \item \og\mintinline{text}{+}\fg{} indique que le caractère précédent apparaît au moins une fois (\mintinline{text}{ab+} correspond à \mintinline{text}{ab}, \mintinline{text}{abb}, ou bien \mintinline{text}{abbbbbb}, etc.).
-		      \item \og\mintinline{text}{?}\fg{} indique que le caractère précédent apparaît au plus une fois (équivalent à \mintinline{text}{\{0,1\}}).
-	      \end{itemize}
+    \item [Spécification du caractère]~
+          \begin{itemize}
+              \item \og\mintinline{text}{.}\fg{} désigne n'importe quel caractère.
+              \item \og\mintinline{text}{[]}\fg{} permet de dire quels caractères on veut trouver (\mintinline{text}{[a-e]} : \mintinline{text}{a}, \mintinline{text}{b}, \mintinline{text}{c}, \mintinline{text}{d} ou \mintinline{text}{e}; \mintinline{text}{[a-eA-E]} idem avec les majuscule comprises; \mintinline{text}{[+-*]}: soit \mintinline{text}{*} soit \mintinline{text}{+} soit \mintinline{text}{-}).
+              \item \og\Verb[fontsize=\small]|\w|\fg{} équivaut à \Verb[fontsize=\small]|[a-zA-Z0-9_]|.
+              \item \og\Verb[fontsize=\small]|\W|\fg{} désigne tout caractère non alpha-numérique.
+              \item \og\Verb[fontsize=\small]|\d|\fg{} équivaut à \mintinline{text}{[0-9]}.
+              \item \og\Verb[fontsize=\small]|\D|\fg{} désigne tout caractère non numérique.
+              \item \og\Verb[fontsize=\small]|\s|\fg{} désigne un espace.
+          \end{itemize}
+    \item [Place du motif dans la chaîne]~
+          \begin{itemize}
+              \item \og\Verb[fontsize=\small]!^!\fg{} (se place au début) signifie que le début de la chaine doit correspondre au motif.
+              \item \og\mintinline{text}{\$}\fg{} (se place à la fin) signifie que la fin de la chaine doit correspondre au motif.
+          \end{itemize}
+    \item [Nombre d'apparition(s) consécutive(s)]~
+          \begin{itemize}
+              \item \og\mintinline{text}{\{n\}}\fg{} indique que le caractère précédent doit apparaître \mintinline{text}{n} fois.
+              \item \og\mintinline{text}{\{n,m\}}\fg{} indique que le caractère précédent doit apparaître entre \mintinline{text}{n} et \mintinline{text}{m} fois.
+              \item \og\mintinline{text}{*}\fg{} indique que le caractère précédent n'apparaît pas ou apparaît sans maximum d'occurrences (\mintinline{text}{ab*} correspond à \mintinline{text}{a}, \mintinline{text}{ab}, ou bien \mintinline{text}{abbbbbb}, etc.).
+              \item \og\mintinline{text}{+}\fg{} indique que le caractère précédent apparaît au moins une fois (\mintinline{text}{ab+} correspond à \mintinline{text}{ab}, \mintinline{text}{abb}, ou bien \mintinline{text}{abbbbbb}, etc.).
+              \item \og\mintinline{text}{?}\fg{} indique que le caractère précédent apparaît au plus une fois (équivalent à \mintinline{text}{\{0,1\}}).
+          \end{itemize}
 \end{description}
 
 Les quatre derniers qualificateurs sont dits gourmands : ils valident autant de caractères que possible. Par exemple pour \mintinline{text}{"aaaaa"}, \mintinline{text}{a\{3,5\}} validera la chaîne en entier. Pour une version non gourmande, on suit le qualificateur d'un \mintinline{text}{?} : \mintinline{text}{*?}, \mintinline{text}{+?}, \mintinline{text}{??} et \mintinline{text}{\{n,m\}?}. Un qualificateur non gourmand valide le moins de caractères possibles.\medskip
@@ -200,10 +200,10 @@ Moi aussi.
 
 On peut remplacer les motifs par d'autres motifs en utilisant la méthode \mintinline{python3}{re.sub}\marginpar{\href{https://docs.python.org/fr/3/library/re.html\#re.Pattern.sub}{\mintinline{python3}{Pattern.sub}}}. Elle prend en paramètres:
 \begin{enumerate}
-	\item le motif (chaîne de caractères ou objet expression rationnelle.)
-	\item le remplacement (peut être une fonction)
-	\item la chaine à traiter
-	\item \mintinline{python3}{count=}le nombre d'occurrences à remplacer
+    \item le motif (chaîne de caractères ou objet expression rationnelle.)
+    \item le remplacement (peut être une fonction)
+    \item la chaine à traiter
+    \item \mintinline{python3}{count=}le nombre d'occurrences à remplacer
 \end{enumerate}
 et renvoie la chaine de caractères modifiée. Lorsque l'on veut appeler un groupe de caractères nommé avec \mintinline{python3}{(?P<nom>)}, on y fait référence dans la chaine de remplacement par \Verb[fontsize = \small]|\g<nom>|.
 
@@ -214,7 +214,7 @@ et renvoie la chaine de caractères modifiée. Lorsque l'on veut appeler un grou
 
 
 
-\section{\texttt{datetime} --- Objets dates}\label{datetime}
+\section[{\footnotesize\texttt{datetime}} --- Objets dates]{{\normalfont\bfseries\large\texttt{datetime}} --- Objets dates}\label{datetime}
 \index{datetime}
 
 Le module \mintinline{python3}{datetime}\marginpar{\mintinline{python3}{datetime}} permet de créer des objets représentant des dates et de faire des opérations. La classe \mintinline{python3}{datetime.date} représente une date par son année, son mois et son jour: \mintinline{python3}{jour = datetime.date(2017, 1, 1)} correspond à la date 1\ier{} janvier 2017.
@@ -233,11 +233,12 @@ datetime.date(2017, 1, 31)
 
 \paragraph*{Documentation} \href{https://docs.python.org/fr/3/library/datetime.html}{Documentation Python 3}
 
-\section{\texttt{functools} --- Outils pour les fonctions}
-Ce module fournit des outils pour la manipulation de fonctions
+\section[{\footnotesize\texttt{functools}} --- Outils pour la programmation fonctionnelle]{{\normalfont\bfseries\large\texttt{functools}} --- Outils pour la programmation fonctionnelle}
+Ce \marginpar{\href{https://docs.python.org/fr/3/library/functools.html}{\mintinline{python3}{functools}}} module fournit des outils pour la manipulation de fonctions
 
-\subsection{Préservation de la signature d'une fonction décorée}
-Décorer une fonction change sa signature:
+\subsection{Préservation des attributs d'une fonction décorée}
+Décorer \marginpar{\href{https://docs.python.org/fr/3/library/functools.html\#functools.wraps}{\mintinline{python3}{@functools.wraps}}} une fonction change ses attributs (en effet, on retourne un wrapper en général): en particulier
+son nom et sa docstring:
 
 \begin{minted}{pycon}
 >>> def f():
@@ -285,16 +286,16 @@ Done.
 <function f at 0x00000223E312DEA0>
 \end{minted}
 
-\section{\texttt{turtle} --- Dessins basiques}
+\section[{\footnotesize\texttt{turtle}} --- Dessins basiques]{{\normalfont\bfseries\large\texttt{turtle}} --- Dessins basiques}
 \index{turtle}
 
 Contient des classes pour dessiner des formes simples en faisant avancer des tortues. Elles peuvent avancer, reculer, tourner d'un certain angle.
 La classe \mintinline{python3}{Turtle} permet de créer des objets tortues qui peuvent :
 \begin{enumerate}
-	\item Avancer: \mintinline{python3}{Turtle.forward(<nb de pixels>)}
-	\item Reculer: \mintinline{python3}{Turtle.backward(<nb de pixels>)}
-	\item Tourner à droite ou à gauche (ex: \mintinline{python3}{Turtle.right(<degrés>)})
-	\item Changer de couleur (\mintinline{python3}{Turtle.color(<couleur>)}) ou de forme (\mintinline{python3}{Turtle.shape(<forme>)}).
+    \item Avancer: \mintinline{python3}{Turtle.forward(<nb de pixels>)}
+    \item Reculer: \mintinline{python3}{Turtle.backward(<nb de pixels>)}
+    \item Tourner à droite ou à gauche (ex: \mintinline{python3}{Turtle.right(<degrés>)})
+    \item Changer de couleur (\mintinline{python3}{Turtle.color(<couleur>)}) ou de forme (\mintinline{python3}{Turtle.shape(<forme>)}).
 \end{enumerate}
 
 \paragraph{Exemple}
@@ -319,15 +320,15 @@ Terrain.exitonclick()
 \end{minted}
 
 \begin{figure}[h]
-	\begin{center}
-		\includegraphics[scale=0.5]{turtle.PNG}
-		\caption*{Résultat}
-	\end{center}
+    \begin{center}
+        \includegraphics[scale=0.5]{turtle.PNG}
+        \caption*{Résultat}
+    \end{center}
 \end{figure}
 
 \paragraph{Plus d'informations} \href{https://docs.python.org/fr/3.6/library/turtle.html#methods-specific-to-screen-not-inherited-from-turtlescreen}{Documentation Python 3}, \href{https://fr.wikibooks.org/wiki/Programmation_Python/Turtle}{Wikilivres}
 
-\section{\texttt{ctypes} --- Appeler des fonctions en C}
+\section[{\footnotesize\texttt{ctypes}} --- Appeler des fonctions en C]{{\normalfont\bfseries\large\texttt{ctypes}} --- Appeler des fonctions en C}
 \index{ctypes}
 Ce module sert à appeler des fonctions écrites en langage C dans des librairies DLL par exemple.
 \subsection{Boites de dialogue}
@@ -355,21 +356,21 @@ Le module ctypes peut servir à faire apparaître des boites de dialogue. On peu
 ctypes.windll.user32.MessageBoxW(0, "That's an error", "Warning!", 16)
 \end{minted}
 \begin{figure}[h]
-	\begin{center}
-		\includegraphics[scale=0.5]{errorwindow.png}
-		\caption*{Résultat}
-	\end{center}
+    \begin{center}
+        \includegraphics[scale=0.5]{errorwindow.png}
+        \caption*{Résultat}
+    \end{center}
 \end{figure}
 
-\section{\texttt{keyboard} --- Manipulation du clavier}\index{keyboard}
+\section[{\footnotesize\texttt{keyboard}} --- Manipulation du clavier]{{\normalfont\bfseries\large\texttt{keyboard}} --- Manipulation du clavier}\index{keyboard}
 
-\section{\texttt{os} --- Diverses interfaces avec le système d'exploitation}\index{os}
+\section[{\footnotesize\texttt{os}} --- Diverses interfaces avec le système d'exploitation]{{\normalfont\bfseries\large\texttt{os}} --- Diverses interfaces avec le système d'exploitation}\index{os}
 
-\section{\texttt{sys} --- Fonctions et paramètres spécifiques au système}\index{sys}
+\section[{\footnotesize\texttt{sys}} --- Fonctions et paramètres spécifiques au système]{{\normalfont\bfseries\large\texttt{sys}} --- Fonctions et paramètres spécifiques au système}\index{sys}
 
-\section{\texttt{threading} --- Programmation parallèle}\index{threading}
+\section[{\footnotesize\texttt{threading}} --- Parallélisme avec les threads]{{\normalfont\bfseries\large\texttt{threading}} --- Parallélisme avec les threads}\index{threading}
 
-\section{\texttt{asyncio} --- Programmation asynchrone}\index{asyncio}
+\section[{\footnotesize\texttt{asyncio}} --- Programmation asynchrone]{{\normalfont\bfseries\large\texttt{asyncio}} --- Programmation asynchrone}\index{asyncio}
 
 \paragraph{Nota Bene} Pour l'instant, cette section sort un peu de nulle part, mais tout s'éclaircira quand la syntaxe des \mintinline{python3}{async} et \mintinline{python3}{await} sera expliquée.\medskip
 
@@ -466,12 +467,12 @@ Durée 5.994143724441528
 Dans le 2e exemple, le programme n'attend pas de recevoir la réponse pour envoyer les autres requêtes.
 
 \part{Modules à télécharger}
-\section{\texttt{virtualenv} --- Environnements virtuels}\label{virtualenv}\index{virtualenv}
+\section[{\footnotesize\texttt{virtualenv}} --- Environnements virtuels]{{\normalfont\large\bfseries\texttt{virtualenv}} --- Environnements virtuels}\label{virtualenv}\index{virtualenv}
 
 Les environnement virtuels \marginpar{\href{https://pypi.org/project/virtualenv/}{\mintinline{python3}{virtualenv}}} sont un bon moyen pour:
 \begin{enumerate}
-	\item Installer des modules sans avoir besoin des droits administrateurs
-	\item Avoir plusieurs environnements de travail avec des modules Python de versions différentes. Exemple, j'ai un projet Django 2 et je veux créer un site avec Django-CMS, qui requiert Django 1! Je suis obligé de recourir aux environnements virtuels.
+    \item Installer des modules sans avoir besoin des droits administrateurs
+    \item Avoir plusieurs environnements de travail avec des modules Python de versions différentes. Exemple, j'ai un projet Django 2 et je veux créer un site avec Django-CMS, qui requiert Django 1! Je suis obligé de recourir aux environnements virtuels.
 \end{enumerate}
 
 Pour une utilisation basique, on commence par installer \mintinline{python3}{virtualenv} avec \mintinline{python3}{pip}.
@@ -510,7 +511,18 @@ env
 \paragraph{Plus d'informations} \href{https://virtualenv.pypa.io/en/stable/}{Documentation de virtualenv}, \href{http://sametmax.com/les-environnement-virtuels-python-virtualenv-et-virtualenvwrapper/}{informations supplémentaires}
 
 
-\section{\texttt{django} --- Framework Web Full Stack}\index{django}
+\section{Flask --- Microframework Web}
+
+Ce framework minimaliste permet de faire des sites Web sans pour autant imposer une façon de développer.
+
+Plugins utiles:
+\begin{description}
+    \item[SQLAlchemy] un ORM pour gérer plus facilement la bdd
+    \item[Marsmallow] un serializer pour Python 
+\end{description}
+
+
+\section[{\footnotesize\texttt{django}} --- Framework Web Full Stack]{{\normalfont\large\bfseries\texttt{django}} --- Framework Web Full Stack}\index{django}
 Ce \marginpar{\href{https://pypi.org/project/Django/}{\mintinline{python3}{django}}} module permet de créer des sites web en Python. \emph{Il est question ici de la version 2}.
 \paragraph{Plus d'informations} \href{https://docs.djangoproject.com/fr/2.0/}{Documentation officielle de Django 2.0} \href{https://docs.djangoproject.com/fr/2.0/intro/}{Tutoriel de la documentation}
 
@@ -518,10 +530,10 @@ Ce \marginpar{\href{https://pypi.org/project/Django/}{\mintinline{python3}{djang
 
 Django fonctionne selon l'architecture Model-View-Template (MVT) que l'on peut traduire par Modèle-Vue-Gabarit. Celle-ci s’appuie sur l'architecture Model-View-Controler (MVC):
 \begin{itemize}
-	\item Les modèles structurent de la base de données, là où sont stockées toutes les informations. Ici, ce sont des classes Python dont les attributs correspondent à des champs dans la base de données. On n'écrit jamais de SQL avec Django!
-	\item Les vues représentent les pages web: elles présentent les informations aux utilisateurs et récupèrent leurs actions. Ici, ce sont des fonctions Python qui prennent en argument la requête (HTTP par exemple) et des informations sur l’URL et qui renvoie, en utilisant les gabarits, la bonne page à l'utilisateur (la bonne réponse HTTP).
-	\item Les gabarits permettent de structurer facilement les vues. Ce sont des fichiers HTML avec un peu de syntaxe de gabarit Django.
-	\item Le contrôleur fait l'interface entre les vues et les modèles: il récupère et renvoie les informations nécessaires. Cette partie est gérée de manière autonome par Django.
+    \item Les modèles structurent de la base de données, là où sont stockées toutes les informations. Ici, ce sont des classes Python dont les attributs correspondent à des champs dans la base de données. On n'écrit jamais de SQL avec Django!
+    \item Les vues représentent les pages web: elles présentent les informations aux utilisateurs et récupèrent leurs actions. Ici, ce sont des fonctions Python qui prennent en argument la requête (HTTP par exemple) et des informations sur l’URL et qui renvoie, en utilisant les gabarits, la bonne page à l'utilisateur (la bonne réponse HTTP).
+    \item Les gabarits permettent de structurer facilement les vues. Ce sont des fichiers HTML avec un peu de syntaxe de gabarit Django.
+    \item Le contrôleur fait l'interface entre les vues et les modèles: il récupère et renvoie les informations nécessaires. Cette partie est gérée de manière autonome par Django.
 \end{itemize}
 
 \subsection{Didacticiel}
@@ -551,12 +563,12 @@ $ python manage.py startapp nom_de_l_application
 \subsubsection{Le fichier \mintinline{python3}{settings.py}}
 Il comporte les principaux paramètres du projet. On y renseigne notamment le type de base de données que l'on utilise; si on utilise SQLite, tout est géré automatiquement. On y gère aussi le fuseau horaire, les langues, les applications installées, parmi les suivantes, installées par défaut:
 \begin{itemize}
-	\item \mintinline{python3}{django.contrib.admin}: l'interface d'administration
-	\item \mintinline{python3}{django.contrib.auth}: un système d'authentification
-	\item \mintinline{python3}{django.contrib.contenttypes}: une structure pour les types de contenu
-	\item \mintinline{python3}{django.contrib.sessions}: un cadre pour les sessions
-	\item \mintinline{python3}{django.contrib.messages}: un cadre pour l'envoi de messages
-	\item \mintinline{python3}{django.contrib.staticfiles}: une structure pour la prise en charge des fichiers statiques
+    \item \mintinline{python3}{django.contrib.admin}: l'interface d'administration
+    \item \mintinline{python3}{django.contrib.auth}: un système d'authentification
+    \item \mintinline{python3}{django.contrib.contenttypes}: une structure pour les types de contenu
+    \item \mintinline{python3}{django.contrib.sessions}: un cadre pour les sessions
+    \item \mintinline{python3}{django.contrib.messages}: un cadre pour l'envoi de messages
+    \item \mintinline{python3}{django.contrib.staticfiles}: une structure pour la prise en charge des fichiers statiques
 \end{itemize}
 
 \subsubsection{Migrations}
@@ -679,8 +691,8 @@ $ python manage.py migrate
 \subsubsection{Interface administrateur}
 Il y a deux manières d'interagir avec la base de données:
 \begin{enumerate}
-	\item Avec l'\href{https://docs.djangoproject.com/fr/2.0/topics/db/queries/}{API Django} (non développé ici) à travers le shell Python.
-	\item Avec l'interface graphique administrateur de Django.
+    \item Avec l'\href{https://docs.djangoproject.com/fr/2.0/topics/db/queries/}{API Django} (non développé ici) à travers le shell Python.
+    \item Avec l'interface graphique administrateur de Django.
 \end{enumerate}
 
 L'interface administrateur est créée automatiquement. Pour y accéder, il faut commencer par créer un super-utilisateur.
@@ -700,16 +712,16 @@ admin.site.register(Chanson)
 \end{minted}
 Ainsi, les modèles apparaissent dans un bloc correspondant à l'application concernée (\hyperref[admin2]{figure 1}). On peut donc créer une chanson, par exemple (\hyperref[admin3]{figure 2}). On voit que l'on peut renseigner tous les champs que l'on a créés dans nos modèles. L'outil d’administration est donc un outil très puissant qui nous permet d'agir sur la base de données graphiquement!
 \begin{figure}[h]
-	\begin{center}
-		\includegraphics[width=15 cm]{django/admin2.jpg}
-		\caption{Administration avec les modèles créés}\label{admin2}
-	\end{center}
+    \begin{center}
+        \includegraphics[width=15 cm]{django/admin2.jpg}
+        \caption{Administration avec les modèles créés}\label{admin2}
+    \end{center}
 \end{figure}
 \begin{figure}[h]
-	\begin{center}
-		\includegraphics[width=15 cm]{django/admin3.jpg}
-		\caption{Créer une chanson}\label{admin3}
-	\end{center}
+    \begin{center}
+        \includegraphics[width=15 cm]{django/admin3.jpg}
+        \caption{Créer une chanson}\label{admin3}
+    \end{center}
 \end{figure}
 
 Si l'on crée une chanson ou un artiste, on peut voir que dans la liste des objets, apparaît la mention "Chanson object" ou bien "Artiste object". En effet, on n'a pas défini de méthode de représentation dans nos modèles, on peut le faire comme suit:
@@ -761,8 +773,8 @@ urlpatterns = [
 
 Si on va sur la page \mintinline{python3}{localhost:8000/monapplication/artiste/1}, on voit : \og Vous êtes sur la page de l'artiste 1\fg{}. En effet, Django analyse l'URL de la manière suivante:
 \begin{enumerate}
-	\item \mintinline{python3}{monapplication/} il va dans les URL de l’application monapplication
-	\item \mintinline{python3}{artiste/1/} il cherche la ligne correspondante dans le fichier \mintinline{python3}{urls.py}. Il trouve alors la ligne\\ \Verb[fontsize=\small]|artiste/<artiste_id>|, il appelle donc la vue\\ \Verb[fontsize=\small]|artiste(request=<HttpRequest object>, question_id=1)|.
+    \item \mintinline{python3}{monapplication/} il va dans les URL de l’application monapplication
+    \item \mintinline{python3}{artiste/1/} il cherche la ligne correspondante dans le fichier \mintinline{python3}{urls.py}. Il trouve alors la ligne\\ \Verb[fontsize=\small]|artiste/<artiste_id>|, il appelle donc la vue\\ \Verb[fontsize=\small]|artiste(request=<HttpRequest object>, question_id=1)|.
 \end{enumerate}
 
 On peut aussi créer des vues qui interagissent avec la base de données en utilisant l'\href{https://docs.djangoproject.com/fr/2.0/topics/db/queries/}{API Django}. Par exemple les pages racines d'artistes et de chansons pourraient les afficher dans l'ordre alphabétique. On aura finalement le fichier \mintinline{python3}{views.py} suivant.
@@ -861,12 +873,12 @@ La balise de gabarit \Verb[fontsize=\small]|{% load static %}| génère l'URL ab
 
 Cela marque la fin du didacticiel. On s'intéresse maintenant aux différents aspects de Django:
 \begin{enumerate}
-	\item Les modèles
-	\item Les vues
-	\item Les gabarits
-	\item Les formulaires
-	\item L'administration
-	\item Le déploiement
+    \item Les modèles
+    \item Les vues
+    \item Les gabarits
+    \item Les formulaires
+    \item L'administration
+    \item Le déploiement
 \end{enumerate}
 
 Ce n'est pas exhaustif, la meilleure façon de se documenter reste la documentation officielle (qui est d'ailleurs très bien faite).
@@ -875,9 +887,9 @@ Ce n'est pas exhaustif, la meilleure façon de se documenter reste la documentat
 
 Comme \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/}{\mintinline{python3}{django.db.models}}} indiqué dans le didacticiel:
 \begin{enumerate}
-	\item Les modèles sont des classes filles de \mintinline{python3}{models.Model} que l'on écrit dans le fichier \mintinline{python3}{models.py} de l'application concernée.
-	\item Cette application doit être mentionnée dans la liste \mintinline{python3}{INSTALLED\_APPS} du fichier \mintinline{python3}{settings.py}
-	\item Un modèle correspond à une table de la base de données. Les champs sont les attributs de la classe du modèle.
+    \item Les modèles sont des classes filles de \mintinline{python3}{models.Model} que l'on écrit dans le fichier \mintinline{python3}{models.py} de l'application concernée.
+    \item Cette application doit être mentionnée dans la liste \mintinline{python3}{INSTALLED\_APPS} du fichier \mintinline{python3}{settings.py}
+    \item Un modèle correspond à une table de la base de données. Les champs sont les attributs de la classe du modèle.
 \end{enumerate}
 
 \paragraph{Plus d'informations} \href{https://docs.djangoproject.com/fr/2.0/topics/db/}{Documentation Django 2 --- Portail thématique sur les modèles}
@@ -886,60 +898,60 @@ Comme \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/}{\minti
 
 Un champ \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/fields/\#field-types}{\mintinline{python3}{models.Field}}} de modèle doit être une instance de la classe \mintinline{python3}{Field} (où l'une de ses dérivées). Le choix du type de champ détermine le genre de donnée à stocker (par exemple des nombres ou du texte), le composants HTML qui sera utilisé dans le formulaire utilisé pour renseigner ce champs dans l'administration, et enfin les exigences minimales de validation de ce champ. Se référer aux liens dans la marge pour une documentation complète. Quelques types de champs génériques:
 \begin{description}
-	\item[\mintinline{python3}{class CharField(max_length=None, **options)}]~
+    \item[\mintinline{python3}{class CharField(max_length=None, **options)}]~
 
-	      Un champ pour une chaîne de caractère (courte ou longue). Le paramètre \mintinline{python3}{max\_length} règle la taille maximale de ce champ. Il en existe de plus précis pour les mails ou les URL, cf. la doc.
+          Un champ pour une chaîne de caractère (courte ou longue). Le paramètre \mintinline{python3}{max\_length} règle la taille maximale de ce champ. Il en existe de plus précis pour les mails ou les URL, cf. la doc.
 
-	\item[\mintinline{python3}{class DateField(auto_now=False, auto_now_add=False, **options)}]~
+    \item[\mintinline{python3}{class DateField(auto_now=False, auto_now_add=False, **options)}]~
 
-	      Une date, représentée par la classe Python \hyperref[datetime]{\mintinline{python3}{datetime.date}}. Le paramètre \mintinline{python3}{auto\_now} permet d'assigner automatiquement la date du jour à chaque enregistrement de l'objet, tandis que \mintinline{python3}{auto\_now\_add} enregistre la date du jour à la création de l'objet.
+          Une date, représentée par la classe Python \hyperref[datetime]{\mintinline{python3}{datetime.date}}. Le paramètre \mintinline{python3}{auto\_now} permet d'assigner automatiquement la date du jour à chaque enregistrement de l'objet, tandis que \mintinline{python3}{auto\_now\_add} enregistre la date du jour à la création de l'objet.
 
-	\item[\mintinline{python3}{class DateTimeField(auto_now=False, auto_now_add=False, **options)}]~
+    \item[\mintinline{python3}{class DateTimeField(auto_now=False, auto_now_add=False, **options)}]~
 
-	      Une heure, représentée par la classe Python \mintinline{python3}{datetime.datetime}
+          Une heure, représentée par la classe Python \mintinline{python3}{datetime.datetime}
 
-	\item[\mintinline{python3}{class IntegerField(**options)}]~
+    \item[\mintinline{python3}{class IntegerField(**options)}]~
 
-	      Un nombre entier compris entre -2147483648 et 2147483647.
+          Un nombre entier compris entre -2147483648 et 2147483647.
 
-	\item[\mintinline{python3}{class TextField(**options)}]~
+    \item[\mintinline{python3}{class TextField(**options)}]~
 
-	      Un champ de texte, plus adapté que \mintinline{python3}{CharField} pour les longs textes, car la zone de saisie est plus importante dans le formulaire (on ne détaille pas ici les composants HTML de formulaires, cf. la doc)
+          Un champ de texte, plus adapté que \mintinline{python3}{CharField} pour les longs textes, car la zone de saisie est plus importante dans le formulaire (on ne détaille pas ici les composants HTML de formulaires, cf. la doc)
 \end{description}
 
 \subsubsection{Les relations entre les modèles}
 
 On \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/fields/\#module-django.db.models.fields.related}{\mintinline{python3}{models.ForeignKey}}} peut aussi renseigner les relations entre les modèles (donc entre les tables de la base de données).
 \begin{description}
-	\item[\mintinline{python3}{class ForeignKey(to, on_delete, **options)}]~
+    \item[\mintinline{python3}{class ForeignKey(to, on_delete, **options)}]~
 
-	      Une relation plusieurs-à-un, (cf. le didacticiel, exemple des chansons qui ont l'artiste en \mintinline{python3}{ForeignKey}). Cette classe exige la classe à laquelle le modèle et relié, et l'option \mintinline{python3}{on\_delete}: \mintinline{python3}{models.CASCADE} si l'on veut que lorsque l'on supprime la \mintinline{python3}{ForeignKey}, que tous les objets associés du modèle concerné soient supprimés, ou bien \mintinline{python3}{SET\_NULL} si l'on veut que les objets aient la valeur \mintinline{python3}{null} à la place de la \mintinline{python3}{ForeignKey} supprimée (dans ce cas il faut aussi renseigner \mintinline{python3}{null=True}). Il y a d'autres possibilités (cf. la doc), \href{https://docs.djangoproject.com/fr/2.0/topics/db/examples/many_to_one/}{voir des exemples}.
+          Une relation plusieurs-à-un, (cf. le didacticiel, exemple des chansons qui ont l'artiste en \mintinline{python3}{ForeignKey}). Cette classe exige la classe à laquelle le modèle et relié, et l'option \mintinline{python3}{on\_delete}: \mintinline{python3}{models.CASCADE} si l'on veut que lorsque l'on supprime la \mintinline{python3}{ForeignKey}, que tous les objets associés du modèle concerné soient supprimés, ou bien \mintinline{python3}{SET\_NULL} si l'on veut que les objets aient la valeur \mintinline{python3}{null} à la place de la \mintinline{python3}{ForeignKey} supprimée (dans ce cas il faut aussi renseigner \mintinline{python3}{null=True}). Il y a d'autres possibilités (cf. la doc), \href{https://docs.djangoproject.com/fr/2.0/topics/db/examples/many_to_one/}{voir des exemples}.
 
-	\item[\mintinline{python3}{class OneToOneField(to, on_delete, parent_link=False, **options)}]~
+    \item[\mintinline{python3}{class OneToOneField(to, on_delete, parent_link=False, **options)}]~
 
-	      Une relation un-à-un, dont le fonctionnement est similaire à \mintinline{python3}{ForeignKey}; \href{https://docs.djangoproject.com/fr/2.0/topics/db/examples/one_to_one/}{voir des exemples}.
+          Une relation un-à-un, dont le fonctionnement est similaire à \mintinline{python3}{ForeignKey}; \href{https://docs.djangoproject.com/fr/2.0/topics/db/examples/one_to_one/}{voir des exemples}.
 
-	\item[\mintinline{python3}{class ManyToManyField(to, **options)}]~
+    \item[\mintinline{python3}{class ManyToManyField(to, **options)}]~
 
-	      Une relation plusieurs-à-plusieurs, qui fonctionne de la même manière que \mintinline{python3}{ForeignKey} (avec d'autres paramètres supplémentaires, cf. la doc); \href{https://docs.djangoproject.com/fr/2.0/topics/db/examples/many_to_many/}{voir des exemples}.
+          Une relation plusieurs-à-plusieurs, qui fonctionne de la même manière que \mintinline{python3}{ForeignKey} (avec d'autres paramètres supplémentaires, cf. la doc); \href{https://docs.djangoproject.com/fr/2.0/topics/db/examples/many_to_many/}{voir des exemples}.
 \end{description}
 
 \subsubsection{Les options des champs}
 Les champs acceptent des \mintinline{python3}{options}\marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/fields/\#field-options}{\mintinline{python3}{**options}}}, en voici quelques unes (on note après un signe \mintinline{python3}{=} la valeur par défaut):
 \begin{description}
-	\item[\mintinline{python3}{null=False}]~
+    \item[\mintinline{python3}{null=False}]~
 
-	      Si la valeur est \mintinline{python3}{True}, alors Django stocke les valeurs vides dans la base de données avec \mintinline{python3}{NULL}.
+          Si la valeur est \mintinline{python3}{True}, alors Django stocke les valeurs vides dans la base de données avec \mintinline{python3}{NULL}.
 
-	\item[\mintinline{python3}{blank=False}]~
+    \item[\mintinline{python3}{blank=False}]~
 
-	      Si la valeur est \mintinline{python3}{True}, alors on peut laisser ce champ vide (cette option agit lors de la validation, ne pas confondre avec le paramètre précédent).
+          Si la valeur est \mintinline{python3}{True}, alors on peut laisser ce champ vide (cette option agit lors de la validation, ne pas confondre avec le paramètre précédent).
 
-	\item[\mintinline{python3}{choices}]~
+    \item[\mintinline{python3}{choices}]~
 
-	      C'est un itérable (tuple ou liste par exemple) constitué de couples \mintinline{python3}{(A, B)} où \mintinline{python3}{A} est la valeur réelle pour le modèle et \mintinline{python3}{B} le texte affiché à l'utilisateur. On peut organiser en sous groupe comme dans cet exemple:
+          C'est un itérable (tuple ou liste par exemple) constitué de couples \mintinline{python3}{(A, B)} où \mintinline{python3}{A} est la valeur réelle pour le modèle et \mintinline{python3}{B} le texte affiché à l'utilisateur. On peut organiser en sous groupe comme dans cet exemple:
 
-	      \begin{minted}{python3}
+          \begin{minted}{python3}
 choix_media = [
     ['Audio', [('vinyl', 'Vinyl'), ('cd', 'CD')]],
     ['Vidéo', [('vhs', 'Cassette VHS'), ('dvd', 'DVD')]],
@@ -947,53 +959,53 @@ choix_media = [
 ]
     \end{minted}
 
-	\item[\mintinline{python3}{default}]~
+    \item[\mintinline{python3}{default}]~
 
-	      C'est la valeur par défaut du champ, cela peut être un objet ou un objet appelable (dans ce cas, il est appelé lors de la création de l'objet). Il ne peut pas s'agir d'un objet muable! En effet, le système de noms de Python ferait que plusieurs instances de modèles seraient référencés vers une même instance de cet objet. Au lieu de cela, on crée une fonction qui retourne cet objet muable.
+          C'est la valeur par défaut du champ, cela peut être un objet ou un objet appelable (dans ce cas, il est appelé lors de la création de l'objet). Il ne peut pas s'agir d'un objet muable! En effet, le système de noms de Python ferait que plusieurs instances de modèles seraient référencés vers une même instance de cet objet. Au lieu de cela, on crée une fonction qui retourne cet objet muable.
 
-	\item[\mintinline{python3}{help_text}]~
+    \item[\mintinline{python3}{help_text}]~
 
-	      C'est une chaîne de caractère qui décrit le champ concerné, utilise lorsque l'on utilise la documentation générée automatiquement par Django.
+          C'est une chaîne de caractère qui décrit le champ concerné, utilise lorsque l'on utilise la documentation générée automatiquement par Django.
 
-	\item[\mintinline{python3}{primary_key}]~
+    \item[\mintinline{python3}{primary_key}]~
 
-	      Si la valeur est \mintinline{python3}{True}, alors ce champ représentera une clé primaire du modèle. Si aucun champ n'est renseigné, Django en crée un automatiquement: \mintinline{python3}{id}.
+          Si la valeur est \mintinline{python3}{True}, alors ce champ représentera une clé primaire du modèle. Si aucun champ n'est renseigné, Django en crée un automatiquement: \mintinline{python3}{id}.
 
-	\item[\mintinline{python3}{verbose_name}]~
+    \item[\mintinline{python3}{verbose_name}]~
 
-	      Chaîne de caractère qui est le \og nom verbeux \fg{} de l'attribut, c'est-à-dire un nom humainement compréhensible pour cet attribut. Il sera affiché à la place du nom de l'attribut dans le formulaire de l'administration (Django l'utilise en convertissant les soulignés en espaces). A l'exception des champs de relations, ce nom verbeux peut-être renseigné en tant que premier paramètre non nommé du champ. Pour ces exceptions, on doit nommer cette option.
+          Chaîne de caractère qui est le \og nom verbeux \fg{} de l'attribut, c'est-à-dire un nom humainement compréhensible pour cet attribut. Il sera affiché à la place du nom de l'attribut dans le formulaire de l'administration (Django l'utilise en convertissant les soulignés en espaces). A l'exception des champs de relations, ce nom verbeux peut-être renseigné en tant que premier paramètre non nommé du champ. Pour ces exceptions, on doit nommer cette option.
 \end{description}
 
 \subsubsection{Les métadonnées}
 On \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/options/}{\mintinline{python3}{Meta}}} peut attribuer des métadonnées à un modèle grâce à une classe \mintinline{python3}{Meta} incorporée dans la classe du modèle. C'est une classe facultative. Elle permet d'enrichir l'interface administrateur. On y renseigne plusieurs options, en voici quelques unes:
 \begin{description}
-	\item[\mintinline{python3}{ordering="-order_date"}]~
+    \item[\mintinline{python3}{ordering="-order_date"}]~
 
-	      Définit une méthode de tri des instances d'un modèle. C'est une liste ou un tuple de chaîne de caractères. Chaque chaîne correspond à un nom de champ, préfixé par un \mintinline{python3}{-} si l'on veut que le tri soit descendant (on ne met rien pour un tri ascendant). Les tris sont rangés dans la liste par ordre de priorité (Django trie par rapport au premier critère, puis second, etc.)
+          Définit une méthode de tri des instances d'un modèle. C'est une liste ou un tuple de chaîne de caractères. Chaque chaîne correspond à un nom de champ, préfixé par un \mintinline{python3}{-} si l'on veut que le tri soit descendant (on ne met rien pour un tri ascendant). Les tris sont rangés dans la liste par ordre de priorité (Django trie par rapport au premier critère, puis second, etc.)
 
-	\item[\mintinline{python3}{verbose_name}, \mintinline{python3}{verbose_name_plural}]~
+    \item[\mintinline{python3}{verbose_name}, \mintinline{python3}{verbose_name_plural}]~
 
-	      Noms verbeux (même principe que pour les champs) respectivement dans le cas du singulier et dans le cas du pluriel.
+          Noms verbeux (même principe que pour les champs) respectivement dans le cas du singulier et dans le cas du pluriel.
 
-	\item[\mintinline{python3}{db_table}]~
+    \item[\mintinline{python3}{db_table}]~
 
-	      Nom de la table dans la base de données. Par défaut, Django la nomme \mintinline{python3}{application\_modèle}.
+          Nom de la table dans la base de données. Par défaut, Django la nomme \mintinline{python3}{application\_modèle}.
 \end{description}
 
 \subsubsection{Les gestionnaires}
 Le gestionnaire \marginpar{\href{https://docs.djangoproject.com/fr/2.0/topics/db/managers/}{\mintinline{python3}{models}}\par\quad\href{https://docs.djangoproject.com/fr/2.0/topics/db/managers/}{\mintinline{python3}{.manager}}\par\quad\quad\href{https://docs.djangoproject.com/fr/2.0/topics/db/managers/}{\mintinline{python3}{.Manager}}} est l'interface par laquelle on fait des requêtes à la base de données avec l'\href{https://docs.djangoproject.com/fr/2.0/topics/db/queries/}{API Django} (voir le didacticiel pour un exemple, dans les vues \mintinline{python3}{liste\_artistes} ou \mintinline{python3}{liste\_chansons}. Le gestionnaire permet aussi bien d'inspecter la base de données que de la modifier.
 
 \begin{description}
-	\item[\mintinline{python3}{class Manager}]~
+    \item[\mintinline{python3}{class Manager}]~
 
-	      Gestionnaire de la classe concernée. Par défaut, on a (on ne l'écrit pas mais c'est comme-ci):
-	      \begin{minted}{python3}
+          Gestionnaire de la classe concernée. Par défaut, on a (on ne l'écrit pas mais c'est comme-ci):
+          \begin{minted}{python3}
 class Modèle:
     # ...
     objects = models.Manager()
     \end{minted}
 
-	      On peut définir un gestionnaire personnalisé (par exemple pour une classe \mintinline{python3}{Personne}, on peut le nommer \mintinline{python3}{personnes}), dans ce cas, \mintinline{python3}{Modèle.objects} produira une exception \mintinline{python3}{AttributeError}. Si l'on veut définir un gestionnaire avec des méthodes personnalisées, il suffit de créer une classe héritant de \mintinline{python3}{Manager}.
+          On peut définir un gestionnaire personnalisé (par exemple pour une classe \mintinline{python3}{Personne}, on peut le nommer \mintinline{python3}{personnes}), dans ce cas, \mintinline{python3}{Modèle.objects} produira une exception \mintinline{python3}{AttributeError}. Si l'on veut définir un gestionnaire avec des méthodes personnalisées, il suffit de créer une classe héritant de \mintinline{python3}{Manager}.
 \end{description}
 
 \subsubsection{Modifier la base de données}
@@ -1002,29 +1014,29 @@ L'administration \marginpar{\mintinline{python3}{models}\par\quad\mintinline{pyt
 Pour insérer un objet dans la table de données, on commence déjà par l'instancier. Comme indiqué dans le didacticiel, tous les modèles héritent de la classe \mintinline{python3}{Model}.
 
 \begin{description}
-	\item[\mintinline{python3}{class Model}]~
+    \item[\mintinline{python3}{class Model}]~
 
-	      Tous les modèles doivent hériter de cette classe! Ainsi on a accès à toutes les méthodes définies par défaut. Il est déconseillé de surcharger l'initialiseur \mintinline{python3}{__init__()}, car cela pourrait entraîner des erreurs. Il est conseillé de créer un gestionnaire personnalisé (une classe qui hérite de \mintinline{python3}{Manager}) et d'y écrire la méthode personnalisée.
+          Tous les modèles doivent hériter de cette classe! Ainsi on a accès à toutes les méthodes définies par défaut. Il est déconseillé de surcharger l'initialiseur \mintinline{python3}{__init__()}, car cela pourrait entraîner des erreurs. Il est conseillé de créer un gestionnaire personnalisé (une classe qui hérite de \mintinline{python3}{Manager}) et d'y écrire la méthode personnalisée.
 \end{description}
 
 Une fois les objets créés, on peut modifier leurs attributs (donc leurs futurs champs). Pour les inclure dans la base de données, il faut les sauvegarder. La première étape consiste à valider l'instance.
 
 \begin{description}
-	\item[\mintinline{python3}{Model.clean_fields(self, exclude=None)}]~
+    \item[\mintinline{python3}{Model.clean_fields(self, exclude=None)}]~
 
-	      Cette méthode valide les champs de l'instance (typiquement, lève une erreur si un champ est vide, alors qu'on n'a pas le paramètre \mintinline{python3}{blank=True}). L'option \mintinline{python3}{exclude} permet d'indiquer des champs à ignorer lors de la validation. Si la validation échoue, lève une exception \mintinline{python3}{ValidationError}.
+          Cette méthode valide les champs de l'instance (typiquement, lève une erreur si un champ est vide, alors qu'on n'a pas le paramètre \mintinline{python3}{blank=True}). L'option \mintinline{python3}{exclude} permet d'indiquer des champs à ignorer lors de la validation. Si la validation échoue, lève une exception \mintinline{python3}{ValidationError}.
 
-	\item[\mintinline{python3}{Model.clean(self)}]~
+    \item[\mintinline{python3}{Model.clean(self)}]~
 
-	      Une méthode à personnaliser pour effectuer des méthodes personnalisées sur notre modèle (effectuer automatiquement des valeurs à des champs, effectuer des validations qui demandent de vérifier plusieurs champs simultanément par exemple). Devrait lever une exception \mintinline{python3}{ValidationError} si échoue.
+          Une méthode à personnaliser pour effectuer des méthodes personnalisées sur notre modèle (effectuer automatiquement des valeurs à des champs, effectuer des validations qui demandent de vérifier plusieurs champs simultanément par exemple). Devrait lever une exception \mintinline{python3}{ValidationError} si échoue.
 
-	\item[\mintinline{python3}{Model.validate_unique(self, exclude=None)}]~
+    \item[\mintinline{python3}{Model.validate_unique(self, exclude=None)}]~
 
-	      Vérifie les contraintes d'unicité du modèle et lève une \mintinline{python3}{ValidationError} si échoue.
+          Vérifie les contraintes d'unicité du modèle et lève une \mintinline{python3}{ValidationError} si échoue.
 
-	\item[\mintinline{python3}{Model.full_clean(self, exclude=None, validate_unique=True)}]~
+    \item[\mintinline{python3}{Model.full_clean(self, exclude=None, validate_unique=True)}]~
 
-	      Exécute les trois méthodes précédentes (exécute \mintinline{python3}{validate\_unique} si le paramètre correspondant est \mintinline{python3}{True}).
+          Exécute les trois méthodes précédentes (exécute \mintinline{python3}{validate\_unique} si le paramètre correspondant est \mintinline{python3}{True}).
 \end{description}
 
 \subsubsection{Récupérer des informations de la base de données}
@@ -1040,31 +1052,31 @@ liste_artistes_inversee = liste_artistes.reverse()
 Voici quelques méthodes qui renvoient un \mintinline{python3}{QuerySet}:
 
 \begin{description}
-	\item[\mintinline{python3}{gestionnaire.all()}]~
+    \item[\mintinline{python3}{gestionnaire.all()}]~
 
-	      Renvoie un \mintinline{python3}{QuerySet} contenant toutes les entrées de la table.
+          Renvoie un \mintinline{python3}{QuerySet} contenant toutes les entrées de la table.
 
-	\item[\mintinline{python3}{gestionnaire.filter(**kwargs)}]~
+    \item[\mintinline{python3}{gestionnaire.filter(**kwargs)}]~
 
-	      Renvoie un \mintinline{python3}{QuerySet} contenant tous les objets répondant aux \href{https://docs.djangoproject.com/fr/2.0/ref/models/querysets/#field-lookups}{paramètres rentrés}.
+          Renvoie un \mintinline{python3}{QuerySet} contenant tous les objets répondant aux \href{https://docs.djangoproject.com/fr/2.0/ref/models/querysets/#field-lookups}{paramètres rentrés}.
 
-	\item[\mintinline{python3}{gestionnaire.exclude(**kwargs)}]~
+    \item[\mintinline{python3}{gestionnaire.exclude(**kwargs)}]~
 
-	      Renvoie un \mintinline{python3}{QuerySet} contenant tous les objets sauf ceux répondant aux \href{https://docs.djangoproject.com/fr/2.0/ref/models/querysets/#field-lookups}{paramètres rentrés}.
+          Renvoie un \mintinline{python3}{QuerySet} contenant tous les objets sauf ceux répondant aux \href{https://docs.djangoproject.com/fr/2.0/ref/models/querysets/#field-lookups}{paramètres rentrés}.
 
-	\item[\mintinline{python3}{gestionnaire.reverse(**kwargs)}]~
+    \item[\mintinline{python3}{gestionnaire.reverse(**kwargs)}]~
 
-	      Renvoie le \mintinline{python3}{QuerySet} dans l'ordre inverse.
+          Renvoie le \mintinline{python3}{QuerySet} dans l'ordre inverse.
 
-	\item[\mintinline{python3}{gestionnaire.distinct(**kwargs)}]~
+    \item[\mintinline{python3}{gestionnaire.distinct(**kwargs)}]~
 
-	      Renvoie un \mintinline{python3}{QuerySet} sans doublon.
+          Renvoie un \mintinline{python3}{QuerySet} sans doublon.
 \end{description}
 
 Il y a plusieurs façons d'exploiter un \mintinline{python3}{QuerySet}:
 \begin{itemize}
-	\item Ils sont itérables:
-	      \begin{minted}{python3}
+    \item Ils sont itérables:
+          \begin{minted}{python3}
 # On imagine qu'on a déjà un QuerySet, on reprend le modèle du didacticiel
 >>> liste_artistes
 <QuerySet [<Artiste: Muse>, <Artiste: Keane>, <Artiste: Imagine Dragons>]>
@@ -1076,59 +1088,59 @@ Keane
 Imagine Dragons
     \end{minted}
 
-	\item On peut facilement récupérer le nombre d'éléments
-	      \begin{minted}{python3}
+    \item On peut facilement récupérer le nombre d'éléments
+          \begin{minted}{python3}
 >>> len(liste_artistes)
 3
     \end{minted}
 
-	\item On peut convertir le \mintinline{python3}{QuerySet} en liste:
-	      \begin{minted}{python3}
+    \item On peut convertir le \mintinline{python3}{QuerySet} en liste:
+          \begin{minted}{python3}
 >>> L = list(liste_artistes)
 >>> L
 [<Artiste: Muse>, <Artiste: Keane>, <Artiste: Imagine Dragons]
     \end{minted}
 
-	\item Il existe des méthodes qui évaluent un \mintinline{python3}{QuerySet} et qui renvoient autre chose qu'un \mintinline{python3}{QuerySet}. En voici quelques unes.
+    \item Il existe des méthodes qui évaluent un \mintinline{python3}{QuerySet} et qui renvoient autre chose qu'un \mintinline{python3}{QuerySet}. En voici quelques unes.
 
-	      \begin{description}
-		      \item[\mintinline{python3}{query_set.get(**kwargs)}]~
+          \begin{description}
+              \item[\mintinline{python3}{query_set.get(**kwargs)}]~
 
-		            Renvoie \emph{l'unique} objet répondant aux paramètres rentrés. S'il existe plusieurs objets possibles, ou zéro objet possible, cette fonction renvoie une erreur (respectivement \mintinline{python3}{MultipleObjectsReturned} et \mintinline{python3}{DoesNotExist}). Si une requête renvoie un \mintinline{python3}{QuerySet} singleton, on peut directement récupérer l'objet avec cette méthode sans paramètre (c'est risqué).
+                    Renvoie \emph{l'unique} objet répondant aux paramètres rentrés. S'il existe plusieurs objets possibles, ou zéro objet possible, cette fonction renvoie une erreur (respectivement \mintinline{python3}{MultipleObjectsReturned} et \mintinline{python3}{DoesNotExist}). Si une requête renvoie un \mintinline{python3}{QuerySet} singleton, on peut directement récupérer l'objet avec cette méthode sans paramètre (c'est risqué).
 
-		      \item[\mintinline{python3}{query_set.get_or_create(defaults=None, **kwargs)}]~
+              \item[\mintinline{python3}{query_set.get_or_create(defaults=None, **kwargs)}]~
 
-		            Même comportement que ci-dessus, sauf que si l'objet n'existe pas, il est créé. Renvoie un tuple \mintinline{python3}{objet, créé} où \mintinline{python3}{objet} est l'objet créé ou charge, \mintinline{python3}{créé} un booléen: \mintinline{python3}{True} si l'objet a été créé et \mintinline{python3}{False} sinon. Cette méthode permet d'alléger la syntaxe et d'éviter d'avoir recours à \mintinline{python3}{try: ... except: ...}. Les méthodes permettant d'agir sur la base de données sont détaillées plus loin.
+                    Même comportement que ci-dessus, sauf que si l'objet n'existe pas, il est créé. Renvoie un tuple \mintinline{python3}{objet, créé} où \mintinline{python3}{objet} est l'objet créé ou charge, \mintinline{python3}{créé} un booléen: \mintinline{python3}{True} si l'objet a été créé et \mintinline{python3}{False} sinon. Cette méthode permet d'alléger la syntaxe et d'éviter d'avoir recours à \mintinline{python3}{try: ... except: ...}. Les méthodes permettant d'agir sur la base de données sont détaillées plus loin.
 
-		      \item[\mintinline{python3}{query_set.update_or_create(defaults=None, **kwargs)}]~
+              \item[\mintinline{python3}{query_set.update_or_create(defaults=None, **kwargs)}]~
 
-		            Essaie de trouver un objet correspondant aux paramètres et lui assigne les nouvelles valeurs rentrées, et crée l'objet s'il n'existe pas. Renvoie la même chose que la méthode précédente.
+                    Essaie de trouver un objet correspondant aux paramètres et lui assigne les nouvelles valeurs rentrées, et crée l'objet s'il n'existe pas. Renvoie la même chose que la méthode précédente.
 
-		      \item[\mintinline{python3}{query_set.last()}]~
+              \item[\mintinline{python3}{query_set.last()}]~
 
-		            Renvoie le dernier objet d'un \mintinline{python3}{QuerySet} (si ce dernier n'est pas trié, il est automatiquement trié selon la clé primaire).
+                    Renvoie le dernier objet d'un \mintinline{python3}{QuerySet} (si ce dernier n'est pas trié, il est automatiquement trié selon la clé primaire).
 
-		      \item[\mintinline{python3}{query_set.first()}]~
+              \item[\mintinline{python3}{query_set.first()}]~
 
-		            Idem que la méthode précédente mais renvoie le premier objet.
+                    Idem que la méthode précédente mais renvoie le premier objet.
 
-		      \item[\mintinline{python3}{query_set.latest(*fields)}]~
+              \item[\mintinline{python3}{query_set.latest(*fields)}]~
 
-		            Renvoie l'objet le plus récent selon le champ indiqué (on les indique de la même manière que pour \mintinline{python3}{ordering}).
+                    Renvoie l'objet le plus récent selon le champ indiqué (on les indique de la même manière que pour \mintinline{python3}{ordering}).
 
-		      \item[\mintinline{python3}{query_set.earliest(*fields)}]~
+              \item[\mintinline{python3}{query_set.earliest(*fields)}]~
 
-		            Idem que la méthode précédente mais renvoie le plus ancien.
+                    Idem que la méthode précédente mais renvoie le plus ancien.
 
-	      \end{description}
+          \end{description}
 \end{itemize}
 
 \subsection{Les requêtes HTTP: vues et URL}
 Comme \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/request-response/}{\mintinline{python3}{django.http}}}indiqué dans le didacticiel:
 \begin{enumerate}
-	\item Les vues sont des fonctions, rangées dans le fichier \mintinline{python3}{views.py} de l'application.
-	\item Elles prennent en paramètre obligatoirement une requête Web (à laquelle peuvent s'ajouter des paramètres facultatifs) et renvoient une réponse Web.
-	\item La gestion des URL associées aux vues se fait dans le fichier \mintinline{python3}{urls.py}.
+    \item Les vues sont des fonctions, rangées dans le fichier \mintinline{python3}{views.py} de l'application.
+    \item Elles prennent en paramètre obligatoirement une requête Web (à laquelle peuvent s'ajouter des paramètres facultatifs) et renvoient une réponse Web.
+    \item La gestion des URL associées aux vues se fait dans le fichier \mintinline{python3}{urls.py}.
 \end{enumerate}
 
 \paragraph{Plus d'informations} Documentation Django 2 --- \href{https://docs.djangoproject.com/fr/2.0/topics/http/views/}{Ecriture des vues} ---  \href{https://docs.djangoproject.com/fr/2.0/topics/http/urls/}{Distribution des URL}
@@ -1137,48 +1149,76 @@ Comme \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/request-respons
 Les \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/request-response/\#httprequest-objects}{\mintinline{python3}{http.HttpRequest}}} vues manipulent des requêtes HTTP et renvoient une réponse HTTP en utilisant les modèles et les gabarits. Elles prennent en paramètres une requête HTTP et d'éventuels paramètres supplémentaires dans l'URL (cf. le didacticiel). On commence par décrire ce qu'est une requête HTTP pour Django.
 
 \begin{description}
-	\item[\mintinline{python3}{class HttpRequest}]~
+    \item[\mintinline{python3}{class HttpRequest}]~
 
-	      Lorsque Django reçoit une requête HTTP, il crée une instance de cette classe contenant les métadonnées associées à la requête. Elle est ensuite mise en premier paramètre de la vue appropriée (ce paramètre est par convention nommé \mintinline{python3}{request}, cf. les exemples dans le didacticiel). Cette classe présente plusieurs attributs et méthodes (voir la doc).
+    Lorsque Django reçoit une requête HTTP, il crée une instance de cette classe contenant les métadonnées associées à la requête. Elle est ensuite mise en premier paramètre de la vue appropriée (ce paramètre est par convention nommé \mintinline{python3}{request}, cf. les exemples dans le didacticiel). Cette classe présente plusieurs attributs et méthodes dont voici une petite sélection:
+        
+    \begin{description}
+        \item[\mintinline{python3}{request.path}]~
+        
+        Chaîne de caractères représentant le chemin vers la page demandée, sans \mintinline{text}{<protocole>://<hote>}.
+        Par exemple: \mintinline{text}{/python/classes.html} pour \mintinline{text}{https://pycolore.fr/python/classes.html}.
+
+        \item[\mintinline{python3}{request.method}]~
+            
+        Caine de caractères en majuscule représentant la méthode HTTP utilisée dans la requête.
+        Cet attribut est utile dans les vues implémentées en tant que fonction:
+
+        \begin{minted}{python3}
+def some_view(request):
+    if request.method == "GET":
+        # do something
+    elif request.method == "POST":
+        # do something else
+        \end{minted}
+
+        \item[\mintinline{python3}{request.GET}]~
+            
+        Dictionnaire contenant tous les données HTTP GET de la requête.
+
+        \item[\mintinline{python3}{request.POST}]~
+            
+        Dictionnaire contenant toutes les données passées à la requête HTTP par la méthode POST.
+    \end{description}
 \end{description}
 
 \subsubsection{Réponse HTTP}
 On \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/request-response/\#httpresponse-objects}{\mintinline{python3}{http.HttpResponse}}} s'intéresse maintenant à ce que les vues renvoient: les réponses HTTP.
 
 \begin{description}
-	\item[\mintinline{python3}{class HttpResponse}]~
+    \item[\mintinline{python3}{class HttpResponse}]~
 
-	      Cette classe hérite de \mintinline{python3}{HttpResponseBase}. Les réponses HTTP ne sont pas créées automatiquement par Django, ce sont les vues qui les créent. \emph{Une vue se doit de retourner une réponse HTTP!} Typiquement, on peut créer une réponse HTTP avec comme unique paramètre une chaîne de caractère qui sera le contenu de la page HTML retournée.
+          Cette classe hérite de \mintinline{python3}{HttpResponseBase}. Les réponses HTTP ne sont pas créées automatiquement par Django, ce sont les vues qui les créent. \emph{Une vue se doit de retourner une réponse HTTP!} Typiquement, on peut créer une réponse HTTP avec comme unique paramètre une chaîne de caractère qui sera le contenu de la page HTML retournée.
 
-	      \begin{minted}{python3}
+          \begin{minted}{python3}
 response = HttpResponse("Voici du texte de page Web.")
     \end{minted}
 
-	      Quelques attributs:
+          Quelques attributs:
 
-	      \begin{description}
-		      \item[\mintinline{python3}{HttpResponse.content}]~
+          \begin{description}
+              \item[\mintinline{python3}{HttpResponse.content}]~
 
-		            Une chaîne de caractères qui représente le contenu de la réponse.
+                    Une chaîne de caractères qui représente le contenu de la réponse.
 
-		      \item[\mintinline{python3}{HttpResponse.status_code}]~
+              \item[\mintinline{python3}{HttpResponse.status_code}]~
 
-		            Code HTTP de la réponse, 200 par défaut (succès de la réponse). Des classes filles de \mintinline{python3}{HttpResponse} ont une valeur par défaut différente.
-	      \end{description}
+                    Code HTTP de la réponse, 200 par défaut (succès de la réponse). Des classes filles de \mintinline{python3}{HttpResponse} ont une valeur par défaut différente.
+          \end{description}
 
-	      Il existe aussi diverses méthodes (cf. la doc).
+          Il existe aussi diverses méthodes (cf. la doc).
 
-	\item[\mintinline{python3}{class HttpResponseNotFound(HttpResponse)}]~
+    \item[\mintinline{python3}{class HttpResponseNotFound(HttpResponse)}]~
 
-	      Exemple de classe fille de \mintinline{python3}{HttpResponse}, identique à sa classe mère à l'exception de son code HTTP, ici, 404. Il en existe d'autres (voir la doc).
+          Exemple de classe fille de \mintinline{python3}{HttpResponse}, identique à sa classe mère à l'exception de son code HTTP, ici, 404. Il en existe d'autres (voir la doc).
 \end{description}
 
 Comme \marginpar{\href{https://docs.djangoproject.com/fr/2.0/topics/http/shortcuts/\#render}{\mintinline{python3}{django}}\par\quad\href{https://docs.djangoproject.com/fr/2.0/topics/http/shortcuts/\#render}{\mintinline{python3}{.shortcuts}}\par\quad\quad\href{https://docs.djangoproject.com/fr/2.0/topics/http/shortcuts/\#render}{\mintinline{python3}{.render}}} premier paramètre (c'est-à-dire \mintinline{python3}{content}), on peut utiliser une méthode de gabarit, la méthode \mintinline{python3}{render}, qui permet de renvoyer du HTML en utilisant les gabarits. Il existe le raccourci \mintinline{python3}{render} pour alléger le code:
 
 \begin{description}
-	\item[\mintinline{python3}{render(request, template_name, context=None, content_type=None, status=None, using=None)}]~
+    \item[\mintinline{python3}{render(request, template_name, context=None, content_type=None, status=None, using=None)}]~
 
-	      Fonction qui combine un gabarit avec dictionnaire de contexte et renvoie une \mintinline{python3}{HttpResponse} avec le texte résultant. Deux paramètres obligatoires: \mintinline{python3}{request} et \mintinline{python3}{template\_name}, le nom complet du gabarit à utiliser.
+          Fonction qui combine un gabarit avec dictionnaire de contexte et renvoie une \mintinline{python3}{HttpResponse} avec le texte résultant. Deux paramètres obligatoires: \mintinline{python3}{request} et \mintinline{python3}{template\_name}, le nom complet du gabarit à utiliser.
 \end{description}
 
 Les deux vues suivantes sont équivalentes (issus de la doc
@@ -1212,13 +1252,13 @@ def index(request):
 Les URL \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/urls/}{\mintinline{python3}{django.urls}}} (Uniforme Resource Locators) sont gérés dans les différents fichiers \mintinline{python3}{urls.py}. Il y en a un dans chaque application et un dans le répertoire racine. Les URL sont configurées dans la liste \mintinline{python3}{urlpatterns}. Voici les principales fonctions à utiliser.
 
 \begin{description}
-	\item[\mintinline{python3}{path(route, view, kwargs=None, name=None)}]~
+    \item[\mintinline{python3}{path(route, view, kwargs=None, name=None)}]~
 
-	      Cette fonction est utilisée dans la liste \mintinline{python3}{urlpatterns}. Elle prend deux paramètres obligatoires: la route, une chaîne de caractère qui correspond à une URL, et une vue (ou bien la fonction \mintinline{python3}{include} qui appelle d'autres URL). La route peut contenir des éléments entre chevrons \mintinline{python3}{<paramètre>} qui servent de paramètres pour la vue (rappel: les vues sont des fonctions).
+          Cette fonction est utilisée dans la liste \mintinline{python3}{urlpatterns}. Elle prend deux paramètres obligatoires: la route, une chaîne de caractère qui correspond à une URL, et une vue (ou bien la fonction \mintinline{python3}{include} qui appelle d'autres URL). La route peut contenir des éléments entre chevrons \mintinline{python3}{<paramètre>} qui servent de paramètres pour la vue (rappel: les vues sont des fonctions).
 
-	\item[\mintinline{python3}{include(module, namespace=None)}]~
+    \item[\mintinline{python3}{include(module, namespace=None)}]~
 
-	      Cette fonction, en général utilisée comme second paramètre de la fonction \mintinline{python3}{path()} prend en argument un module d'URL qu'il faut inclure après l'URL mise en premier paramètre.
+          Cette fonction, en général utilisée comme second paramètre de la fonction \mintinline{python3}{path()} prend en argument un module d'URL qu'il faut inclure après l'URL mise en premier paramètre.
 \end{description}
 
 
@@ -1258,19 +1298,19 @@ Si la valeur de la variable est une fonction (ou n'importe quel objet appealble)
 \end{minted}
 
 \begin{description}
-	\item[\mintinline{python3}{block}] (oprheline)
+    \item[\mintinline{python3}{block}] (oprheline)
 
-	      Définit un bloc pouvant être surchargé par des gabarits enfants.
+          Définit un bloc pouvant être surchargé par des gabarits enfants.
 
-	\item[\mintinline{python3}{comment}]~
+    \item[\mintinline{python3}{comment}]~
 
-	      Ignore ce qui est compris entre \mintinline{python3}{\{\% comment \%\}} et \mintinline{python3}{\{\% endcomment \%\}}.
+          Ignore ce qui est compris entre \mintinline{python3}{\{\% comment \%\}} et \mintinline{python3}{\{\% endcomment \%\}}.
 
-	\item[\mintinline{python3}{if}]~
+    \item[\mintinline{python3}{if}]~
 
-	      Evalue une variable et, si celle-ci vaut \mintinline{python3}{True} (ie est différent de \mintinline{python3}{False}, \mintinline{python3}{''} ou \mintinline{python3}{None}), affiche le bloc correspondant.
+          Evalue une variable et, si celle-ci vaut \mintinline{python3}{True} (ie est différent de \mintinline{python3}{False}, \mintinline{python3}{''} ou \mintinline{python3}{None}), affiche le bloc correspondant.
 
-	      \begin{minted}{html}
+          \begin{minted}{html}
 {% if var_1 %}
     <!-- contenu -->
 {% elif var_2 > var_3 %}
@@ -1286,11 +1326,11 @@ Si la valeur de la variable est une fonction (ou n'importe quel objet appealble)
 {% endif %}
     \end{minted}
 
-	\item[\mintinline{python3}{firstof}] (orpheline)
+    \item[\mintinline{python3}{firstof}] (orpheline)
 
-	      Affiche le premier paramètre qui ne vaut pas \mintinline{python3}{False} et rien dans le cas où aucun paramètre n'est vrai. On peut ajouter un dernier paramètre si aucun n'est validé. On peut utiliser le mot clé \mintinline{python3}{as} pour stocker la variable (voir \mintinline{python3}{cycle} un peu plus bas).
+          Affiche le premier paramètre qui ne vaut pas \mintinline{python3}{False} et rien dans le cas où aucun paramètre n'est vrai. On peut ajouter un dernier paramètre si aucun n'est validé. On peut utiliser le mot clé \mintinline{python3}{as} pour stocker la variable (voir \mintinline{python3}{cycle} un peu plus bas).
 
-	      \begin{minted}{html}
+          \begin{minted}{html}
 {% firstof var1 var2 var3 "dernier recours" %}
 <!-- est l'équivalent de -->
 {% if var1 %}
@@ -1304,10 +1344,10 @@ Si la valeur de la variable est une fonction (ou n'importe quel objet appealble)
 {% endif %}
     \end{minted}
 
-	\item[\mintinline{python3}{for}]~
+    \item[\mintinline{python3}{for}]~
 
-	      Effectue une boucle sur chaque élément d'une liste. On peut ensuite utiliser cet élément comme variable. Exemple:
-	      \begin{minted}{html}
+          Effectue une boucle sur chaque élément d'une liste. On peut ensuite utiliser cet élément comme variable. Exemple:
+          \begin{minted}{html}
 <ul>
 {% for artiste in liste_artistes %}
     <li>{{ artiste.nom }}</li>
@@ -1315,22 +1355,22 @@ Si la valeur de la variable est une fonction (ou n'importe quel objet appealble)
 </ul>
     \end{minted}
 
-	      On peut ajouter une balise \mintinline{html}{{% empty %}} pour afficher du contenu lorsque la liste est vide (ou n'existe pas).
+          On peut ajouter une balise \mintinline{html}{{% empty %}} pour afficher du contenu lorsque la liste est vide (ou n'existe pas).
 
-	\item[\mintinline{python3}{cycle}] (orpheline)
+    \item[\mintinline{python3}{cycle}] (orpheline)
 
-	      Affiche un de ses paramètres à chaque apparition de la balise: le premier, puis le deuxième, et ainsi de suite; et revient au début lorsque tous les paramètres ont été utilisés. On peut mélanger variables et chaînes de caractères, par exemple:
+          Affiche un de ses paramètres à chaque apparition de la balise: le premier, puis le deuxième, et ainsi de suite; et revient au début lorsque tous les paramètres ont été utilisés. On peut mélanger variables et chaînes de caractères, par exemple:
 
-	      \begin{minted}{html}
+          \begin{minted}{html}
 {% for elemt in liste %}
     <div class="{% cycle 'chaine_1' variable_de_la_chaine_2 'chaine_3' %}">
         <!-- contenu -->
     </div>
 {% endfor %}
     \end{minted}
-	      A la première itération, \mintinline{python3}{"chaine\_1"} sera utilisé, puis la chaîne contenu dans \mintinline{python3}{variable\_de\_la\_chaine\_2}, puis \mintinline{python3}{"chaine\_3"}. Il est également possible de sauvegarder temporairement le paramètre dans une variable que l'on peut réutiliser plus loin.
+          A la première itération, \mintinline{python3}{"chaine\_1"} sera utilisé, puis la chaîne contenu dans \mintinline{python3}{variable\_de\_la\_chaine\_2}, puis \mintinline{python3}{"chaine\_3"}. Il est également possible de sauvegarder temporairement le paramètre dans une variable que l'on peut réutiliser plus loin.
 
-	      \begin{minted}{html}
+          \begin{minted}{html}
 {% for elemt in liste %}
     <div class="{% cycle 'chaine_1' 'chaine_2' as chaine %}">
         <!-- contenu -->
@@ -1346,7 +1386,21 @@ Si la valeur de la variable est une fonction (ou n'importe quel objet appealble)
 
 
 \subsection{Les formulaires}
+
+Les formulaires en Django facilitent la création de formulaires HTML et peuvent facilement se relier aux modèles.
+Ils contiennent le traitement des données reçues lorsqu'on reçoit une requête \mintinline{text}{POST} d'un
+formulaire.
+
 \paragraph{Plus d'informations} \href{https://docs.djangoproject.com/fr/2.0/topics/forms/}{Documentation Django 2 --- Les formulaires}
+
+\subsubsection{Requêtes \mintinline[fontsize=\small]{text}{GET} et requêtes \mintinline[fontsize=\small]{text}{POST}}
+
+\subsubsection{Construction d'un formulaire}
+
+Un formulaire doit hériter de la classe \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/forms/api/\#django.forms.Form}{\mintinline{python3}{forms.Form}}}\mintinline{python3}{forms.Form}. De la même manière que pour
+les modèles, on y renseigne un certain nombres de champs (ce sont les mêmes champs que pour les modèles).
+
+\subsubsection{Utilisation du formulaire}
 
 \section{WSGI}
 Ce module permet de faire tourner Python sur un serveur comme Apache. On voit ici comment déployer une application Flask ou Django avec Apache 2.4 sur un système d'exploitation Debian 9 (Stretch). On considère qu'Apache est connu. Premièrement, installer le module d'Apache pour Python 3:
@@ -1409,13 +1463,11 @@ from FlaskApp import app as application
 
 Voilà! Normalemnt ça marche :) À tester avec un Hello World.
 
-\section{\texttt{win10toast} --- Notifications Windows 10}
+\section[{\footnotesize\texttt{win10toast}} --- Notifications sous Windows 10]{{\normalfont\large\bfseries\texttt{win10toast}} --- Notifications Windows 10}
 \index{win10toast}
-\section{\texttt{splinter} --- Naviguer sur Internet}
-\index{splinter}
 
 
-\section{\texttt{pytaglib} --- Tags de fichiers audio}
+\section[{\footnotesize\texttt{pytaglib}} --- Tags de fichiers audio]{{\normalfont\large\bfseries\texttt{pytaglib}} --- Tags de fichiers audio}
 Ce module premet l'accès et l'écriture aux métadonnées (tags) de fichiers audio. Ce module utilise \mintinline{text}{taglib}.
 
 \subsection{Installation}
@@ -1438,15 +1490,15 @@ Il faut au préalable posséder le paquet de développement de Python, \mintinli
 
 Principaux tags:
 \begin{itemize}
-	\item \mintinline{text}{TITLE}: Titre du morceau
-	\item \mintinline{text}{ARTIST}: Artsite du morceau
-	\item \mintinline{text}{ALBUM}: Album
-	\item \mintinline{text}{COMPOSER}: Compositeur (utilse pour la musique classique)
-	\item \mintinline{text}{TRACKNUMBER}: Numéro de piste
-	\item \mintinline{text}{DATE}: Année de sortie
+    \item \mintinline{text}{TITLE}: Titre du morceau
+    \item \mintinline{text}{ARTIST}: Artsite du morceau
+    \item \mintinline{text}{ALBUM}: Album
+    \item \mintinline{text}{COMPOSER}: Compositeur (utilse pour la musique classique)
+    \item \mintinline{text}{TRACKNUMBER}: Numéro de piste
+    \item \mintinline{text}{DATE}: Année de sortie
 \end{itemize}
 
-\section{\texttt{autopy} --- Tâches automatiques}
+\section[{\footnotesize\texttt{autopy}} --- Tâches automatiques]{{\normalfont\large\bfseries\texttt{autopy}} --- Tâches automatiques}
 \index{autopy}
 
 \part{Conventions des Python Enhancement Proposals}
