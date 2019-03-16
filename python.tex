@@ -90,14 +90,14 @@
 
 Je \marginpar{\href{https://python.pycolore.fr}{\mintinline{text}{permalien}}} rédige ce pdf au fur et à mesure que j'en apprends sur Python... Bonne lecture!\medskip
 
-Le document considère que le lecteur a un niveau \og prépa \fg{} en Python: la définition de fonctions, les boucles, les conditions et la manipulation des listes est supposée connue. La première partie concerne la programmation orientée objet et le modèle de données de Python. Les deux parties suivantes concernent des modules de la bibliothèque standard et des modules communautaires. Il y a de nombreux liens en bleu, ne pas hésiter à cliquer dessus! Les liens \og Plus d'informations \fg{}   pointent vers les sources utilisées.\medskip
+Le document considère que le lecteur a un niveau \og prépa \fg{} en Python: la définition de fonctions, les boucles, les conditions et la manipulation des listes est supposée connue. La première partie concerne la programmation orientée objet et le modèle de données de Python. Les deux parties suivantes concernent des modules de la bibliothèque standard et des modules communautaires. Il y a de nombreux liens en bleu, ne pas hésiter à cliquer dessus! Les liens \og Plus d'informations \fg{} pointent vers les sources utilisées.\medskip
 
 Sauf exception, on considère qu'on travaille sur \textbf{Python 3.7} et sur une distribution GNU/Linux (par exemple: Linux Mint, Fedora, Solus, Debian, Arch Linux).\medskip
 
 Ce document est écrit au format TeX puis compilé avec XeLaTeX (et minted pour les sections de code) tantôt sur Windows, tantôt sur Fedora (ça ne change pas le résultat). Il est disponible au téléchargement (pour mettre le document à jour) en cliquant sur ce lien: \href{https://python.pycolore.fr}{python.pycolore.fr}.\medskip
 
 \begin{description}
-    \item[{\sffamily Notation}] Toutes les fonctions sont notées avec des parenthèses : \mintinline{python3}{fonction()}.	\item[{\sffamily Notation}] Pour la documentation des méthodes:
+    \item[{\sffamily Notation}] Toutes les fonctions sont notées avec des parenthèses : \mintinline{python3}{fonction()}.	\item[{\bfseries\sffamily Notation}] Pour la documentation des méthodes:
         \begin{itemize}
             \item on note \mintinline{python3}{Classe.methode(self, *args, **kwargs)} (avec le nom de classe en \mintinline{text}{PascalCase});
             \item on note \mintinline{python3}{obj.methode(*args, **kwargs)} (avec le nom de l'objet en \mintinline{text}{snake_case}).
@@ -148,28 +148,28 @@ Les expressions régulières sont un excellent moyen de retrouver des motifs com
           \begin{itemize}
               \item \og\mintinline{text}{.}\fg{} désigne n'importe quel caractère.
               \item \og\mintinline{text}{[]}\fg{} permet de dire quels caractères on veut trouver (\mintinline{text}{[a-e]} : \mintinline{text}{a}, \mintinline{text}{b}, \mintinline{text}{c}, \mintinline{text}{d} ou \mintinline{text}{e}; \mintinline{text}{[a-eA-E]} idem avec les majuscule comprises; \mintinline{text}{[+-*]}: soit \mintinline{text}{*} soit \mintinline{text}{+} soit \mintinline{text}{-}).
-              \item \og\Verb[fontsize=\small]|\w|\fg{} équivaut à \Verb[fontsize=\small]|[a-zA-Z0-9_]|.
-              \item \og\Verb[fontsize=\small]|\W|\fg{} désigne tout caractère non alpha-numérique.
-              \item \og\Verb[fontsize=\small]|\d|\fg{} équivaut à \mintinline{text}{[0-9]}.
-              \item \og\Verb[fontsize=\small]|\D|\fg{} désigne tout caractère non numérique.
-              \item \og\Verb[fontsize=\small]|\s|\fg{} désigne un espace.
+              \item \og\mintinline{text}{\W}\fg{} désigne tout caractère non alpha-numérique.
+              \item \og\mintinline{text}{\d}\fg{} équivaut à \mintinline{text}{[0-9]}.
+              \item \og\mintinline{text}{\D}\fg{} désigne tout caractère non numérique.
+              \item \og\mintinline{text}{\w}\fg{} équivaut à \mintinline{text}{[a-zA-Z0-9_]}.
+              \item \og\mintinline{text}{\s}\fg{} désigne un espace.
           \end{itemize}
     \item [Place du motif dans la chaîne]~
           \begin{itemize}
-              \item \og\Verb[fontsize=\small]!^!\fg{} (se place au début) signifie que le début de la chaine doit correspondre au motif.
+              \item \og\mintinline{text}{^}\fg{} (se place au début) signifie que le début de la chaine doit correspondre au motif.
               \item \og\mintinline{text}{\$}\fg{} (se place à la fin) signifie que la fin de la chaine doit correspondre au motif.
           \end{itemize}
     \item [Nombre d'apparition(s) consécutive(s)]~
           \begin{itemize}
-              \item \og\mintinline{text}{\{n\}}\fg{} indique que le caractère précédent doit apparaître \mintinline{text}{n} fois.
-              \item \og\mintinline{text}{\{n,m\}}\fg{} indique que le caractère précédent doit apparaître entre \mintinline{text}{n} et \mintinline{text}{m} fois.
+              \item \og\mintinline{text}|{n}|\fg{} indique que le caractère précédent doit apparaître \mintinline{text}{n} fois.
+              \item \og\mintinline{text}|{n,m}|\fg{} indique que le caractère précédent doit apparaître entre \mintinline{text}{n} et \mintinline{text}{m} fois.
               \item \og\mintinline{text}{*}\fg{} indique que le caractère précédent n'apparaît pas ou apparaît sans maximum d'occurrences (\mintinline{text}{ab*} correspond à \mintinline{text}{a}, \mintinline{text}{ab}, ou bien \mintinline{text}{abbbbbb}, etc.).
               \item \og\mintinline{text}{+}\fg{} indique que le caractère précédent apparaît au moins une fois (\mintinline{text}{ab+} correspond à \mintinline{text}{ab}, \mintinline{text}{abb}, ou bien \mintinline{text}{abbbbbb}, etc.).
-              \item \og\mintinline{text}{?}\fg{} indique que le caractère précédent apparaît au plus une fois (équivalent à \mintinline{text}{\{0,1\}}).
+              \item \og\mintinline{text}{?}\fg{} indique que le caractère précédent apparaît au plus une fois (équivalent à \mintinline{text}|{0,1}|).
           \end{itemize}
 \end{description}
 
-Les quatre derniers qualificateurs sont dits gourmands : ils valident autant de caractères que possible. Par exemple pour \mintinline{text}{"aaaaa"}, \mintinline{text}{a\{3,5\}} validera la chaîne en entier. Pour une version non gourmande, on suit le qualificateur d'un \mintinline{text}{?} : \mintinline{text}{*?}, \mintinline{text}{+?}, \mintinline{text}{??} et \mintinline{text}{\{n,m\}?}. Un qualificateur non gourmand valide le moins de caractères possibles.\medskip
+Les quatre derniers qualificateurs sont dits gourmands : ils valident autant de caractères que possible. Par exemple pour \mintinline{text}{"aaaaa"}, \mintinline{text}|a{3,5}| validera la chaîne en entier. Pour une version non gourmande, on suit le qualificateur d'un \mintinline{text}{?} : \mintinline{text}{*?}, \mintinline{text}{+?}, \mintinline{text}{??} et \mintinline{text}|{n,m}?|. Un qualificateur non gourmand valide le moins de caractères possibles.\medskip
 
 Pour contrôler le nombre d'apparitions d'un groupe de caractères, on met ceux-ci entre parenthèses (\mintinline{text}{(abc)+}: \mintinline{text}{abc}, \mintinline{text}{abcabc}, etc.). Cela crée un groupe de caractères, on peut le nommer en suivant la parenthèses ouvrante de \mintinline{text}{?P<nom>}. Cela est utile par exemple quand on veut remplacer des caractères. On peut séparer des expression régulières par un \mintinline{text}{|} afin d'indiquer que plusieurs possibilités sont possibles.\medskip
 
@@ -182,7 +182,7 @@ import re
 regex = re.compile(r"[A-Z]\w*\s?(\w+\s?)*.")
 \end{minted}
 
-\paragraph{Remarque} On utilise le préfixe \mintinline{text}{r} devant la chaîne de caractère pour éviter d'avoir à écrire \Verb[fontsize = \small]|\\| au lieu d'un unique \Verb[fontsize = \small]|\|.\medskip
+\paragraph{Remarque} On utilise le préfixe \mintinline{text}{r} devant la chaîne de caractère pour éviter d'avoir à écrire \mintinline{text}{\\} au lieu d'un unique \mintinline{text}{\}.\medskip
 
 On peut rechercher toutes les occurrences du motif grâce à la méthode \mintinline{python3}{re.finditer(motif, chaine)} \marginpar{\href{https://docs.python.org/fr/3/library/re.html\#re.Pattern.finditer}{\mintinline{python3}{Pattern.finditer}}}. Cela retourne un objet iterable. On accède aux objets en appelant \mintinline{python3}{next(iterable)}, qui retourne un objet expression rationnelle. Celui-ci contient plusieurs chaînes de caractères (une pour chaque groupe du motif), on y accède en appelant les différents groupes : \mintinline{python3}{objet.group(numéro ou nom)}.\medskip
 
@@ -205,7 +205,7 @@ On peut remplacer les motifs par d'autres motifs en utilisant la méthode \minti
     \item la chaine à traiter
     \item \mintinline{python3}{count=}le nombre d'occurrences à remplacer
 \end{enumerate}
-et renvoie la chaine de caractères modifiée. Lorsque l'on veut appeler un groupe de caractères nommé avec \mintinline{python3}{(?P<nom>)}, on y fait référence dans la chaine de remplacement par \Verb[fontsize = \small]|\g<nom>|.
+et renvoie la chaine de caractères modifiée. Lorsque l'on veut appeler un groupe de caractères nommé avec \mintinline{text}{(?P<nom>)}, on y fait référence dans la chaine de remplacement par \mintinline{text}{\g<nom>}.
 
 % \paragraph{Exemple}
 % \begin{minted}{python3}
@@ -481,7 +481,7 @@ Pour une utilisation basique, on commence par installer \mintinline{python3}{vir
 $ pip install virtualenv # ou pip3 selon votre version de Python
 \end{minted}
 
-Puis on se place dans le dossier où l'on veut placer les environnements virtuels, par exemple sous Linux dans \Verb[fontsize=\small]|/home/votre_nom/python_env/|, et on crée notre environnement!
+Puis on se place dans le dossier où l'on veut placer les environnements virtuels, par exemple sous Linux dans \mintinline{text}{/home/votre_nom/python_env/}, et on crée notre environnement!
 
 \begin{minted}{bash}
 $ virtualenv env
@@ -774,7 +774,7 @@ urlpatterns = [
 Si on va sur la page \mintinline{python3}{localhost:8000/monapplication/artiste/1}, on voit : \og Vous êtes sur la page de l'artiste 1\fg{}. En effet, Django analyse l'URL de la manière suivante:
 \begin{enumerate}
     \item \mintinline{python3}{monapplication/} il va dans les URL de l’application monapplication
-    \item \mintinline{python3}{artiste/1/} il cherche la ligne correspondante dans le fichier \mintinline{python3}{urls.py}. Il trouve alors la ligne\\ \Verb[fontsize=\small]|artiste/<artiste_id>|, il appelle donc la vue\\ \Verb[fontsize=\small]|artiste(request=<HttpRequest object>, question_id=1)|.
+    \item \mintinline{python3}{artiste/1/} il cherche la ligne correspondante dans le fichier \mintinline{python3}{urls.py}. Il trouve alors la ligne \mintinline{text}{artiste/<artiste_id>}, il appelle donc la vue \mintinline{text}{artiste(request=<HttpRequest object>, question_id=1)}.
 \end{enumerate}
 
 On peut aussi créer des vues qui interagissent avec la base de données en utilisant l'\href{https://docs.djangoproject.com/fr/2.0/topics/db/queries/}{API Django}. Par exemple les pages racines d'artistes et de chansons pourraient les afficher dans l'ordre alphabétique. On aura finalement le fichier \mintinline{python3}{views.py} suivant.
@@ -867,7 +867,7 @@ On modifie ensuite par exemple le gabarit de la liste des artistes en ajoutant c
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
 \end{minted}
 
-La balise de gabarit \Verb[fontsize=\small]|{% load static %}| génère l'URL absolue des fichiers statiques. Si on se rend à la page des artistes, tout est vert !
+La balise de gabarit \mintinline{text}|{% load static %}| génère l'URL absolue des fichiers statiques. Si on se rend à la page des artistes, tout est vert !
 
 \subsubsection{Thèmes abordés ici}
 
@@ -1270,11 +1270,11 @@ Un gabarit Django est un fichier texte ou une chaîne de caractères Python bali
 
 \subsubsection{La syntaxe des gabarits}
 \paragraph{Les variables}
-Elles utilisent le dictionnaire de contexte pour afficher leur valeur correspondante. Les noms des variables sont les clés du dictionnaire. Dans le gabarit, les variables sont entourées de doubles accolades: \mintinline{python3}{\{\{} et \mintinline{python3}{\}\}}. Par exemple, le gabarit
+Elles utilisent le dictionnaire de contexte pour afficher leur valeur correspondante. Les noms des variables sont les clés du dictionnaire. Dans le gabarit, les variables sont entourées de doubles accolades. Par exemple, le gabarit
 \begin{minted}{text}
 La chanson {{ chanson }} a été écrite par {{ artiste }}.
 \end{minted}
-avec le dictionnaire \mintinline{python3}{\{'artiste': 'Muse', 'chanson': 'Starlight'\}} donnera:
+avec le dictionnaire \mintinline{python3}|{{'artiste': 'Muse', 'chanson': 'Starlight'}}| donnera:
 \begin{minted}{text}
 La chanson Starlight a été écrite par Muse.
 \end{minted}
@@ -1288,7 +1288,7 @@ On accèdes aux attributs d'instances, aux indices de listes, aux clés de dicti
 
 Si la valeur de la variable est une fonction (ou n'importe quel objet appealble), il sera appelé sans paramètre et le résultat retourné sera utilisé.
 
-\paragraph{Les balises} Elles \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/templates/builtins/\#built-in-tag-reference}{Balises intégrées}}permettent de faire diverses choses, comme utiliser des boucles logiques ou insérer d'autres gabarits. Leur nom sont entourés de \mintinline{python3}{\{\%} et \mintinline{python3}{\%\}}. Certaines balises sont orphelines, les autres s'utilisent comme ceci:
+\paragraph{Les balises} Elles \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/templates/builtins/\#built-in-tag-reference}{Balises intégrées}}permettent de faire diverses choses, comme utiliser des boucles logiques ou insérer d'autres gabarits. Leur nom sont entourés de \mintinline{python3}|{%| et \mintinline{python3}|%}|. Certaines balises sont orphelines, les autres s'utilisent comme ceci:
 
 \begin{minted}{html}
 <!-- Exemple de balise nommée balise. -->
@@ -1304,7 +1304,7 @@ Si la valeur de la variable est une fonction (ou n'importe quel objet appealble)
 
     \item[\mintinline{python3}{comment}]~
 
-          Ignore ce qui est compris entre \mintinline{python3}{\{\% comment \%\}} et \mintinline{python3}{\{\% endcomment \%\}}.
+          Ignore ce qui est compris entre \mintinline{python3}|{% comment %}| et \mintinline{python3}|{% endcomment %}|.
 
     \item[\mintinline{python3}{if}]~
 
@@ -1355,7 +1355,7 @@ Si la valeur de la variable est une fonction (ou n'importe quel objet appealble)
 </ul>
     \end{minted}
 
-          On peut ajouter une balise \mintinline{html}{{% empty %}} pour afficher du contenu lorsque la liste est vide (ou n'existe pas).
+          On peut ajouter une balise \mintinline{html}|{% empty %}| pour afficher du contenu lorsque la liste est vide (ou n'existe pas).
 
     \item[\mintinline{python3}{cycle}] (orpheline)
 

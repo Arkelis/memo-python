@@ -19,7 +19,8 @@ __latexindent_temp.tex
 test.py
 *.zip
 *.rst
-.vscode/
+.vscode
 *.listing
 .directory
 Makefile
+.env

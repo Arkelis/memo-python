@@ -138,8 +138,7 @@ type(objet).__dict__[name].__get__(objet, type(objet))
         \begin{minted}{python3}
 objet.__dict__[name]        
         \end{minted}
-        \item Si \mintinline{python3}{object.__getattribute__()} n'a pas trouvé \mintinline{text}{name} dans aucun \mintinline
-        {python3}{__dict__}, elle lève une exception\break \mintinline{python3}{AttributeError}.
+        \item Si \mintinline{python3}{object.__getattribute__()} n'a pas trouvé \mintinline{text}{name} dans aucun \mintinline{python3}{__dict__}, elle lève une exception\break \mintinline{python3}{AttributeError}.
     \end{enumerate}
 
     Surcharger cette méthode va donc modifier le mécanisme par défaut. Cependant, pour les attributs dont on ne veut pas

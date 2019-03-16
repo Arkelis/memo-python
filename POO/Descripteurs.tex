@@ -17,8 +17,7 @@ Class.descripteur
     \end{minted}
     \mintinline{text}{inst} vaut \mintinline{python3}{None} et \mintinline{text}{owner} est la classe en question.\medskip
 
-    Cette méthode doit retourner l'attribut en question ou le calcul de sa valeur, ou bien lever une exception \mintinline
-    {python3}{AttributeError}.
+    Cette méthode doit retourner l'attribut en question ou le calcul de sa valeur, ou bien lever une exception \mintinline{python3}{AttributeError}.
 
     \item[\mintinline{python3}{Descripteur.__set__(self, inst, value)}]~
     
@@ -83,12 +82,7 @@ class Time:
 \end{minted}
 
 Le recours aux fonctions \mintinline{python3}{getattr()} et \mintinline{python3}{setattr()} permet d'accéder aux attributs
-des instances concernées. Si on avait stocké l'attribut dans l'instance du descripteur par exemple avec un \mintinline{python3}
-{self.attr} au lieu de \mintinline{python3}{inst._attr}, changer par exemple la valeur de \mintinline{text}{h} pour \mintinline
-{text}{t1} (cf. l'exemple précédent) aurait affecté \mintinline{text}{t2}! En effet, le descripteur est instancié \emph{au
-moment où la classe est définie et non à l'initialisation des instances de celle-ci}. En résumé, tous les attributs \mintinline
-{text}{h} pointent vers la même instance de \mintinline{text}{BoundedIntDescriptor}, de même pour \mintinline{text}{m}
-et \mintinline{text}{s}.\medskip
+des instances concernées. Si on avait stocké l'attribut dans l'instance du descripteur par exemple avec un \mintinline{python3}{self.attr} au lieu de \mintinline{python3}{inst._attr}, changer par exemple la valeur de \mintinline{text}{h} pour \mintinline{text}{t1} (cf. l'exemple précédent) aurait affecté \mintinline{text}{t2}! En effet, le descripteur est instancié \emph{au moment où la classe est définie et non à l'initialisation des instances de celle-ci}. En résumé, tous les attributs \mintinline{text}{h} pointent vers la même instance de \mintinline{text}{BoundedIntDescriptor}, de même pour \mintinline{text}{m} et \mintinline{text}{s}.\medskip
 
 Pour récupérer le nom de l'attribut afin d'afficher une erreur explicite, j'ai utilisé la méthode \mintinline{python3}{__set_name__()}.
 
