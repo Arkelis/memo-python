@@ -14,7 +14,67 @@ Les métaclasses sont les classes qui instancient d'autres classes. Par défaut,
 \subsection[La métaclasse type]{La métaclasse \mintinline[fontsize=\normalsize]{python3}{type}}
 
 On sait que passer à \mintinline{python3}{type()} un objet renvoie son type, c'est-à-dire l'objet qui l'a instancié. Mais
-\mintinline{python3}{type()} permet aussi des créer des types (des classes) à la volée si on lui passe plus d'arguments.
+\mintinline{python3}{type()} permet aussi des créer des types (des classes) à la volée si on lui passe plus d'arguments :
+un nom, un itérable contenant ses classes parentes et un dictionnaire contenant ses attributs.
+
+\begin{minted}{pycon}
+>>> MyType = type("MyType", (), {}) # une classe on ne peut plus basique
+>>> MyType()
+<__main__.MyType object at 0x7ff838fb7518>
+>>> issubclass(MyType, object)
+True
+>>> isisntance(MyType, type)
+True
+\end{minted}
+
+On peut donc créer des fonctions qui créent des classes.
+
+\begin{minted}{python3}
+def class_creator(name, bases=(), attrs={}): # il faut garder la signature de type()
+    """Créateur de classe personnalisé.
+
+    Celui ajoute à chaque classe créée un identifiant de classe correspondant au
+    nombre de classes créées au moment de l'appel de class_creator().
+    """
+    if not hasattr(class_creator, "increment"):
+        class_creator.increment = 0 # on utilise un attribut de fonction
+    attrs["class_id"] = class_creator.increment
+    class_creator.increment += 1
+    return type(name, bases, attrs)
+\end{minted}
+
+\begin{minted}{pycon}
+>>> first = class_creator("first")
+>>> second = class_creator("second")
+>>> first.class_id
+0
+>>> second.class_id
+1
+\end{minted}
+
+Ou plutôt des générateurs de classes :
+
+\begin{minted}{python3}
+def class_generator_function(bases=(), attrs={}):
+    """Générateur de classe."""
+    increment = 0
+    yield
+    while True:
+        attrs["class_id"] = increment
+        name = yield type(name, bases, attrs)
+        increment += 1
+\end{minted}
+
+\begin{minted}{pycon}
+>>> class_generator = class_generator_function()
+>>> next(class_generator) # initialisation
+>>> first = class_generator.send("first")
+>>> second = class_generator.send("second")
+>>> first.class_id
+0
+>>> second.class_id
+1
+\end{minted}
 
 \subsection{Application: propriété de classe}
 On pourrait imaginer des propriétés de classes afin d'ajouter une couche de logique sur une simple variable de classe. Au lieu de définir un descripteur générique, on créer une métaclasse qui aura comme propriété la future propriété de classe.
