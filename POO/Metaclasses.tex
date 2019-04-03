@@ -50,6 +50,11 @@ def class_creator(name, bases=(), attrs={}): # il faut garder la signature de ty
 0
 >>> second.class_id
 1
+>>> class Third(metaclass=class_creator):
+...     pass
+...
+>>> Third.class_id
+2
 \end{minted}
 
 Ou plutôt des générateurs de classes :
@@ -76,21 +81,108 @@ def class_generator_function(bases=(), attrs={}):
 1
 \end{minted}
 
-\subsection{Application: propriété de classe}
+\subsection{Ecrire une métaclasse}
+
+On est un peu limité dans le cas de fonctions qui créent des classes. Pour des choses plus complexes, on peut écrire
+des classes qui instancient d'autres classes : des métaclasses.\medskip
+
+Pour qu'une classe puisse instancier d'autres classes, il faut hériter de \mintinline{python3}{type}. Cela permet notamment d'hériter de sa fonction \mintinline{python3}{__new__()}. D'habitude (c'est-à-dire quand on hérite simplement de \mintinline{python3}{object}), cette fonction ne fait rien de spécial, elle retourne simplement un objet vide que l'on initialise dans \mintinline{python3}{__init__()}. Dans le cas de \mintinline{python3}{type}, c'est cette fonction qui est chargée de créer la classe. Pour indiquer que l'on est en train de définir une métaclasse, on écrit \mintinline{python3}{cls} au lieu de \mintinline{python3}{self} pour faire référence à l'objet instancié, et \mintinline{python3}{mcls} au lieu de \mintinline{python3}{cls} pour faire référence au type.\medskip
+
+Cette métaclasse ne fait rien de plus que \mintinline{python3}{type} :
+
+\begin{minted}{python3}
+class SimpleMeta(type):
+    def __new__(mcls, name, bases, attrs):
+        print(name, "was created.")
+        return super().__new__(mcls, name, bases, attrs)
+
+class ClassUsingSimpleMeta(metaclass=SimpleMeta):
+    pass
+\end{minted}
+
+A l'exécution on verra : \mint{text}|ClassUsingSimpleMeta was created.|
+
+Si l'on veut le même comportement que les exemples précédents :
+
+\begin{minted}{python3}
+class SimpleMeta(type):
+    class_id = 0
+    def __init__(cls, name, bases, attrs): # on récupère les arguments de __new__
+        super().__init__(name, bases, attrs)
+        cls.class_id = cls.class_id
+        type(cls).class_id += 1
+\end{minted}
+
+\begin{minted}{pycon}
+>>> class Class0(metaclass=SimpleMeta):
+...     pass
+...
+>>> Class2 = SimpleMeta("Class2", (), {})
+>>> Class0.class_id
+0
+>>> Class1.class_id
+1
+\end{minted}
+
+On peut ajouter des paramètres lors de la déclaration d'une classe :
+
+\begin{minted}{python3}
+class AbstractoOrNotAbstractMeta(type):
+    def __new__(mcls, name, bases, attrs, abstract=False):
+        cls = super().__new__(mcls, name, bases, attrs)
+        print(name)
+        if abstract:
+            def new(cls, *args, **kwargs):
+                raise TypeError("This class is abstract.")
+            cls.__new__ = new
+        else:
+            cls.__new__ = object.__new__
+        return cls
+
+
+class Abstract(metaclass=AbstractoOrNotAbstractMeta, abstract=True):
+    pass
+
+class Concrete(Abstract):
+    pass
+
+Concrete()
+Abstract() # TypeError
+\end{minted}
+
+\subsection{Application des métaclasses : propriété de classe}
+
 On pourrait imaginer des propriétés de classes afin d'ajouter une couche de logique sur une simple variable de classe. Au lieu de définir un descripteur générique, on créer une métaclasse qui aura comme propriété la future propriété de classe.
 
 \paragraph{Exemple} Un exemple simple
 \begin{minted}{python3}
-class MaMetaclasse(type):
+class ClassPropertyMeta(type):
+    def __new__(mcs, name, bases, attrs):
+        """Créateur personnalisé.
+        
+        On redéfinit __new__ pour s'assurer que les éventuels setters des
+        propriétés soient appelés.
+        """
+        cls = super().__new__(mcs, name, bases, {})
+        for attr, value in attrs.items():
+            setattr(cls, attr, val)
+        return cls
+
     @property
-    def propriete(self):
+    def some_positive_attr(self):
         return self._propriete
-    @propriete.setter
-    def propriete(self, value):
+
+    @some_positive_attr.setter
+    def some_positive_attr(self, value):
+        if value < 0:
+            raise ValueError("some_positive_integer must be > 0.")
         self._propriete = value
 
-class MaClasse(metaclass=MaMetaclasse):
-    propriete = 5
 
-print(MaClasse.propriete) # 5
+class ClassPropertyOwner(metaclass=ClassPropertyMeta):
+    some_positive_attr = -1
+
 \end{minted}
+
+Cette définition de classe va lever une exception \mintinline{python3}{ValueError}. Oui, une déclaration
+de classe peut lever une exception.
