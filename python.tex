@@ -128,10 +128,75 @@ Ce document est écrit au format TeX puis compilé avec XeLaTeX (et minted pour 
     \item[\mintinline{python3}{exec(instruction)}]~
     
     Exécute la chaîne de caractères \mintinline{text}{instruction} en argument.
-
+    
     \item[\mintinline{python3}{eval(expression)}]~
-
+    
     Évalue la chaîne de caractères \mintinline{text}{expression} en argument et renvoie le résultat.
+\end{description}
+
+\section{Types natifs}
+\subsection{Le père et le créateur}
+
+\begin{description}
+    \item[\mintinline{python3}{class type}]~
+    
+    Unique métaclasse (créateur de type) native.
+    
+    \begin{description}
+        \item[\mintinline{python3}{type(objet)}] Passer un objet à \mintinline{python3}{type} renvoie la classe qui l'a instancié.
+        \item[\mintinline{python3}{type(name, bases, attrs)}] Pour créer un type, on appelle le constructeur avec les paramètres suivant :
+        \begin{enumerate}
+            \item \mintinline{text}{name} : le nom du type à créer;
+            \item \mintinline{text}{bases}: les classes parentes du type à créer (\mintinline{python3}{object} est implicite) dans un itérable;
+            \item \mintinline{text}{attrs}: un dictionnaire contenant des attributs à affecter au type.
+        \end{enumerate}
+    \end{description}
+
+    \item[\mintinline{python3}{class object}]~
+    
+    Classe parente de toutes les classes.
+
+    \begin{description}
+        \item[\mintinline{python3}{object.__new__(classe)}] Crée un objet vide. \mintinline{python3}{object.__new__()} n'accepte qu'un type comme argument, sauf quand \mintinline{python3}{__init__()} est définie dans une classe, au quel cas \mintinline{python3}{object.__new__()} accepte tous les arguments de \mintinline{python3}{__init__()}. Si on veut surcharger \mintinline{python}{object.__new__()}, il faudra cependant penser à créer l'objet vide en appelant \mintinline{python3}{object.__new__()} avec la classe comme unique paramètre.
+        
+        \begin{minted}{python3}
+>>> class ClassWithoutInit:
+...     pass
+...
+>>> class ClassWithInit:
+...     def __init__(self, param):
+...         self.attr = param
+...
+>>> class ClassWithNew:
+...     def __new__(cls, param):
+...         instance = super().__new__(cls)
+...         instance.attr = param
+...         return instance
+...
+>>> object.__new__(ClassWithOutInit)
+<__main__.ClassWithoutInit object at 0x7f11b9448cc0>
+>>> object.__new__(ClassWithInit, 1)
+<__main__.ClassWithInit object at 0x7f11b933f400>
+>>> object.__new__(ClassWithNew, 1)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: object.__new__() takes exactly one argument (the type to instantiate)
+
+        \end{minted}
+        \item[\mintinline{python3}{object.__repr__(self)}] Renvoie \mintinline{python3}{f"<{type(self)} object at {id(self)}>"}.
+        \item[\mintinline{python3}{object.__str__(self)}] Renvoie \mintinline{python3}{object.__repr__(self)}. 
+        \item[\mintinline{python3}{object.__dir__(self)}] Appelée quand \mintinline{python3}{dir()} est appelée sur un objet. Renvoie un itérable des attributs de l'objet.
+        \item[\mintinline{python3}{object.__eq__(self, other)}] Appelée lors de l'opération \mintinline{python3}{objet == other}. Compare les valeurs de hachage et renvoie \mintinline{python3}{True} si elles sont égales.
+        \item[\mintinline{python3}{object.__ne__(self, other)}] Appelée lors de l'opération \mintinline{python3}{objet != other}. Renvoie l'opposé de\break\mintinline{python3}{object.__eq__(self, other)}.
+        \item[\mintinline{python3}{object.__ge__(self, other)}] Appelée lors de l'opération \mintinline{python3}{objet >= other}. Renvoie \mintinline{python3}{NotImplemented}.
+        \item[\mintinline{python3}{object.__gt__(self, other)}] Appelée lors de l'opération \mintinline{python3}{objet > other}. Renvoie \mintinline{python3}{NotImplemented}.
+        \item[\mintinline{python3}{object.__le__(self, other)}] Appelée lors de l'opération \mintinline{python3}{objet <= other}. Renvoie \mintinline{python3}{NotImplemented}.
+        \item[\mintinline{python3}{object.__lt__(self, other)}] Appelée lors de l'opération \mintinline{python3}{objet < other}. Renvoie \mintinline{python3}{NotImplemented}.
+        \item[\mintinline{python3}{object.__getattribute__(self, name)}] Appelée lorsqu'on accède à l'attribut \mintinline{python3}{name} avec la syntaxe \mintinline{python3}{self.name}. Cette méthode va chercher \mintinline{python3}{name} dans le dictionnaire de l'instance \mintinline{python3}{self.__dict__}. S'il est introuvable, elle
+        va chercher successivement dans le dictionnaire du type de l'instance, puis dans toutes les classes parentes. Dans le cas où l'attribut est trouvé dans le dictionnaire d'une classe, s'il possède une méthode \mintinline{python3}{__get__()} (c'est-à-dire s'il s'agit d'un descripteur ou par extension d'une propriété), alors celle-ci sera appelée. 
+        \item[\mintinline{python3}{object.__setattr__(self, name, value)}] Appelée lorsque l'on écrit \mintinline{python3}{self.name = value}. Le mécanisme de recherche d'attribut est le même que pour \mintinline{python3}{object.__getattribute__()}. Dans le cas d'un descripteur, c'est \mintinline{python3}{__set__()} qui est appelée.
+        \item[\mintinline{python3}{object.__sizeof__(self)}] Renvoie la taille occupée en mémoire de \mintinline{python3}{self} en octets. 
+    \end{description}
 \end{description}
 
 \section[{\footnotesize\texttt{abc}}, {\footnotesize\texttt{collections.abc}} --- Classes mères abstraites]{{\normalfont\bfseries\large\texttt{abc}}, {\normalfont\bfseries\large\texttt{collections.abc}} --- Classes mères abstraites}\label{abc}

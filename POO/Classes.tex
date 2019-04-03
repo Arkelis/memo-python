@@ -279,9 +279,7 @@ température en degrés Celsius, pour éviter une récursivité infinie:
 \begin{minted}{python3}
 class Temperature:
     def __init__(self, celsius):
-    if celsius < -273:
-        raise ValueError("Une température en degrés Celsius doit être supérieure à -273°C.")
-    self._celsius = celsius
+        self.celsius = celsius
     
     @property
     def celsius(self):
