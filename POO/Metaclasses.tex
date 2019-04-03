@@ -63,7 +63,7 @@ Ou plutôt des générateurs de classes :
 def class_generator_function(bases=(), attrs={}):
     """Générateur de classe."""
     increment = 0
-    yield
+    name = yield # initialisation
     while True:
         attrs["class_id"] = increment
         name = yield type(name, bases, attrs)
