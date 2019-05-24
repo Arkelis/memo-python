@@ -21,3 +21,26 @@ Mémo regroupant diverses info sur le langage Python écrit en LaTeX. Le PDF ré
 - [ ] Flask
 - [ ] PySide
 - [ ] PyGTK
+
+## Compilation
+
+### Fedora
+
+Paquets nécessaires :
+
+```
+# dnf install \
+    texlive-xetex texlive-latex \
+    texlive-sectsty \
+    texlive-titlesec \
+    texlive-babel-french \
+    texlive-minted \
+    linux-libertine-fonts \
+    linux-libertine-biolinum-fonts
+```
+
+Pour compiler :
+
+```
+$ xelatex -shell-escape python.tex
+```
