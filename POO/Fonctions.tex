@@ -17,6 +17,35 @@ result = obj()
     \item \href{https://stackoverflow.com/a/32856533/9214306}{fonctionnement interne des callables} (StackOverflow).
 \end{itemize}
 
+\subsection{Créer un objet {\normalfont\bfseries\itshape callable}}
+
+Pour qu'une classe puisse instancier des objets \emph{callable}, il suffit qu'elle définisse une méthode
+\mintinline{python3}{__call__()}.
+
+\begin{description}
+    \item[\mintinline{python3}{Callable.__call__(self[, *args, **kwargs])}]~
+ 
+    Cette méthode est appelée lorsqu'on appelle un objet. Tout objet possédant cette méthode est \emph{callable}.
+\end{description}
+
+\begin{minted}{pycon}
+>>> class HelloCallable:
+...     def __call__(self):
+...         return "Hello"
+...
+>>> HelloCallable()() # () pour instancier puis () pour appeler
+Hello
+\end{minted}
+
+
+Les classes sont \emph{callable}: on les appelle pour instancier.
+\begin{minted}{pycon}
+>>> class Bar: pass
+...
+>>> hasattr(Bar, "__call__")
+True
+\end{minted}
+
 \subsection{Les objets fonctions}
 
 Les fonctions et les méthodes sont des objets \textit{callable}, elles sont créées avec le mot-clé \mintinline{python3}{def}. On peut utiliser des annotations pour indiquer les types des paramètres et le type de la valeur renvoyée (les annotations peuvent être plus généralement n'importe quelle expression Python).
@@ -146,44 +175,4 @@ On peut aussi utiliser le déballage lors d'appels de fonctions:
 a : 1
 b : 2
 c : 3
-\end{minted}
-
-\subsection{Créer un objet {\normalfont\bfseries\itshape callable}}
-
-Pour qu'une classe puisse instancier des objets \emph{callable}, il suffit qu'elle définisse une méthode
-\mintinline{python3}{__call__()}.
-
-\begin{description}
-    \item[\mintinline{python3}{Callable.__call__(self[, *args, **kwargs])}]~
- 
-    Cette méthode est appelée lorsqu'on appelle un objet. Tout objet possédant cette méthode est \emph{callable}.
-\end{description}
-
-\begin{minted}{pycon}
->>> class HelloCallable:
-...     def __call__(self):
-...             return "Hello"
-...
->>> HelloCallable()() # () pour instancier puis () pour appeler
-Hello
-\end{minted}
-
-
-Les classes sont \emph{callable}: on les appelle pour instancier.
-\begin{minted}{pycon}
->>> class Bar: pass
-...
->>> hasattr(Bar, "__call__")
-True
-\end{minted}
-
-D'ailleurs, bien évidemment:
-
-\begin{minted}{pycon}
->>> def f(): pass
-...
->>> hasattr(f, "__call__")
-True
->>> hasattr(lambda: None, "__call__")
-True
 \end{minted}

@@ -122,7 +122,153 @@ Ce document est écrit au format TeX puis compilé avec XeLaTeX (et minted pour 
 \newpage
 
 \part{Bibliothèque standard}
-\section{Fonctions natives}
+
+\section{Fonctions et types natifs}
+
+\subsection{Interactions avec l'utilisateur}
+
+\begin{description}
+    \item[\mintinline{python3}{print(*objects, sep=' ', end='\n', file=sys.stdout, flush=False)}]~
+    
+    Affiche les \mintinline{python3}{objects} passés en paramètre sous forme de chaîne de caractères grâce au constructeur \mintinline{python3}{str()}. Si plusieurs objets sont passés en paramètre, ils sont séparés par \mintinline{python3}{sep}. La sortie se termine par \mintinline{python3}{end}. Ces deux derniers paramètres doivent être nommés, tous les arguments positionnels sont considérés objets à afficher. Si aucun objet n'est fourni, l'affiche que \mintinline{python3}{end}.
+    
+    \begin{minted}{pycon}
+>>> print(*["Python", "OCaml", "C", "Java"], sep=" > ")
+Python > OCaml > C > Java
+    \end{minted}
+    
+    Afficher revient en fait à écrire dans un flux texte. Par défaut, il s'agit de la sortie standard (ce qui s'affiche sur la console). On peut changer la cible de la sortie avec le paramètre \mintinline{python3}{file} ; l'objet passé en paramètre doit avoir une méthode \mintinline{python3}{write(chaine)}. On peut forcer l'effacement du tampon de flux en mettant le paramètre \mintinline{python3}{flush} à \mintinline{python3}{True}.\medskip
+
+    Pour afficher des progressions, on peut utiliser le retour chariot \mintinline{python3}{"\r"} comme chaîne finale :
+
+    \begin{minted}{pycon}
+>>> import time
+>>> for i in range(100):
+...     print(f"{i+1} %", end="\r")
+...     time.sleep(0.1)
+... else:
+...     print("\nTerminé !")
+...
+100%
+Terminé !
+    \end{minted}
+
+    \item[\mintinline{python3}{input(prompt="")}]~ 
+    
+    Affiche \mintinline{python3}{prompt} et lit une ligne sur l'entrée standard qui est convertie en chaîne de caractères (en supprimant le retour à la ligne final).
+
+    \begin{minted}{pycon}
+>>> print(input("Glou glou ?\n"))
+Glou glou ?
+Ouaf
+Ouaf
+>>> def interactive_add():
+...     first = int(input("Entrer un premier entier : "))
+...     second = int(input("Entrer un second entier : "))
+...     result = first + second
+...     print(f"{first} + {second} = {result}")
+...     return result
+...
+>>> result = interactive_add()
+Entrer un premier entier : 1846
+Entrer un second entier : 898
+1846 + 898 = 2744
+>>> result
+2744
+    \end{minted}
+
+
+\end{description}
+
+\subsection{Types utilitaires pour les boucles}
+
+\begin{description}
+    \item[\mintinline{python3}{class range}]~
+    
+    Les objets \mintinline{python3}{range} sont des objets séquentiels (donc itérables) dont les éléments sont
+    calculés à la volée. Il s'agit d'un outil indispensable pour faire des boucles. Il y a deux manières de construire un objet \mintinline{python3}{range} :
+
+    \begin{description}
+        \item[\mintinline{python3}{range(fin)}] Construit un objet \mintinline{python3}{range} qui permet d'itérer sur tous les entiers de 0 à \mintinline{python3}{fin}.
+            \begin{minted}{pycon}
+>>> for i in range(5):
+...     print(i)
+...
+0
+1
+2
+3
+4
+            \end{minted}
+        \item[\mintinline{python3}{range(debut, fin, pas=1)}] Construit un objet \mintinline{python3}{range} permettant d'itérer sur les entiers de \mintinline{python3}{debut} à \mintinline{python3}{fin} avec un pas de \mintinline{python3}{pas}. Lève une exception \mintinline{python3}{ValueError} si \mintinline{python3}{pas} vaut 0.
+        \begin{minted}{pycon}
+>>> for i in range(6, -1, -2):
+...     print(i)
+...
+6
+4
+2
+0
+        \end{minted} 
+    \end{description}
+
+    Un objet \mintinline{python3}{range} n'est pas un itérateur.
+
+    \begin{minted}{pycon}
+>>> next(range(1))
+Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+TypeError: 'range' object is not an iterator
+    \end{minted}
+
+    Il s'agit d'un objet séquentiel itérable qui gère toutes les opérations communes sur de tels objets (indices, tranches, etc.). Les valeurs sont calculées à la volée grâce à la formule \mintinline{python3}{range_object[i] = debut + pas*i}, avec comme contraintes \mintinline{python3}{i >= 0} et \mintinline{python3}{range_object[i] < fin} si \mintinline{python3}{pas > 0} sinon \mintinline{python3}{range_object[i] > fin}.
+
+    Attributs définis :
+    \begin{description}
+        \item[\mintinline{python3}{range.start}] Valeur du paramètre \mintinline{python3}{debut} passé au constructeur (0 par défaut).
+        \item[\mintinline{python3}{range.stop}] Valeur du paramètre \mintinline{python3}{fin} passé au constructeur.
+        \item[\mintinline{python3}{range.step}] Valeur du paramètre \mintinline{python3}{pas} passé au constructeur (1 par défaut).
+    \end{description}
+
+
+    \item[\mintinline{python3}{class zip}]~
+    
+    Les objets \mintinline{python3}{zip} permettent de construire des objets itérables agrégeant d'autres itérables.
+
+    \begin{description}
+        \item[\mintinline{python3}{zip(*iterables)}] Construit un objet \mintinline{python3}{zip} permettant d'itérer sur l'ensemble des itérables passés en paramètres à la fois. Le i-ème élément de cet itérateur est un tuple contenant les i-èmes éléments de chaque itérable. L'itérateur est épuisé lorsque dès qu'un des itérables en paramètre est épuisé.
+    \end{description}
+
+    \begin{minted}{python3}
+>>> for t in zip("python", "java", "cpp", "ocaml"):
+...     print(*t, sep=", ")
+... 
+p, j, c, o
+y, a, p, c
+t, v, p, a
+    \end{minted}
+
+    \item[\mintinline{python3}{class enumerate}]~
+    
+    Les objets \mintinline{python3}{enumerate} permettent d'itérer et d'énumérer à la fois.
+
+    \begin{description}
+        \item[\mintinline{python3}{enumerate(iterable, start=0)}] Construit un objet \mintinline{python3}{enumerate} générant des tuples contenant un compte (démarrant à \mintinline{python3}{start}), et les objets résultant de l'itération sur l'itérable passé en paramètre.
+    \end{description}
+    
+
+    \begin{minted}{pycon}
+>>> for i, c in enumerate("abc"):
+...     print(f"{i} : {c}")
+0 : a
+1 : b
+2 : c
+    \end{minted}
+
+    En quelque sorte, \mintinline{python3}{enumerate(iterable)} est l'équivalent de \mintinline{python3}{zip(range(len(iterable)), iterable)}.
+
+\end{description}
+
 \subsection{Exécuter, évaluer du code}
 \begin{description}
     \item[\mintinline{python3}{exec(instruction)}]~
@@ -134,29 +280,15 @@ Ce document est écrit au format TeX puis compilé avec XeLaTeX (et minted pour 
     Évalue la chaîne de caractères \mintinline{text}{expression} en argument et renvoie le résultat.
 \end{description}
 
-\section{Types natifs}
 \subsection{Le père et le créateur}
 
 \begin{description}
-    \item[\mintinline{python3}{class type}]~
-    
-    Unique métaclasse (créateur de type) native.
-    
-    \begin{description}
-        \item[\mintinline{python3}{type(objet)}] Passer un objet à \mintinline{python3}{type} renvoie la classe qui l'a instancié.
-        \item[\mintinline{python3}{type(name, bases, attrs)}] Pour créer un type, on appelle le constructeur avec les paramètres suivant :
-        \begin{enumerate}
-            \item \mintinline{text}{name} : le nom du type à créer;
-            \item \mintinline{text}{bases}: les classes parentes du type à créer (\mintinline{python3}{object} est implicite) dans un itérable;
-            \item \mintinline{text}{attrs}: un dictionnaire contenant des attributs à affecter au type.
-        \end{enumerate}
-    \end{description}
-
     \item[\mintinline{python3}{class object}]~
     
-    Classe parente de toutes les classes.
-
+    Classe parente de toutes les classes. Toutes les classes héritent implicitement d'\mintinline{python3}{object}.
+    
     \begin{description}
+        \item[\mintinline{python3}{object()}] Constructeur de la classe \mintinline{python3}{object}. Construit un objet vide auquel on ne peut assigner d'attribut et qui possède les méthodes communes à tous les objets, documentées ci-dessous.
         \item[\mintinline{python3}{object.__new__(classe)}] Crée un objet vide. \mintinline{python3}{object.__new__()} n'accepte qu'un type comme argument, sauf quand \mintinline{python3}{__init__()} est définie dans une classe, au quel cas \mintinline{python3}{object.__new__()} accepte tous les arguments de \mintinline{python3}{__init__()}. Si on veut surcharger \mintinline{python}{object.__new__()}, il faudra cependant penser à créer l'objet vide en appelant \mintinline{python3}{object.__new__()} avec la classe comme unique paramètre.
         
         \begin{minted}{python3}
@@ -179,11 +311,11 @@ Ce document est écrit au format TeX puis compilé avec XeLaTeX (et minted pour 
 <__main__.ClassWithInit object at 0x7f11b933f400>
 >>> object.__new__(ClassWithNew, 1)
 Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
+File "<stdin>", line 1, in <module>
 TypeError: object.__new__() takes exactly one argument (the type to instantiate)
 
-        \end{minted}
-        \item[\mintinline{python3}{object.__repr__(self)}] Renvoie \mintinline{python3}{f"<{type(self)} object at {id(self)}>"}.
+\end{minted}
+\item[\mintinline{python3}{object.__repr__(self)}] Renvoie \mintinline{python3}|f"<{type(self)} object at {id(self)}>"|.
         \item[\mintinline{python3}{object.__str__(self)}] Renvoie \mintinline{python3}{object.__repr__(self)}. 
         \item[\mintinline{python3}{object.__dir__(self)}] Appelée quand \mintinline{python3}{dir()} est appelée sur un objet. Renvoie un itérable des attributs de l'objet.
         \item[\mintinline{python3}{object.__eq__(self, other)}] Appelée lors de l'opération \mintinline{python3}{objet == other}. Compare les valeurs de hachage et renvoie \mintinline{python3}{True} si elles sont égales.
@@ -196,6 +328,20 @@ TypeError: object.__new__() takes exactly one argument (the type to instantiate)
         va chercher successivement dans le dictionnaire du type de l'instance, puis dans toutes les classes parentes. Dans le cas où l'attribut est trouvé dans le dictionnaire d'une classe, s'il possède une méthode \mintinline{python3}{__get__()} (c'est-à-dire s'il s'agit d'un descripteur ou par extension d'une propriété), alors celle-ci sera appelée. 
         \item[\mintinline{python3}{object.__setattr__(self, name, value)}] Appelée lorsque l'on écrit \mintinline{python3}{self.name = value}. Le mécanisme de recherche d'attribut est le même que pour \mintinline{python3}{object.__getattribute__()}. Dans le cas d'un descripteur, c'est \mintinline{python3}{__set__()} qui est appelée.
         \item[\mintinline{python3}{object.__sizeof__(self)}] Renvoie la taille occupée en mémoire de \mintinline{python3}{self} en octets. 
+    \end{description}
+
+    \item[\mintinline{python3}{class type}]~
+    
+    Unique métaclasse (créateur de type) native.
+    
+    \begin{description}
+        \item[\mintinline{python3}{type(objet)}] Passer un objet à \mintinline{python3}{type} renvoie la classe qui l'a instancié.
+        \item[\mintinline{python3}{type(name, bases, attrs)}] Pour créer un type, on appelle le constructeur avec les paramètres suivant :
+        \begin{enumerate}
+            \item \mintinline{text}{name} : le nom du type à créer;
+            \item \mintinline{text}{bases}: les classes parentes du type à créer (\mintinline{python3}{object} est implicite) dans un itérable;
+            \item \mintinline{text}{attrs}: un dictionnaire contenant des attributs à affecter au type.
+        \end{enumerate}
     \end{description}
 \end{description}
 
@@ -219,13 +365,13 @@ Les expressions régulières sont un excellent moyen de retrouver des motifs com
               \item \og\mintinline{text}{\w}\fg{} équivaut à \mintinline{text}{[a-zA-Z0-9_]}.
               \item \og\mintinline{text}{\s}\fg{} désigne un espace.
           \end{itemize}
-    \item [Place du motif dans la chaîne]~
+          \item [Place du motif dans la chaîne]~
           \begin{itemize}
-              \item \og\mintinline{text}{^}\fg{} (se place au début) signifie que le début de la chaine doit correspondre au motif.
+            \item \og\mintinline{text}{^}\fg{} (se place au début) signifie que le début de la chaine doit correspondre au motif.
               \item \og\mintinline{text}{\$}\fg{} (se place à la fin) signifie que la fin de la chaine doit correspondre au motif.
-          \end{itemize}
-    \item [Nombre d'apparition(s) consécutive(s)]~
-          \begin{itemize}
+            \end{itemize}
+            \item [Nombre d'apparition(s) consécutive(s)]~
+            \begin{itemize}
               \item \og\mintinline{text}|{n}|\fg{} indique que le caractère précédent doit apparaître \mintinline{text}{n} fois.
               \item \og\mintinline{text}|{n,m}|\fg{} indique que le caractère précédent doit apparaître entre \mintinline{text}{n} et \mintinline{text}{m} fois.
               \item \og\mintinline{text}{*}\fg{} indique que le caractère précédent n'apparaît pas ou apparaît sans maximum d'occurrences (\mintinline{text}{ab*} correspond à \mintinline{text}{a}, \mintinline{text}{ab}, ou bien \mintinline{text}{abbbbbb}, etc.).

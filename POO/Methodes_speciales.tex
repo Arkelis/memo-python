@@ -268,3 +268,41 @@ Les surcharges d'opérateur permettent de faire des opérations arithmétiques a
 \end{tabular}
 \end{center}
 Les deux objets ne sont pas nécessairement du même type ! Cependant, cette opération n'est pas symétrique : le code \mintinline{python3}{objet + 5} par exemple exécute \mintinline{python3}{objet.__add__(5)}, alors que \mintinline{python3}{5 + objet} exécute \mintinline{python3}{int.__add__(5)}. Pour que l'opération soit symétrique, il faut aussi définir ces fonctions avec le préfixe \mintinline{python3}{r} (par exemple \mintinline{python3}{__radd__()}).
+
+\subsection{Duck typing}
+
+On appelle \emph{duck typing} , en français \og typage canard \fg{}, le fait de reconnaître un type d'objets grâce à leurs méthodes et attributs. Cela est utile lorsque l'on veut qu'une fonction puisse prendre en paramètre une certaine catégorie d'objets qui ne sont pas forcément du même type ; ils partageront cependant des caractéristiques communes qui leur permettront d'être traités par la fonction.\medskip
+
+Par exemple, on peut récupérer la longueur d'une liste avec \mintinline{python3}{len()} :
+
+\begin{minted}{pycon}
+>>> len([1, 2, 3])
+3
+\end{minted}
+
+Mais on peut récupérer la longueur de plein d'autres choses :
+
+\begin{minted}{pycon}
+>>> len("abc")
+3
+>>> len((1, 2))
+2
+>>> len(range(5))
+5
+\end{minted}
+
+Tous ses objets sont de types différents : liste, chaîne de caractères, tuple, \mintinline{python3}{range} ; ils partagent cependant quelque chose :
+
+\begin{minted}{pycon}
+>>> for obj in [[1, 2, 3], "abc", (1, 2), range(5)]:
+...     print(obj.__len__())
+...
+3
+3
+2
+5
+\end{minted}
+
+Ainsi, \mintinline{python3}{len()} accepte tout objet possédant une taille, c'est-à-dire tout objet implémentant la méthode spéciale \mintinline{python3}{__len__()}. Les méthodes spéciales permettent de cette manière d'implémenter une multitude de comportements aux objets et de les rendre compatibles avec des API Python : on peut très bien créer un objet sur lequel on peut itérer avec une boucle \mintinline{python3}{for} en implémentant le protocole d'itération, mais aussi le rendre appelable comme une fonction grâce à la méthode \mintinline{python3}{__call__()}.\medskip
+
+Les parties suivantes décrivent ces catégories d'objets définies selon les méthodes spéciales implémentées. On appelle parfois protocole l'ensemble des méthodes spéciales à implémenter pour une catégorie (exemples : protocole d'itérateur ou protocole de descripteur).
