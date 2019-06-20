@@ -1,7 +1,7 @@
 # Mémo Python
-Mémo regroupant diverses info sur le langage Python écrit en LaTeX. Le PDF résultant se trouve [ici](http://python.pycolore.fr). La version web se trouve [là](http://www.pycolore.fr/python/).
+Mémo regroupant diverses info sur le langage Python écrit en LaTeX. Le PDF résultant se trouve [ici](http://python.pycolore.fr). La version web se trouve [là](http://www.pycolore.fr/python/). Le dépôt contenant la configuration permettant de passer de la version LaTex à la version Web se trouve [dans ce dépôt](https://github.com/Arkelis/memo-python-sphinx-conf).
 
-## Roadmap
+## Feuille de route
 
 - [ ] Builtins
 - [ ] Bibliothèque standard
@@ -22,7 +22,7 @@ Mémo regroupant diverses info sur le langage Python écrit en LaTeX. Le PDF ré
 - [ ] PySide
 - [ ] PyGTK
 
-## Compilation
+## Compilation en PDF
 
 ### Fedora
 
@@ -44,3 +44,7 @@ Pour compiler :
 ```
 $ xelatex -shell-escape python.tex
 ```
+
+## Compilation Web
+
+Voir [dans ce dépôt](https://github.com/Arkelis/memo-python-sphinx-conf).
