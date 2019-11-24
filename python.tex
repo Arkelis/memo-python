@@ -139,12 +139,12 @@ Cette \marginpar{\href{https://docs.python.org/fr/3/library/builtins.html}{\mint
 \subsection{Interactions avec l'utilisateur}
 
 \begin{description}
-    \item[\mintinline{python3}{print(*objects, sep=' ', end='\n', file=sys.stdout, flush=False)}]~
+    \item[\mintinline{python3}{print(*objects, sep=' ', end="\n", file=sys.stdout, flush=False)}]~
     
     Affiche les \mintinline{python3}{objects} passés en paramètre sous forme de chaîne de caractères grâce au constructeur \mintinline{python3}{str()}. Si plusieurs objets sont passés en paramètre, ils sont séparés par \mintinline{python3}{sep}. La sortie se termine par \mintinline{python3}{end}. Ces deux derniers paramètres doivent être nommés, tous les arguments positionnels sont considérés objets à afficher. Si aucun objet n'est fourni, l'affiche que \mintinline{python3}{end}.
     
     \begin{minted}{pycon}
->>> print(*["Python", "OCaml", "C", "Java"], sep=" > ")
+>>> print("Python", "OCaml", "C", "Java", sep=" > ")
 Python > OCaml > C > Java
     \end{minted}
     
@@ -190,73 +190,34 @@ Entrer un second entier : 898
 
 \end{description}
 
-\subsection{Aide au développeur et débogage (\emph{debugging})}
+\subsection{Interactions avec le développeur et débogage}
 
 \begin{description}
     \item[\mintinline{python3}{help([objet])}]~
     
     Invoque le système d'aide de Python. Si aucun paramètre n'est donné, lance l'aide interactive de Python. Le paramètre objet peut être tout objet importé ou un mot-clé sous forme de chaîne de caractères.
 
-    \begin{minted}{pycon}
->>> help()
+    \item[\mintinline{python3}{breakpoint(*args, **kwargs)}]~
+    
+    Sans paramètre, place dans le débogueur. Cette fonction appelle en fait \mintinline{python3}{sys.breakpointhook()}. Il est possible de passer des paramètres à cette fonction, cf. \href{https://docs.python.org/fr/3/library/sys.html\#sys.breakpointhook}{la documentation}.
 
-Welcome to Python 3.7's help utility!
+    \item[\mintinline{python3}{globals()}]~
+    
+    Renvoie un dictionnaire contenant les variables globales du module courrant. Si appelé dans une fonction ou une méthode importée, renvoie les variables globales du module de provenance.
+    
+    \item[\mintinline{python3}{locals()}]~
+    
+    Renvoie un dictionnaire contenant les variables locales. Si appelé au niveau d'un module, a le même comportement que \mintinline{python3}{globals()}.
 
-If this is your first time using Python, you should definitely check out
-the tutorial on the Internet at https://docs.python.org/3.7/tutorial/.
+    \item[\mintinline{python3}{vars([object])}]~
+    
+    Renvoie \mintinline{python3}{objet.__dict__} si \mintinline{python3}{objet} est renseigné, et \mintinline{python3}{locals()} sinon.
 
-Enter the name of any module, keyword, or topic to get help on writing
-Python programs and using Python modules.  To quit this help utility and
-return to the interpreter, just type "quit".
+    \item[\mintinline{python3}{dir([object])}]~
+    
+    Renvoie la liste des variables l'espace de nom courant, et si \mintinline{python3}{object} est renseigné, tente de renvoyer la liste de ces attributs valides.
+    
 
-To get a list of available modules, keywords, symbols, or topics, type
-"modules", "keywords", "symbols", or "topics".  Each module also comes
-with a one-line summary of what it does; to list the modules whose name
-or summary contain a given string such as "spam", type "modules spam".
-
-help> q
-
-You are now leaving help and returning to the Python interpreter.
-If you want to ask for help on a particular object directly from the
-interpreter, you can type "help(object)".  Executing "help('string')"
-has the same effect as typing a particular string at the help> prompt.
->>> help(help)
-
-Help on _Helper in module _sitebuiltins object:
-
-class _Helper(builtins.object)
- |  Define the builtin 'help'.
- |  
- |  This is a wrapper around pydoc.help that provides a helpful message
- |  when 'help' is typed at the Python interactive prompt.
- |  
- |  Calling help() at the Python prompt starts an interactive help session.
- |  Calling help(thing) prints help for the python object 'thing'.
- |  
- |  Methods defined here:
- |  
- |  __call__(self, *args, **kwds)
- |      Call self as a function.
- |  
- |  __repr__(self)
- |      Return repr(self).
- |  
- |  ----------------------------------------------------------------------
- |  Data descriptors defined here:
- |  
- |  __dict__
- |      dictionary for instance variables (if defined)
- |  
- |  __weakref__
- |      list of weak references to the object (if defined)
-
-    \end{minted}
-
-    \item[\mintinline{python3}{breakpoint()}]
-    \item[\mintinline{python3}{locals()}] 
-    \item[\mintinline{python3}{globals()}] 
-    \item[\mintinline{python3}{dir([object])}]
-    \item[\mintinline{python3}{vars([object])}] 
 \end{description}
 
 \subsection{Types utilitaires pour les boucles}
@@ -348,6 +309,45 @@ t, v, p, a
 
 \end{description}
 
+\subsection{Manipulation des attributs d'un objet}
+
+Les fonctions natives suivantes sont utiles pour manipuler dynamiquement les attributs d'un objet.
+
+\begin{description}
+    \item[\mintinline{python3}{getattr(obj, name[, default])}]~
+    
+    Renvoie la valeur de l'attribut nommé \mintinline{python3}{name} de l'objet \mintinline{python3}{obj} : \mintinline{python3}{getattr(obj, "x")} renvoie \mintinline{python3}{obj.x}. Si \mintinline{python3}{name} n'est pas pris en charge par \mintinline{python3}{obj} (c'est-à-dire si \mintinline{python3}{obj.__getattribute__()} et \mintinline{python3}{obj.__getattr__()} ne parviennent pas à calculer \mintinline{python3}{name}), renvoie \mintinline{python3}{default} s'il est renseigné, ou lève une exception \mintinline{python3}{AttributeError} sinon.
+
+    \item[\mintinline{python3}{hasattr(obj, name)}]~
+    
+    Permet de tester l'existence l'attribut nommé \mintinline{python3}{name} par \mintinline{python3}{obj} (\mintinline{python3}{hasattr(obj, "x")} teste l'existence de \mintinline{python3}{obj.x}) : renvoie \mintinline{python3}{False} si \mintinline{python3}{getattr(obj, name)} lève une exception \mintinline{python3}{AttributeError}, et \mintinline{python3}{True} sinon.
+
+
+    \item[\mintinline{python3}{setattr(obj, name, value)}]~
+    
+    Assigne \mintinline{python3}{value} à l'attribut nommé \mintinline{python3}{name} de \mintinline{python3}{obj} : \mintinline{python3}{setattr(obj, "x", 1)} est équivalent à \mintinline{python3}{obj.x = 1}.
+    
+\end{description}
+
+Ces fonctions sont équivalentes aux syntaxes classiques d'accès aux attributs et et de leur modificaion (i.e. \mintinline{python3}{obj.attr}, \mintinline{python3}{obj.attr = val}), elles ne permettent pas de d'éviter le mécanisme de descripteur ou les méthodes spéciales \mintinline{python3}{__getattribute__()}, \mintinline{python3}{__getattr__()} ou \mintinline{python3}{__setattr__()}.
+
+\begin{minted}{pycon}
+>>> class Foo:
+...     @property
+...     def a(self):
+...         print("prop access")
+...         return 1
+...
+>>> getattr(Foo(), "a")
+prop access
+1
+>>> setattr(Foo(), "a", 2)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: can't set attribute
+\end{minted}
+
+
 \subsection{Exécuter, évaluer du code}
 \begin{description}
     \item[\mintinline{python3}{exec(instruction)}]~
@@ -357,6 +357,14 @@ t, v, p, a
     \item[\mintinline{python3}{eval(expression)}]~
     
     Évalue la chaîne de caractères \mintinline{text}{expression} en argument et renvoie le résultat.
+\end{description}
+
+\subsection{Héritage et typage}
+
+\begin{description}
+    \item[\mintinline{python3}{super(type_obj, obj)}]
+    \item[\mintinline{python3}{isinstance(obj, classinfo)}]
+    \item[\mintinline{python3}{issubclass(obj, classinfo)}]
 \end{description}
 
 \subsection{Le père et le créateur}
@@ -394,7 +402,7 @@ File "<stdin>", line 1, in <module>
 TypeError: object.__new__() takes exactly one argument (the type to instantiate)
 
 \end{minted}
-\item[\mintinline{python3}{object.__repr__(self)}] Renvoie \mintinline{python3}|f"<{type(self)} object at {id(self)}>"|.
+        \item[\mintinline{python3}{object.__repr__(self)}] Renvoie une chaîne de caractère indiquant le type de l'objet ainsi que son adresse mémoire.
         \item[\mintinline{python3}{object.__str__(self)}] Renvoie \mintinline{python3}{object.__repr__(self)}. 
         \item[\mintinline{python3}{object.__dir__(self)}] Appelée quand \mintinline{python3}{dir()} est appelée sur un objet. Renvoie un itérable des attributs de l'objet.
         \item[\mintinline{python3}{object.__eq__(self, other)}] Appelée lors de l'opération \mintinline{python3}{objet == other}. Compare les valeurs de hachage et renvoie \mintinline{python3}{True} si elles sont égales.
@@ -423,6 +431,7 @@ TypeError: object.__new__() takes exactly one argument (the type to instantiate)
         \end{enumerate}
     \end{description}
 \end{description}
+
 
 \section[{\footnotesize\texttt{abc}}, {\footnotesize\texttt{collections.abc}} --- Classes mères abstraites]{{\normalfont\bfseries\large\texttt{abc}}, {\normalfont\bfseries\large\texttt{collections.abc}} --- Classes mères abstraites}\label{abc}
 
@@ -814,7 +823,7 @@ Plugins utiles:
 
 \section[{\footnotesize\texttt{django}} --- Framework Web Full Stack]{{\normalfont\large\bfseries\texttt{django}} --- Framework Web Full Stack}\index{django}
 Ce \marginpar{\href{https://pypi.org/project/Django/}{\mintinline{python3}{django}}} module permet de créer des sites web en Python. \emph{Il est question ici de la version 2}.
-\paragraph{Plus d'informations} \href{https://docs.djangoproject.com/fr/2.0/}{Documentation officielle de Django 2.0} \href{https://docs.djangoproject.com/fr/2.0/intro/}{Tutoriel de la documentation}
+\paragraph{Plus d'informations} \href{https://docs.djangoproject.com/fr/2.2/}{Documentation officielle de Django 2.2} \href{https://docs.djangoproject.com/fr/2.2/intro/}{Tutoriel de la documentation}
 
 \subsection{Fonctionnement}
 
@@ -932,29 +941,41 @@ urlpatterns = [
 La fonction \mintinline{python3}{include()} permet de faire appel aux autres fichiers d’URL que l'on a créés, il faut toujours utiliser cette fonction, la seule exception étant l'administration. On peut tester en lançant un \mintinline{python3}{runserver}. Si on va sur \mintinline{python3}{localhost:8000}, on a une erreur 404! En se rendant à l'URL \mintinline{python3}{localhost:8000/monapplication/ }, Hello world! apparaît.
 
 \subsubsection{Créer un modèle}
-Les modèles structurent la base de données et contiennent des métadonnées. Prenons un exemple musical et créons un modèle \mintinline{python3}{Artiste} et un modèle \mintinline{python3}{Chanson}. On les implémente en tant que classes dans le fichier \mintinline{python3}{models.py}:
+Les modèles structurent la base de données et contiennent des métadonnées. Prenons un exemple musical et créons un modèle \mintinline{python3}{Artist}, un modèle \mintinline{python3}{Album} et un modèle \mintinline{python3}{Song}. On les implémente en tant que classes dans le fichier \mintinline{python3}{models.py}:
 \begin{minted}{python3}
-from django.db import models
-
-class Artiste(models.Model):
-    nom = models.CharField(max_length=100)
+    class Artist(models.Model):
+    name = models.CharField(max_length=100)
     genre = models.CharField(max_length=100)
-    bio = models.TextField(max_length=1000)
+    bio = models.TextField()
 
-class Chanson(models.Model):
-    titre = models.CharField(max_length=200)
-    annee = models.DateTimeField('année de sortie')
-    album = models.CharField(max_length=200)
-    artiste = models.ForeignKey(Artiste, on_delete=models.CASCADE)
+
+class Album(models.Model):
+    name = models.CharField(max_length=100)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    year = models.DateField()
+
+
+class Song(models.Model):
+    track_number = models.IntegerField()
+    title = models.CharField(max_length=200)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+
+    @property
+    def artist(self):
+        return self.album.artist
+
+    @property
+    def year(self):
+        return self.album.year
 \end{minted}
 
 Les champs sont représentés par des différentes instance de classe \mintinline{python3}{Field}, il en existe divers types. Le premier paramètre non nommé de ces instances permet sert à donner un nom plus lisible à ces champs (ici on l'a utilisé pour \mintinline{python3}{annee}).\medskip
 
-Une fois ces modèles créés, il faut les activer dans la base de données. Pour cela, il faut commencer par indiquer dans le fichier \mintinline{python3}{settings.py} que l'on a créé une nouvelle application. On ajoute dans \mintinline{python3}{INSTALLED\_APPS} une référence vers la classe de configuration de l'application (qui se trouve dans le fichier \mintinline{python3}{apps.py}). On se trouve donc avec, dans \mintinline{python3}{settings.py}:
+Une fois ces modèles créés, il faut les activer dans la base de données. Pour cela, il faut commencer par indiquer dans le fichier \mintinline{python3}{settings.py} que l'on a créé une nouvelle application. On ajoute dans \mintinline{python3}{INSTALLED_APPS} une référence vers la classe de configuration de l'application (qui se trouve dans le fichier \mintinline{python3}{apps.py}). On se trouve donc avec, dans \mintinline{python3}{settings.py}:
 
 \begin{minted}{python3}
 INSTALLED_APPS = [
-    'monapplication.apps.MonapplicationConfig',
+    'monapplication',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -970,7 +991,7 @@ $ python manage.py makemigrations monapplication # on n'est pas obligé de mettr
                                                  # l'application
 \end{minted}
 
-Cette instruction est l'analogue d'un \mintinline{python3}{git stage}, il faut exécuter ensuite la méthode \mintinline{python3}{migrate} pour appliquer les migrations (analogue à \mintinline{python3}{git commit}).
+Cette instruction crée les fichiers de migration qui contiennent les instructions des changements à faire en base de données. Il faut ensuite appliquer ces changements sur la base en appliquant ces migrations.
 
 \begin{minted}{bash}
 $ python manage.py migrate
@@ -981,7 +1002,7 @@ $ python manage.py migrate
 \subsubsection{Interface administrateur}
 Il y a deux manières d'interagir avec la base de données:
 \begin{enumerate}
-    \item Avec l'\href{https://docs.djangoproject.com/fr/2.0/topics/db/queries/}{API Django} (non développé ici) à travers le shell Python.
+    \item Avec l'\href{https://docs.djangoproject.com/fr/2.2/topics/db/queries/}{API Django} (non développé ici) à travers le shell Python.
     \item Avec l'interface graphique administrateur de Django.
 \end{enumerate}
 
@@ -994,11 +1015,11 @@ $ python manage.py createsuperuser
 Il suffit ensuite de suivre la procédure. Une fois cela fini, on peut se rendre (après un \mintinline{python3}{runserver}) sur l'interface à l'adresse \mintinline{python3}{localhost:8000/admin}. Une page de connexion apparaît, on se connecte avec les identifiants du compte super-utilisateur créé précédemment. Après connexion, on arrive sur la page d'administration. Cependant, nous n'avons toujours pas accès aux modèles que l'on a créés. Pour cela, il faut modifier le fichier \mintinline{python3}{admin.py} de l'application:
 \begin{minted}{python3}
 from django.contrib import admin
-from .models import Chanson
-from .models import Artiste
+from .models import Song, Album, Artist
 
-admin.site.register(Artiste)
-admin.site.register(Chanson)
+admin.site.register(Artist)
+admin.site.register(Album)
+admin.site.register(Song)
 \end{minted}
 Ainsi, les modèles apparaissent dans un bloc correspondant à l'application concernée (\hyperref[admin2]{figure 1}). On peut donc créer une chanson, par exemple (\hyperref[admin3]{figure 2}). On voit que l'on peut renseigner tous les champs que l'on a créés dans nos modèles. L'outil d’administration est donc un outil très puissant qui nous permet d'agir sur la base de données graphiquement!
 \begin{figure}[h]
@@ -1018,22 +1039,37 @@ Si l'on crée une chanson ou un artiste, on peut voir que dans la liste des obje
 \begin{minted}{python3}
 from django.db import models
 
-class Artiste(models.Model):
-    nom = models.CharField(max_length=100)
+class Artist(models.Model):
+    name = models.CharField(max_length=100)
     genre = models.CharField(max_length=100)
-    bio = models.TextField(max_length=1000)
+    bio = models.TextField()
 
     def __str__(self):
-        return self.nom
+        return self.name
 
-class Chanson(models.Model):
-    titre = models.CharField(max_length=200)
-    annee = models.DateTimeField('année de sortie')
-    album = models.CharField(max_length=200)
-    artiste = models.ForeignKey(Artiste, on_delete=models.CASCADE)
+class Album(models.Model):
+    name = models.CharField(max_length=100)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    year = models.DateField()
 
     def __str__(self):
-        return self.titre
+        return self.name
+
+class Song(models.Model):
+    track_number = models.IntegerField()
+    title = models.CharField(max_length=200)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+
+    @property
+    def artist(self):
+        return self.album.artist
+
+    @property
+    def year(self):
+        return self.album.year
+
+    def __str__(self):
+        return self.title
 \end{minted}
 
 En actualisant la page, les noms des artistes et titres de chansons apparaissent bien.
@@ -1042,11 +1078,11 @@ En actualisant la page, les noms des artistes et titres de chansons apparaissent
 Créons plus de vues dans le fichier \mintinline{python3}{views.py}. Par exemple des vues qui affichent des artistes et leurs chansons, des vues qui affichent des chansons et leurs paroles. On commence simplement:
 
 \begin{minted}{python3}
-def artiste(request, artiste_id):
-    return HttpResponse("Vous êtes sur la page de l'artiste {}".format(artiste_id))
+def artist(request, artist_id):
+    return HttpResponse("Vous êtes sur la page de l'artiste {}".format(artist_id))
 
-def chanson(request, chanson_id):
-    return HttpResponse("Vous êtes sur la page de la chanson {}".format(chanson_id))
+def song(request, song_id):
+    return HttpResponse("Vous êtes sur la page de la chanson {}".format(song_id))
 \end{minted}
 
 Il faut ensuite aller renseigner les URL dans \mintinline{python3}{urls.py}
@@ -1056,52 +1092,50 @@ from . import views
 
 urlpatterns = [
     path('', views.index),
-    path('chanson/<chanson_id>/', views.chanson),
-    path('artiste/<artiste_id>/', views.artiste)
+    path('chanson/<song_id>/', views.song),
+    path('artiste/<artist_id>/', views.artist)
 ]
 \end{minted}
 
 Si on va sur la page \mintinline{python3}{localhost:8000/monapplication/artiste/1}, on voit : \og Vous êtes sur la page de l'artiste 1\fg{}. En effet, Django analyse l'URL de la manière suivante:
 \begin{enumerate}
     \item \mintinline{python3}{monapplication/} il va dans les URL de l’application monapplication
-    \item \mintinline{python3}{artiste/1/} il cherche la ligne correspondante dans le fichier \mintinline{python3}{urls.py}. Il trouve alors la ligne \mintinline{text}{artiste/<artiste_id>}, il appelle donc la vue \mintinline{text}{artiste(request=<HttpRequest object>, question_id=1)}.
+    \item \mintinline{python3}{artiste/1/} il cherche la ligne correspondante dans le fichier \mintinline{python3}{urls.py}. Il trouve alors la ligne \mintinline{text}{artiste/<artiste_id>}, il appelle donc la vue \mintinline{text}{artist(request=<HttpRequest object>, artist_id=1)}.
 \end{enumerate}
 
-On peut aussi créer des vues qui interagissent avec la base de données en utilisant l'\href{https://docs.djangoproject.com/fr/2.0/topics/db/queries/}{API Django}. Par exemple les pages racines d'artistes et de chansons pourraient les afficher dans l'ordre alphabétique. On aura finalement le fichier \mintinline{python3}{views.py} suivant.
+On peut aussi créer des vues qui interagissent avec la base de données en utilisant l'\href{https://docs.djangoproject.com/fr/2.2/topics/db/queries/}{API Django}. Par exemple les pages racines d'artistes et de chansons pourraient les afficher dans l'ordre alphabétique. On aura finalement le fichier \mintinline{python3}{views.py} suivant.
 
 \begin{minted}{python3}
 from django import HttpResponse
 from django.shortcuts import render
-from .models import Artiste
-from .models import Chanson
-
+from .models import Artist, Album, Song
 
 def index(request):
     return HttpResponse("Hello world!")
 
 
-def liste_chanson(request):
-    liste_chansons = Chanson.objects.order_by('nom')
+def songs_list(request):
+    songs_list = Song.objects.order_by('name')
     context = {
-        "liste_chansons": liste_chansons
+        "liste_chansons": songs_list
     }
-    return render(request, '/monapplication/chansons/index.html', context)
+    return render(request, 'songs/index.html', context)
 
 
-def liste_artiste(request):
-    liste_artistes = Artiste.objects.order_by('nom')
+def artists_list(request):
+    artists_list = Artist.objects.order_by('nom')
     context = {
-        "liste_artistes": liste_artistes
+        "artists_list": artists_list
     }
-    return render(request, '/monapplication/artistes/index.html', context)
+    return render(request, 'artists/index.html', context)
 
 
-def artiste(request, artiste_id):
+def artist(request, artist_id):
     return HttpResponse("Vous êtes sur la page de l'artiste {}"
-                        .format(artiste_id))
+                        .format(artist_id))
 
 
-def chanson(request, chanson_id):
+def song(request, chanson_id):
     return HttpResponse("Vous êtes sur la page de la chanson {}"
                         .format(chanson_id))
 
@@ -1109,15 +1143,15 @@ def chanson(request, chanson_id):
 
 On va utiliser des gabarits pour les deux premières vues. La fonction \mintinline{python3}{render()} est un raccourci qui permet de renvoyer une réponse HTTP avec un gabarit. Les gabarits sont des fichiers HTML rangés dans le répertoire \mintinline{python3}{templates} de l'application. Par exemple pour la liste d'artistes, on aura
 \begin{minted}{bash}
-monapplication/templates/monapplication/artistes/index.html
+monapplication/templates/monapplication/artists/index.html
 \end{minted}
 
 Voici un simple gabarit pour la liste des artistes:
 \begin{minted}{html}
-{% if liste_artistes %}
+{% if artists_list %}
     <ul>
-    {% for artiste in liste_artistes %}
-        <li><a href="/monapp/artiste/{{ artiste.id }}/">{{ artiste.nom }}</a></li>
+    {% for artist in artists_list %}
+        <li><a href="/monapp/artist/{{ artist.id }}/">{{ artist.name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
@@ -1131,14 +1165,14 @@ Il ne faut pas oublier de mettre à jour \mintinline{python3}{urls.py}:
 \begin{minted}{python3}
 urlpatterns = [
     path('', views.index),
-    path('chanson/', views.liste_chanson),
-    path('artiste/', views.liste_artiste),
-    path('chanson/<chanson_id>/', views.chanson),
-    path('artiste/<artiste_id>/', views.artiste)
+    path('song/', views.songs_list),
+    path('artist/', views.artists_list),
+    path('song/<song_id>/', views.song),
+    path('artist/<artist_id>/', views.artist)
 ]
 \end{minted}
 
-Ainsi, si vous allez sur \mintinline{python3}{localhost:8000/artiste/}, la liste de vos artistes s'affichera, ou bien \og Aucun artiste. \fg{} sinon.
+Ainsi, si vous allez sur \mintinline{python3}{localhost:8000/artist/}, la liste de vos artistes s'affichera, ou bien \og Aucun artiste. \fg{} sinon.
 
 \subsubsection{Fichiers statiques}
 
@@ -1175,26 +1209,26 @@ Ce n'est pas exhaustif, la meilleure façon de se documenter reste la documentat
 
 \subsection{Les modèles et les opérations sur la base de données}
 
-Comme \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/}{\mintinline{python3}{django.db.models}}} indiqué dans le didacticiel:
+Comme \marginpar{\href{https://docs.djangoproject.com/fr/2.2/ref/models/}{\mintinline{python3}{django.db.models}}} indiqué dans le didacticiel:
 \begin{enumerate}
     \item Les modèles sont des classes filles de \mintinline{python3}{models.Model} que l'on écrit dans le fichier \mintinline{python3}{models.py} de l'application concernée.
-    \item Cette application doit être mentionnée dans la liste \mintinline{python3}{INSTALLED\_APPS} du fichier \mintinline{python3}{settings.py}
+    \item Cette application doit être mentionnée dans la liste \mintinline{python3}{INSTALLED_APPS} du fichier \mintinline{python3}{settings.py}
     \item Un modèle correspond à une table de la base de données. Les champs sont les attributs de la classe du modèle.
 \end{enumerate}
 
-\paragraph{Plus d'informations} \href{https://docs.djangoproject.com/fr/2.0/topics/db/}{Documentation Django 2 --- Portail thématique sur les modèles}
+\paragraph{Plus d'informations} \href{https://docs.djangoproject.com/fr/2.2/topics/db/}{Documentation Django 2 --- Portail thématique sur les modèles}
 
 \subsubsection{Les champs: attributs des modèles}
 
-Un champ \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/fields/\#field-types}{\mintinline{python3}{models.Field}}} de modèle doit être une instance de la classe \mintinline{python3}{Field} (où l'une de ses dérivées). Le choix du type de champ détermine le genre de donnée à stocker (par exemple des nombres ou du texte), le composants HTML qui sera utilisé dans le formulaire utilisé pour renseigner ce champs dans l'administration, et enfin les exigences minimales de validation de ce champ. Se référer aux liens dans la marge pour une documentation complète. Quelques types de champs génériques:
+Un champ \marginpar{\href{https://docs.djangoproject.com/fr/2.2/ref/models/fields/\#field-types}{\mintinline{python3}{models.Field}}} de modèle doit être une instance de la classe \mintinline{python3}{Field} (où l'une de ses dérivées). Le choix du type de champ détermine le genre de donnée à stocker (par exemple des nombres ou du texte), le composants HTML qui sera utilisé dans le formulaire utilisé pour renseigner ce champs dans l'administration, et enfin les exigences minimales de validation de ce champ. Se référer aux liens dans la marge pour une documentation complète. Quelques types de champs génériques:
 \begin{description}
     \item[\mintinline{python3}{class CharField(max_length=None, **options)}]~
 
-          Un champ pour une chaîne de caractère (courte ou longue). Le paramètre \mintinline{python3}{max\_length} règle la taille maximale de ce champ. Il en existe de plus précis pour les mails ou les URL, cf. la doc.
+          Un champ pour une chaîne de caractère (courte ou longue). Le paramètre \mintinline{python3}{max_length} règle la taille maximale de ce champ. Il en existe de plus précis pour les mails ou les URL, cf. la doc.
 
     \item[\mintinline{python3}{class DateField(auto_now=False, auto_now_add=False, **options)}]~
 
-          Une date, représentée par la classe Python \hyperref[datetime]{\mintinline{python3}{datetime.date}}. Le paramètre \mintinline{python3}{auto\_now} permet d'assigner automatiquement la date du jour à chaque enregistrement de l'objet, tandis que \mintinline{python3}{auto\_now\_add} enregistre la date du jour à la création de l'objet.
+          Une date, représentée par la classe Python \hyperref[datetime]{\mintinline{python3}{datetime.date}}. Le paramètre \mintinline{python3}{auto_now} permet d'assigner automatiquement la date du jour à chaque enregistrement de l'objet, tandis que \mintinline{python3}{auto_now_add} enregistre la date du jour à la création de l'objet.
 
     \item[\mintinline{python3}{class DateTimeField(auto_now=False, auto_now_add=False, **options)}]~
 
@@ -1211,23 +1245,23 @@ Un champ \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/field
 
 \subsubsection{Les relations entre les modèles}
 
-On \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/fields/\#module-django.db.models.fields.related}{\mintinline{python3}{models.ForeignKey}}} peut aussi renseigner les relations entre les modèles (donc entre les tables de la base de données).
+On \marginpar{\href{https://docs.djangoproject.com/fr/2.2/ref/models/fields/\#module-django.db.models.fields.related}{\mintinline{python3}{models.ForeignKey}}} peut aussi renseigner les relations entre les modèles (donc entre les tables de la base de données).
 \begin{description}
     \item[\mintinline{python3}{class ForeignKey(to, on_delete, **options)}]~
 
-          Une relation plusieurs-à-un, (cf. le didacticiel, exemple des chansons qui ont l'artiste en \mintinline{python3}{ForeignKey}). Cette classe exige la classe à laquelle le modèle et relié, et l'option \mintinline{python3}{on\_delete}: \mintinline{python3}{models.CASCADE} si l'on veut que lorsque l'on supprime la \mintinline{python3}{ForeignKey}, que tous les objets associés du modèle concerné soient supprimés, ou bien \mintinline{python3}{SET\_NULL} si l'on veut que les objets aient la valeur \mintinline{python3}{null} à la place de la \mintinline{python3}{ForeignKey} supprimée (dans ce cas il faut aussi renseigner \mintinline{python3}{null=True}). Il y a d'autres possibilités (cf. la doc), \href{https://docs.djangoproject.com/fr/2.0/topics/db/examples/many_to_one/}{voir des exemples}.
+          Une relation plusieurs-à-un, (cf. le didacticiel, exemple des chansons qui ont l'artiste en \mintinline{python3}{ForeignKey}). Cette classe exige la classe à laquelle le modèle et relié, et l'option \mintinline{python3}{on_delete}: \mintinline{python3}{models.CASCADE} si l'on veut que lorsque l'on supprime la \mintinline{python3}{ForeignKey}, que tous les objets associés du modèle concerné soient supprimés, ou bien \mintinline{python3}{SET_NULL} si l'on veut que les objets aient la valeur \mintinline{python3}{null} à la place de la \mintinline{python3}{ForeignKey} supprimée (dans ce cas il faut aussi renseigner \mintinline{python3}{null=True}). Il y a d'autres possibilités (cf. la doc), \href{https://docs.djangoproject.com/fr/2.2/topics/db/examples/many_to_one/}{voir des exemples}.
 
     \item[\mintinline{python3}{class OneToOneField(to, on_delete, parent_link=False, **options)}]~
 
-          Une relation un-à-un, dont le fonctionnement est similaire à \mintinline{python3}{ForeignKey}; \href{https://docs.djangoproject.com/fr/2.0/topics/db/examples/one_to_one/}{voir des exemples}.
+          Une relation un-à-un, dont le fonctionnement est similaire à \mintinline{python3}{ForeignKey}; \href{https://docs.djangoproject.com/fr/2.2/topics/db/examples/one_to_one/}{voir des exemples}.
 
     \item[\mintinline{python3}{class ManyToManyField(to, **options)}]~
 
-          Une relation plusieurs-à-plusieurs, qui fonctionne de la même manière que \mintinline{python3}{ForeignKey} (avec d'autres paramètres supplémentaires, cf. la doc); \href{https://docs.djangoproject.com/fr/2.0/topics/db/examples/many_to_many/}{voir des exemples}.
+          Une relation plusieurs-à-plusieurs, qui fonctionne de la même manière que \mintinline{python3}{ForeignKey} (avec d'autres paramètres supplémentaires, cf. la doc); \href{https://docs.djangoproject.com/fr/2.2/topics/db/examples/many_to_many/}{voir des exemples}.
 \end{description}
 
 \subsubsection{Les options des champs}
-Les champs acceptent des \mintinline{python3}{options}\marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/fields/\#field-options}{\mintinline{python3}{**options}}}, en voici quelques unes (on note après un signe \mintinline{python3}{=} la valeur par défaut):
+Les champs acceptent des \mintinline{python3}{options}\marginpar{\href{https://docs.djangoproject.com/fr/2.2/ref/models/fields/\#field-options}{\mintinline{python3}{**options}}}, en voici quelques unes (on note après un signe \mintinline{python3}{=} la valeur par défaut):
 \begin{description}
     \item[\mintinline{python3}{null=False}]~
 
@@ -1239,12 +1273,12 @@ Les champs acceptent des \mintinline{python3}{options}\marginpar{\href{https://d
 
     \item[\mintinline{python3}{choices}]~
 
-          C'est un itérable (tuple ou liste par exemple) constitué de couples \mintinline{python3}{(A, B)} où \mintinline{python3}{A} est la valeur réelle pour le modèle et \mintinline{python3}{B} le texte affiché à l'utilisateur. On peut organiser en sous groupe comme dans cet exemple:
+          C'est un itérable (tuple ou liste par exemple) constitué de couples \mintinline{python3}{(A, B)} où \mintinline{python3}{A} est la valeur réelle pour le modèle (valeur stockée en base) et \mintinline{python3}{B} le texte affiché à l'utilisateur. On peut organiser en sous groupe comme dans cet exemple:
 
           \begin{minted}{python3}
 choix_media = [
-    ['Audio', [('vinyl', 'Vinyl'), ('cd', 'CD')]],
-    ['Vidéo', [('vhs', 'Cassette VHS'), ('dvd', 'DVD')]],
+    ('Audio', [('vinyl', 'Vinyl'), ('cd', 'CD')]),
+    ('Vidéo', [('vhs', 'Cassette VHS'), ('dvd', 'DVD')]),
     ('unknown', 'Unknown'),
 ]
     \end{minted}
@@ -1267,7 +1301,7 @@ choix_media = [
 \end{description}
 
 \subsubsection{Les métadonnées}
-On \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/options/}{\mintinline{python3}{Meta}}} peut attribuer des métadonnées à un modèle grâce à une classe \mintinline{python3}{Meta} incorporée dans la classe du modèle. C'est une classe facultative. Elle permet d'enrichir l'interface administrateur. On y renseigne plusieurs options, en voici quelques unes:
+On \marginpar{\href{https://docs.djangoproject.com/fr/2.2/ref/models/options/}{\mintinline{python3}{Meta}}} peut attribuer des métadonnées à un modèle grâce à une classe \mintinline{python3}{Meta} incorporée dans la classe du modèle. C'est une classe facultative. Elle permet d'enrichir l'interface administrateur. On y renseigne plusieurs options, en voici quelques unes:
 \begin{description}
     \item[\mintinline{python3}{ordering="-order_date"}]~
 
@@ -1276,89 +1310,132 @@ On \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/options/}{\
     \item[\mintinline{python3}{verbose_name}, \mintinline{python3}{verbose_name_plural}]~
 
           Noms verbeux (même principe que pour les champs) respectivement dans le cas du singulier et dans le cas du pluriel.
-
-    \item[\mintinline{python3}{db_table}]~
-
-          Nom de la table dans la base de données. Par défaut, Django la nomme \mintinline{python3}{application\_modèle}.
-\end{description}
-
-\subsubsection{Les gestionnaires}
-Le gestionnaire \marginpar{\href{https://docs.djangoproject.com/fr/2.0/topics/db/managers/}{\mintinline{python3}{models}}\par\quad\href{https://docs.djangoproject.com/fr/2.0/topics/db/managers/}{\mintinline{python3}{.manager}}\par\quad\quad\href{https://docs.djangoproject.com/fr/2.0/topics/db/managers/}{\mintinline{python3}{.Manager}}} est l'interface par laquelle on fait des requêtes à la base de données avec l'\href{https://docs.djangoproject.com/fr/2.0/topics/db/queries/}{API Django} (voir le didacticiel pour un exemple, dans les vues \mintinline{python3}{liste\_artistes} ou \mintinline{python3}{liste\_chansons}. Le gestionnaire permet aussi bien d'inspecter la base de données que de la modifier.
-
-\begin{description}
-    \item[\mintinline{python3}{class Manager}]~
-
-          Gestionnaire de la classe concernée. Par défaut, on a (on ne l'écrit pas mais c'est comme-ci):
-          \begin{minted}{python3}
-class Modèle:
-    # ...
-    objects = models.Manager()
-    \end{minted}
-
-          On peut définir un gestionnaire personnalisé (par exemple pour une classe \mintinline{python3}{Personne}, on peut le nommer \mintinline{python3}{personnes}), dans ce cas, \mintinline{python3}{Modèle.objects} produira une exception \mintinline{python3}{AttributeError}. Si l'on veut définir un gestionnaire avec des méthodes personnalisées, il suffit de créer une classe héritant de \mintinline{python3}{Manager}.
-\end{description}
-
-\subsubsection{Modifier la base de données}
-L'administration \marginpar{\mintinline{python3}{models}\par\quad\mintinline{python3}{.base}\par\quad\quad\href{https://docs.djangoproject.com/fr/2.0/ref/models/instances/}{\mintinline{python3}{.Model}}} permet de facilement modifier la base de données à la main, mais on doit utiliser l'API Django si on veut modifier la base de données à partir des vues ou des modèles eux-mêmes (par exemple, en reprenant l'exemple du didacticiel, on peut imaginer que la sauvegarde d'un objet Chanson dans la base de données entraînera la création et sauvegarde de l'objet Artiste associé s'il n'existe pas).\medskip
+          
+          \item[\mintinline{python3}{db_table}]~
+          
+          Nom de la table dans la base de données. Par défaut, Django la nomme \mintinline{python3}{application_modèle}.
+        \end{description}
+        
+\subsubsection{Enregistrer des instances de modèles en base de données}
+L'administration \marginpar{\mintinline{python3}{models}\par\quad\mintinline{python3}{.base}\par\quad\quad\href{https://docs.djangoproject.com/fr/2.2/ref/models/instances/}{\mintinline{python3}{.Model}}} permet de facilement modifier la base de données à la main, mais on doit utiliser l'API Django si on veut modifier la base de données à partir des vues ou des modèles eux-mêmes (par exemple, en reprenant l'exemple du didacticiel, on peut imaginer que la sauvegarde d'un objet \mintinline{python3}{Song} dans la base de données entraînera la création et sauvegarde de l'objet \mintinline{python3}{Artist} associé s'il n'existe pas).\medskip
 
 Pour insérer un objet dans la table de données, on commence déjà par l'instancier. Comme indiqué dans le didacticiel, tous les modèles héritent de la classe \mintinline{python3}{Model}.
 
 \begin{description}
     \item[\mintinline{python3}{class Model}]~
 
-          Tous les modèles doivent hériter de cette classe! Ainsi on a accès à toutes les méthodes définies par défaut. Il est déconseillé de surcharger l'initialiseur \mintinline{python3}{__init__()}, car cela pourrait entraîner des erreurs. Il est conseillé de créer un gestionnaire personnalisé (une classe qui hérite de \mintinline{python3}{Manager}) et d'y écrire la méthode personnalisée.
+            Tous les modèles doivent hériter de cette classe! Ainsi on a accès à toutes les méthodes définies par défaut. Il est déconseillé de surcharger l'initialiseur \mintinline{python3}{__init__()}, car cela pourrait entraîner des erreurs. Il est conseillé de créer un gestionnaire personnalisé (une classe qui hérite de \mintinline{python3}{Manager}) et d'y écrire la méthode personnalisée.
 \end{description}
 
-Une fois les objets créés, on peut modifier leurs attributs (donc leurs futurs champs). Pour les inclure dans la base de données, il faut les sauvegarder. La première étape consiste à valider l'instance.
+Le constructeur accepte en paramètres nommés les différents champs qui le caractérisent. Une fois les objets créés, on peut modifier leurs attributs (donc leurs futurs champs). Pour les inclure dans la base de données, il faut les sauvegarder. On peut éventuellement commencer par valider les instances à enregistrer ; ce mécanisme est utilisé par les formulaires.
 
 \begin{description}
-    \item[\mintinline{python3}{Model.clean_fields(self, exclude=None)}]~
+    \item[\mintinline{python3}{model_inst.clean_fields(exclude=None)}]~
 
-          Cette méthode valide les champs de l'instance (typiquement, lève une erreur si un champ est vide, alors qu'on n'a pas le paramètre \mintinline{python3}{blank=True}). L'option \mintinline{python3}{exclude} permet d'indiquer des champs à ignorer lors de la validation. Si la validation échoue, lève une exception \mintinline{python3}{ValidationError}.
+            Cette méthode valide les champs de l'instance (typiquement, lève une erreur si un champ est vide, alors qu'on n'a pas le paramètre \mintinline{python3}{blank=True}). L'option \mintinline{python3}{exclude} permet d'indiquer des champs à ignorer lors de la validation. Si la validation échoue, lève une exception \mintinline{python3}{ValidationError}.
 
-    \item[\mintinline{python3}{Model.clean(self)}]~
+    \item[\mintinline{python3}{model_inst.clean()}]~
 
-          Une méthode à personnaliser pour effectuer des méthodes personnalisées sur notre modèle (effectuer automatiquement des valeurs à des champs, effectuer des validations qui demandent de vérifier plusieurs champs simultanément par exemple). Devrait lever une exception \mintinline{python3}{ValidationError} si échoue.
+            Une méthode à personnaliser pour effectuer des méthodes personnalisées sur notre modèle (effectuer automatiquement des valeurs à des champs, effectuer des validations qui demandent de vérifier plusieurs champs simultanément par exemple). Devrait lever une exception \mintinline{python3}{ValidationError} si échoue.
 
-    \item[\mintinline{python3}{Model.validate_unique(self, exclude=None)}]~
+    \item[\mintinline{python3}{model_inst.validate_unique(exclude=None)}]~
 
-          Vérifie les contraintes d'unicité du modèle et lève une \mintinline{python3}{ValidationError} si échoue.
+            Vérifie les contraintes d'unicité du modèle et lève une \mintinline{python3}{ValidationError} si échoue.
 
-    \item[\mintinline{python3}{Model.full_clean(self, exclude=None, validate_unique=True)}]~
+    \item[\mintinline{python3}{model_inst.full_clean(exclude=None, validate_unique=True)}]~
 
-          Exécute les trois méthodes précédentes (exécute \mintinline{python3}{validate\_unique} si le paramètre correspondant est \mintinline{python3}{True}).
+            Exécute les trois méthodes précédentes (exécute \mintinline{python3}{validate_unique} si le paramètre correspondant est \mintinline{python3}{True}).
 \end{description}
 
+Pour sauvegarder un objet en base, on appelle la méthode \mintinline{python3}{save()}:
+
+
+\begin{description}
+    \item[\mintinline{python3}{model_inst.save(force_insert=False, force_update=False, using=DEFAULT_DB_ALIAS, update_fields=None)}]~
+    
+    Sauvegarde l'objet en base. Le paramètre \mintinline{python3}{update_fields} permet de spécifier les champs à mettre à jour pour gagner en performance.
+    Pour une explication complète de cette méthode, voir la \href{https://docs.djangoproject.com/en/2.2/ref/models/instances/\#saving-objects}{documentation officielle}.
+    
+\end{description}
+
+\subsubsection{Les gestionnaires}
+Le gestionnaire \marginpar{\href{https://docs.djangoproject.com/fr/2.2/topics/db/managers/}{\mintinline{python3}{models}}\par\quad\href{https://docs.djangoproject.com/fr/2.2/topics/db/managers/}{\mintinline{python3}{.manager}}\par\quad\quad\href{https://docs.djangoproject.com/fr/2.2/topics/db/managers/}{\mintinline{python3}{.Manager}}} est l'interface par laquelle on fait des requêtes à la base de données grâce à l'\href{https://docs.djangoproject.com/fr/2.2/ref/models/querysets/}{API des QuerySet} (voir le didacticiel pour un exemple, dans les vues \mintinline{python3}{artists_list} ou \mintinline{python3}{liste_chansons}). Le gestionnaire permet aussi bien d'inspecter la base de données que de la modifier.
+
+\begin{description}
+    \item[\mintinline{python3}{class Manager}]~
+    
+          Gestionnaire par défaut. Si aucun manager n'est défini explicitement dans un modèle, il sera automatiquement assigné à l'attribut de classe \mintinline{python3}{objects}.
+        \end{description}
+
+        Le rôle du gestionnaire est de renvoyer un objet QuerySet adapté au modèle attaché. On peut appeler toutes les méthodes des QuerySet sur un gestionnaire.
+
+\begin{minted}{python3}
+    MyModel.objects # manager par défaut
+MyModel.objects.all() # QuerySet contenant tous les objets MyModel
+\end{minted}
+
+Il peut être utile d'écrire un gestionnaire personnalisé lorsque l'on effectue de manière récurrente un certain filtrage sur les objets. Imaginons que l'on veuille récupérer toutes les chansons d'un artiste, triées selon les albums et les numéros de pistes :
+
+\begin{minted}{python3}
+muse = Artist.objects.get(name="Muse")
+songs_from_muse = Song.objects.filter(artist=muse).order_by("album__year", "track_number")
+\end{minted}
+
+On peut définir une méthode spécifique pour cette requête dans un manager dérivé de \mintinline{python3}{models.Manager} :
+
+\begin{minted}{python3}
+class SongManager(models.Manager):
+    def from_artist(self, artist):
+        return self.get_queryset().filter(artist=artist).order_by("album__year", "track_number")
+
+class Song(models.Model):
+    # corps de la classe
+    
+    # on associe le manager SongManager à ce modèle
+    objects = SongManager()
+\end{minted}
+
+Ainsi on peut retrouver les chansons triées avec :
+
+\begin{minted}{python3}
+muse = Artist.objects.get(name="Muse")
+songs_from_muse = Song.objects.from_artist(muse)
+\end{minted}
+
+Cela permet d'améliorer la maintenabilité du code.
+
+
 \subsubsection{Récupérer des informations de la base de données}
-Lorsque \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/models/querysets/}{\mintinline{python3}{models}}\par\quad\href{https://docs.djangoproject.com/fr/2.0/ref/models/querysets/}{\mintinline{python3}{.query}}\par\quad\quad\href{https://docs.djangoproject.com/fr/2.0/ref/models/querysets/}{\mintinline{python3}{.QuerySet}}} l'on veut récupérer des informations de la base de données, on utilise l'API Django. Différentes méthodes appliquées sur les gestionnaires des modèles permettent d'obtenir des objets \mintinline{python3}{QuerySet} qui contiennent les informations désirées. En résumé, on utilise la syntaxe:
+Lorsque \marginpar{\href{https://docs.djangoproject.com/fr/2.2/ref/models/querysets/}{\mintinline{python3}{models}}\par\quad\href{https://docs.djangoproject.com/fr/2.2/ref/models/querysets/}{\mintinline{python3}{.query}}\par\quad\quad\href{https://docs.djangoproject.com/fr/2.2/ref/models/querysets/}{\mintinline{python3}{.QuerySet}}} l'on veut récupérer des informations de la base de données, on utilise l'API Django. Différentes méthodes appliquées sur les gestionnaires des modèles permettent d'obtenir des objets \mintinline{python3}{QuerySet} qui contiennent les informations désirées. En résumé, on utilise la syntaxe:
 \begin{minted}{python3}
 # schéma
 query_set = Modèle.gestionnaire.methode()
 # exemple
-liste_artistes = Artiste.objects.all() #  objects est le nom par défaut du gestionnaire
+artists_list = Artiste.objects.all() #  objects est le nom par défaut du gestionnaire
 # on peut aussi appeler ces méthodes sur des QuerySet
-liste_artistes_inversee = liste_artistes.reverse()
+reversed_artists_list = artists_list.reverse()
 \end{minted}
+
 Voici quelques méthodes qui renvoient un \mintinline{python3}{QuerySet}:
 
 \begin{description}
-    \item[\mintinline{python3}{gestionnaire.all()}]~
+    \item[\mintinline{python3}{queryset.all()}]~
 
           Renvoie un \mintinline{python3}{QuerySet} contenant toutes les entrées de la table.
 
-    \item[\mintinline{python3}{gestionnaire.filter(**kwargs)}]~
+    \item[\mintinline{python3}{queryset.filter(**kwargs)}]~
 
-          Renvoie un \mintinline{python3}{QuerySet} contenant tous les objets répondant aux \href{https://docs.djangoproject.com/fr/2.0/ref/models/querysets/#field-lookups}{paramètres rentrés}.
+          Renvoie un \mintinline{python3}{QuerySet} contenant tous les objets répondant aux \href{https://docs.djangoproject.com/fr/2.2/ref/models/querysets/#field-lookups}{paramètres rentrés}.
 
-    \item[\mintinline{python3}{gestionnaire.exclude(**kwargs)}]~
+    \item[\mintinline{python3}{queryset.exclude(**kwargs)}]~
 
-          Renvoie un \mintinline{python3}{QuerySet} contenant tous les objets sauf ceux répondant aux \href{https://docs.djangoproject.com/fr/2.0/ref/models/querysets/#field-lookups}{paramètres rentrés}.
+          Renvoie un \mintinline{python3}{QuerySet} contenant tous les objets sauf ceux répondant aux \href{https://docs.djangoproject.com/fr/2.2/ref/models/querysets/#field-lookups}{paramètres rentrés}.
 
-    \item[\mintinline{python3}{gestionnaire.reverse(**kwargs)}]~
+    \item[\mintinline{python3}{queryset.reverse(**kwargs)}]~
 
           Renvoie le \mintinline{python3}{QuerySet} dans l'ordre inverse.
 
-    \item[\mintinline{python3}{gestionnaire.distinct(**kwargs)}]~
+    \item[\mintinline{python3}{queryset.distinct(**kwargs)}]~
 
           Renvoie un \mintinline{python3}{QuerySet} sans doublon.
 \end{description}
@@ -1368,9 +1445,9 @@ Il y a plusieurs façons d'exploiter un \mintinline{python3}{QuerySet}:
     \item Ils sont itérables:
           \begin{minted}{python3}
 # On imagine qu'on a déjà un QuerySet, on reprend le modèle du didacticiel
->>> liste_artistes
-<QuerySet [<Artiste: Muse>, <Artiste: Keane>, <Artiste: Imagine Dragons>]>
->>> for artiste in liste_artistes:
+>>> artists_list
+<QuerySet [<Artist: Muse>, <Artist: Keane>, <Artist: Imagine Dragons>]>
+>>> for artiste in artists_list:
 ...    print(artiste.nom)
 ...
 Muse
@@ -1380,63 +1457,66 @@ Imagine Dragons
 
     \item On peut facilement récupérer le nombre d'éléments
           \begin{minted}{python3}
->>> len(liste_artistes)
+>>> len(artists_list)
 3
     \end{minted}
 
     \item On peut convertir le \mintinline{python3}{QuerySet} en liste:
           \begin{minted}{python3}
->>> L = list(liste_artistes)
+>>> L = list(artists_list)
 >>> L
-[<Artiste: Muse>, <Artiste: Keane>, <Artiste: Imagine Dragons]
+[<Artist: Muse>, <Artist: Keane>, <Artist: Imagine Dragons]
     \end{minted}
 
-    \item Il existe des méthodes qui évaluent un \mintinline{python3}{QuerySet} et qui renvoient autre chose qu'un \mintinline{python3}{QuerySet}. En voici quelques unes.
-
-          \begin{description}
-              \item[\mintinline{python3}{query_set.get(**kwargs)}]~
-
-                    Renvoie \emph{l'unique} objet répondant aux paramètres rentrés. S'il existe plusieurs objets possibles, ou zéro objet possible, cette fonction renvoie une erreur (respectivement \mintinline{python3}{MultipleObjectsReturned} et \mintinline{python3}{DoesNotExist}). Si une requête renvoie un \mintinline{python3}{QuerySet} singleton, on peut directement récupérer l'objet avec cette méthode sans paramètre (c'est risqué).
-
-              \item[\mintinline{python3}{query_set.get_or_create(defaults=None, **kwargs)}]~
-
-                    Même comportement que ci-dessus, sauf que si l'objet n'existe pas, il est créé. Renvoie un tuple \mintinline{python3}{objet, créé} où \mintinline{python3}{objet} est l'objet créé ou charge, \mintinline{python3}{créé} un booléen: \mintinline{python3}{True} si l'objet a été créé et \mintinline{python3}{False} sinon. Cette méthode permet d'alléger la syntaxe et d'éviter d'avoir recours à \mintinline{python3}{try: ... except: ...}. Les méthodes permettant d'agir sur la base de données sont détaillées plus loin.
-
-              \item[\mintinline{python3}{query_set.update_or_create(defaults=None, **kwargs)}]~
-
-                    Essaie de trouver un objet correspondant aux paramètres et lui assigne les nouvelles valeurs rentrées, et crée l'objet s'il n'existe pas. Renvoie la même chose que la méthode précédente.
-
-              \item[\mintinline{python3}{query_set.last()}]~
-
-                    Renvoie le dernier objet d'un \mintinline{python3}{QuerySet} (si ce dernier n'est pas trié, il est automatiquement trié selon la clé primaire).
-
-              \item[\mintinline{python3}{query_set.first()}]~
-
-                    Idem que la méthode précédente mais renvoie le premier objet.
-
-              \item[\mintinline{python3}{query_set.latest(*fields)}]~
-
-                    Renvoie l'objet le plus récent selon le champ indiqué (on les indique de la même manière que pour \mintinline{python3}{ordering}).
-
-              \item[\mintinline{python3}{query_set.earliest(*fields)}]~
-
-                    Idem que la méthode précédente mais renvoie le plus ancien.
-
-          \end{description}
 \end{itemize}
 
+Il existe des méthodes de \mintinline{python3}{QuerySet} renvoyant autre chose qu'un \mintinline{python3}{QuerySet}. En voici quelques unes.
+
+\begin{description}
+    \item[\mintinline{python3}{queryset.get(**kwargs)}]~
+
+        Renvoie \emph{l'unique} objet répondant aux paramètres rentrés. S'il existe plusieurs objets possibles, ou zéro objet possible, cette méthode lève une exception (respectivement \mintinline{python3}{MultipleObjectsReturned} et \mintinline{python3}{DoesNotExist}). Si une requête renvoie un \mintinline{python3}{QuerySet} singleton, on peut directement récupérer l'objet avec cette méthode sans paramètre (c'est risqué).
+
+    \item[\mintinline{python3}{queryset.get_or_create(defaults=None, **kwargs)}]~
+
+        Même comportement que ci-dessus, sauf que si l'objet n'existe pas, il est créé. Renvoie un tuple \mintinline{python3}{objet, créé} où \mintinline{python3}{objet} est l'objet créé ou charge, \mintinline{python3}{créé} un booléen: \mintinline{python3}{True} si l'objet a été créé et \mintinline{python3}{False} sinon. Cette méthode permet d'alléger la syntaxe et d'éviter d'effectuer diverses vérifications. Les méthodes permettant d'agir sur la base de données sont détaillées plus loin.
+
+    \item[\mintinline{python3}{queryset.update_or_create(defaults=None, **kwargs)}]~
+
+        Essaie de trouver un objet correspondant aux paramètres et lui assigne les nouvelles valeurs rentrées, et crée l'objet s'il n'existe pas. Renvoie la même chose que la méthode précédente.
+
+    \item[\mintinline{python3}{queryset.last()}]~
+
+        Renvoie le dernier objet d'un \mintinline{python3}{QuerySet} (si ce dernier n'est pas trié, il est automatiquement trié selon la clé primaire).
+
+    \item[\mintinline{python3}{queryset.first()}]~
+
+        Idem que la méthode précédente mais renvoie le premier objet.
+
+    \item[\mintinline{python3}{queryset.latest(*fields)}]~
+
+        Renvoie l'objet le plus récent selon le champ indiqué (on les indique de la même manière que pour \mintinline{python3}{ordering}).
+
+    \item[\mintinline{python3}{queryset.earliest(*fields)}]~
+
+        Idem que la méthode précédente mais renvoie le plus ancien.
+
+\end{description}
+
+\paragraph*{Remarque} Toutes les méthodes de QuerySet sont disponibles sur les objets Manager.
+
 \subsection{Les requêtes HTTP: vues et URL}
-Comme \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/request-response/}{\mintinline{python3}{django.http}}}indiqué dans le didacticiel:
+Comme \marginpar{\href{https://docs.djangoproject.com/fr/2.2/ref/request-response/}{\mintinline{python3}{django.http}}}indiqué dans le didacticiel:
 \begin{enumerate}
     \item Les vues sont des fonctions, rangées dans le fichier \mintinline{python3}{views.py} de l'application.
     \item Elles prennent en paramètre obligatoirement une requête Web (à laquelle peuvent s'ajouter des paramètres facultatifs) et renvoient une réponse Web.
     \item La gestion des URL associées aux vues se fait dans le fichier \mintinline{python3}{urls.py}.
 \end{enumerate}
 
-\paragraph{Plus d'informations} Documentation Django 2 --- \href{https://docs.djangoproject.com/fr/2.0/topics/http/views/}{Ecriture des vues} ---  \href{https://docs.djangoproject.com/fr/2.0/topics/http/urls/}{Distribution des URL}
+\paragraph{Plus d'informations} Documentation Django 2.2 --- \href{https://docs.djangoproject.com/fr/2.2/topics/http/views/}{Ecriture des vues} ---  \href{https://docs.djangoproject.com/fr/2.2/topics/http/urls/}{Distribution des URL}
 
 \subsubsection{Requêtes HTTP}
-Les \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/request-response/\#httprequest-objects}{\mintinline{python3}{http.HttpRequest}}} vues manipulent des requêtes HTTP et renvoient une réponse HTTP en utilisant les modèles et les gabarits. Elles prennent en paramètres une requête HTTP et d'éventuels paramètres supplémentaires dans l'URL (cf. le didacticiel). On commence par décrire ce qu'est une requête HTTP pour Django.
+Les \marginpar{\href{https://docs.djangoproject.com/fr/2.2/ref/request-response/\#httprequest-objects}{\mintinline{python3}{http.HttpRequest}}} vues manipulent des requêtes HTTP et renvoient une réponse HTTP en utilisant les modèles et les gabarits. Elles prennent en paramètres une requête HTTP et d'éventuels paramètres supplémentaires dans l'URL (cf. le didacticiel). On commence par décrire ce qu'est une requête HTTP pour Django.
 
 \begin{description}
     \item[\mintinline{python3}{class HttpRequest}]~
@@ -1473,7 +1553,7 @@ def some_view(request):
 \end{description}
 
 \subsubsection{Réponse HTTP}
-On \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/request-response/\#httpresponse-objects}{\mintinline{python3}{http.HttpResponse}}} s'intéresse maintenant à ce que les vues renvoient: les réponses HTTP.
+On \marginpar{\href{https://docs.djangoproject.com/fr/2.2/ref/request-response/\#httpresponse-objects}{\mintinline{python3}{http.HttpResponse}}} s'intéresse maintenant à ce que les vues renvoient: les réponses HTTP.
 
 \begin{description}
     \item[\mintinline{python3}{class HttpResponse}]~
@@ -1503,12 +1583,12 @@ response = HttpResponse("Voici du texte de page Web.")
           Exemple de classe fille de \mintinline{python3}{HttpResponse}, identique à sa classe mère à l'exception de son code HTTP, ici, 404. Il en existe d'autres (voir la doc).
 \end{description}
 
-Comme \marginpar{\href{https://docs.djangoproject.com/fr/2.0/topics/http/shortcuts/\#render}{\mintinline{python3}{django}}\par\quad\href{https://docs.djangoproject.com/fr/2.0/topics/http/shortcuts/\#render}{\mintinline{python3}{.shortcuts}}\par\quad\quad\href{https://docs.djangoproject.com/fr/2.0/topics/http/shortcuts/\#render}{\mintinline{python3}{.render}}} premier paramètre (c'est-à-dire \mintinline{python3}{content}), on peut utiliser une méthode de gabarit, la méthode \mintinline{python3}{render}, qui permet de renvoyer du HTML en utilisant les gabarits. Il existe le raccourci \mintinline{python3}{render} pour alléger le code:
+Comme \marginpar{\href{https://docs.djangoproject.com/fr/2.2/topics/http/shortcuts/\#render}{\mintinline{python3}{django}}\par\quad\href{https://docs.djangoproject.com/fr/2.2/topics/http/shortcuts/\#render}{\mintinline{python3}{.shortcuts}}\par\quad\quad\href{https://docs.djangoproject.com/fr/2.2/topics/http/shortcuts/\#render}{\mintinline{python3}{.render}}} premier paramètre (c'est-à-dire \mintinline{python3}{content}), on peut utiliser une méthode de gabarit, la méthode \mintinline{python3}{render}, qui permet de renvoyer du HTML en utilisant les gabarits. Il existe le raccourci \mintinline{python3}{render} pour alléger le code:
 
 \begin{description}
     \item[\mintinline{python3}{render(request, template_name, context=None, content_type=None, status=None, using=None)}]~
 
-          Fonction qui combine un gabarit avec dictionnaire de contexte et renvoie une \mintinline{python3}{HttpResponse} avec le texte résultant. Deux paramètres obligatoires: \mintinline{python3}{request} et \mintinline{python3}{template\_name}, le nom complet du gabarit à utiliser.
+          Fonction qui combine un gabarit avec dictionnaire de contexte et renvoie une \mintinline{python3}{HttpResponse} avec le texte résultant. Deux paramètres obligatoires: \mintinline{python3}{request} et \mintinline{python3}{template_name}, le nom complet du gabarit à utiliser.
 \end{description}
 
 Les deux vues suivantes sont équivalentes (issus de la doc
@@ -1539,7 +1619,7 @@ def index(request):
 
 
 \subsubsection{La gestion des URL}
-Les URL \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/urls/}{\mintinline{python3}{django.urls}}} (Uniforme Resource Locators) sont gérés dans les différents fichiers \mintinline{python3}{urls.py}. Il y en a un dans chaque application et un dans le répertoire racine. Les URL sont configurées dans la liste \mintinline{python3}{urlpatterns}. Voici les principales fonctions à utiliser.
+Les URL \marginpar{\href{https://docs.djangoproject.com/fr/2.2/ref/urls/}{\mintinline{python3}{django.urls}}} (Uniforme Resource Locators) sont gérés dans les différents fichiers \mintinline{python3}{urls.py}. Il y en a un dans chaque application et un dans le répertoire racine. Les URL sont configurées dans la liste \mintinline{python3}{urlpatterns}. Voici les principales fonctions à utiliser.
 
 \begin{description}
     \item[\mintinline{python3}{path(route, view, kwargs=None, name=None)}]~
@@ -1555,7 +1635,7 @@ Les URL \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/urls/}{\minti
 \subsection{Les gabarits}
 Un gabarit Django est un fichier texte ou une chaîne de caractères Python balisée en utilisant le langage de gabarit Django. Certaines expressions (étiquettes et variables) sont reconnues et inerprétées par le moteur de gabarit. Pour rendre un gabarit, celui-ci a besoin d'un dictionnaire de contexte: il remplace les variables par leur valeur et exécute les étiquettes. Le reste est maintenu tel quel.
 
-\paragraph{Plus d'informations} \href{https://docs.djangoproject.com/fr/2.0/topics/templates/}{Documentation Django 2}
+\paragraph{Plus d'informations} \href{https://docs.djangoproject.com/fr/2.2/topics/templates/}{Documentation Django 2}
 
 
 \subsubsection{La syntaxe des gabarits}
@@ -1578,7 +1658,7 @@ On accèdes aux attributs d'instances, aux indices de listes, aux clés de dicti
 
 Si la valeur de la variable est une fonction (ou n'importe quel objet appealble), il sera appelé sans paramètre et le résultat retourné sera utilisé.
 
-\paragraph{Les balises} Elles \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/templates/builtins/\#built-in-tag-reference}{Balises intégrées}}permettent de faire diverses choses, comme utiliser des boucles logiques ou insérer d'autres gabarits. Leur nom sont entourés de \mintinline{python3}|{%| et \mintinline{python3}|%}|. Certaines balises sont orphelines, les autres s'utilisent comme ceci:
+\paragraph{Les balises} Elles \marginpar{\href{https://docs.djangoproject.com/fr/2.2/ref/templates/builtins/\#built-in-tag-reference}{Balises intégrées}}permettent de faire diverses choses, comme utiliser des boucles logiques ou insérer d'autres gabarits. Leur nom sont entourés de \mintinline{python3}|{%| et \mintinline{python3}|%}|. Certaines balises sont orphelines, les autres s'utilisent comme ceci:
 
 \begin{minted}{html}
 <!-- Exemple de balise nommée balise. -->
@@ -1639,7 +1719,7 @@ Si la valeur de la variable est une fonction (ou n'importe quel objet appealble)
           Effectue une boucle sur chaque élément d'une liste. On peut ensuite utiliser cet élément comme variable. Exemple:
           \begin{minted}{html}
 <ul>
-{% for artiste in liste_artistes %}
+{% for artiste in artists_list %}
     <li>{{ artiste.nom }}</li>
 {% endfor %}
 </ul>
@@ -1658,7 +1738,7 @@ Si la valeur de la variable est une fonction (ou n'importe quel objet appealble)
     </div>
 {% endfor %}
     \end{minted}
-          A la première itération, \mintinline{python3}{"chaine\_1"} sera utilisé, puis la chaîne contenu dans \mintinline{python3}{variable\_de\_la\_chaine\_2}, puis \mintinline{python3}{"chaine\_3"}. Il est également possible de sauvegarder temporairement le paramètre dans une variable que l'on peut réutiliser plus loin.
+          A la première itération, \mintinline{python3}{"chaine_1"} sera utilisé, puis la chaîne contenu dans \mintinline{python3}{variable_de_la_chaine_2}, puis \mintinline{python3}{"chaine_3"}. Il est également possible de sauvegarder temporairement le paramètre dans une variable que l'on peut réutiliser plus loin.
 
           \begin{minted}{html}
 {% for elemt in liste %}
@@ -1681,13 +1761,12 @@ Les formulaires en Django facilitent la création de formulaires HTML et peuvent
 Ils contiennent le traitement des données reçues lorsqu'on reçoit une requête \mintinline{text}{POST} d'un
 formulaire.
 
-\paragraph{Plus d'informations} \href{https://docs.djangoproject.com/fr/2.0/topics/forms/}{Documentation Django 2 --- Les formulaires}
-
-\subsubsection{Requêtes \mintinline[fontsize=\small]{text}{GET} et requêtes \mintinline[fontsize=\small]{text}{POST}}
+\paragraph{Plus d'informations} \href{https://docs.djangoproject.com/fr/2.2/topics/forms/}{Documentation Django 2 --- Les formulaires}
+\subsubsection[Requêtes {\footnotesize\texttt{GET}} et requêtes {\footnotesize\texttt{POST}}]{Requêtes {\normalfont\bfseries\texttt{GET}} et requêtes {\normalfont\bfseries\texttt{POST}}}
 
 \subsubsection{Construction d'un formulaire}
 
-Un formulaire doit hériter de la classe \marginpar{\href{https://docs.djangoproject.com/fr/2.0/ref/forms/api/\#django.forms.Form}{\mintinline{python3}{forms.Form}}}\mintinline{python3}{forms.Form}. De la même manière que pour
+Un formulaire doit hériter de la classe \marginpar{\href{https://docs.djangoproject.com/fr/2.2/ref/forms/api/\#django.forms.Form}{\mintinline{python3}{forms.Form}}}\mintinline{python3}{forms.Form}. De la même manière que pour
 les modèles, on y renseigne un certain nombres de champs (ce sont les mêmes champs que pour les modèles).
 
 \subsubsection{Utilisation du formulaire}
