@@ -1,0 +1,275 @@
+Dans cette partie, nous allons modéliser un monde peuplé de fourmis.
+
+\section{Objets}
+
+Tout est objet en Python, des nombres aux listes en passant par les modules et les exceptions. Tout objet possède un type, un autre objet qui est responsable de sa création. On peut le récupérer grâce à la fonction native \mintinline{python3}{type()}:
+
+\begin{minted}{pycon}
+>>> type(1)
+<class 'int'>
+>>> type([1, 2, 3])
+<class 'list'>
+>>> import os # on importe un module
+>>> type(os) # et on lui demande son type
+<class 'module'>
+\end{minted}
+
+On peut demander le type de leur type:
+
+\begin{minted}{pycon}
+>>> type(type(1))
+<class 'type'>
+>>> type(type([1, 2, 3]))
+<class 'type'>
+>>> type(type(os))
+<class 'type'>
+\end{minted}
+
+Nativement, tous les types sont créés par \mintinline{python3}{type}. On peut créer nos objets nous-mêmes grâce à \mintinline{python3}{type()}: il suffit de lui donner un nom de type, un tuple contenant ses parents et un dictionnaire d'attributs.\medskip
+
+Commençons par créer un objet élémentaire sans attribut ni parent.
+
+\begin{minted}{pycon}
+>>> Fourmi = type("Fourmi", (), {})
+>>> Fourmi
+<class '__main__.Fourmi'>
+\end{minted}
+
+On vient de créer notre premier type d'objet, il s'agit d'une classe. Les objets créés à partir d'une classe sont appelés instances. Créons maintenant notre première instance.
+
+\begin{minted}{pycon}
+>>> fourmi = Fourmi() # on appelle la classe pour l'instancier
+>>> fourmi
+<__main__.Fourmi object at 0x7f593a678550>
+>>> type(fourmi)
+<class '__main__.Fourmi'>
+>>> fourmi.role = "ouvrière" # on peut lui donner un attribut
+>>> fourmi.role # puis y accéder
+'ouvrière'
+>>> vars(fourmi) # on peut aussi demander tous les attributs qu'il possède
+{'role': 'ouvrière'}
+\end{minted}
+
+En pratique, on ne crée pas nos classes avec la fonction \mintinline{python3}{type()}, ce n'est pas très pratique si on veut que notre classe ait un comportement plus complexe. En effet, une classe peut posséder des méthodes, des propriétés, que l'on préfère écrire en utilisant la définition de classes.
+
+\section{Classes}
+
+\subsection{Structure d'une classe}
+
+Les classes permettent des créer des objets\index{objet} appelés instances\index{instance} qui partagent des caractéristiques communes. Une classe est en fait un gabarit qui nous permet de créer un certain type d'objets. Si on réécrit notre exemple précédent de max, ça donne ça :
+
+\begin{minted}{python3}
+class Fourmi:
+    pass # car la classe est vide
+\end{minted}
+
+Il n'y a pas grand chose dedans pour l'instant. Mais ça s'utilise pareil.\medskip
+
+Les objets instanciés par une classe partagent des caractéristiques communes à la classe:
+\begin{enumerate}
+    \item des attributs\index{attribut}, des variables propres aux instances;
+    \item des méthodes, des fonctions propres aux instances et qui agissent par exemple sur leurs attributs.
+\end{enumerate}
+
+Les classes sont des gabarits qui permettent de créer un même type d'objet.
+
+\subsubsection{Attributs}
+
+Nous allons créer la classe représentant le monde dans lequel vont évoluer les fourmis. On considère qu'il
+s'agit d'une grille ayant une certaine hauteur et une certaine largeur:
+
+\begin{minted}{python3}
+class Monde:
+    hauteur = 32
+    largeur = 32
+\end{minted}
+
+Les variables \mintinline{python3}{hauteur} et \mintinline{python3}{largeur} sont appelées attributs de classe. Chaque objet de cette classe y aura accès:
+
+\begin{minted}{pycon}
+>>> monde1 = Monde()
+>>> monde1.hauteur
+32
+>>> monde2 = Monde()
+>>> monde2.largeur
+32
+\end{minted}
+
+Nos mondes ont une largeur et une hauteur, mais comme ce sont des attributs de classe, ils ont tous la même taille; ce serait plus intéressant de créer des mondes de taille différentes. On peut parfaitement surcharger les attributs de classe pour en faire des attributs d'instance:
+
+\begin{minted}{pycon}
+>>> monde1.largeur = 64
+>>> vars(monde1)
+{'largeur': 64}
+\end{minted}
+
+On remarque que les attributs de classe ne sont pas renvoyées par \mintinline{python3}{vars()}. Cela est dû au fait que les attributs de classe sont gardés uniquement dans la classe; ainsi une modification d'attribut de classe impactera toutes les instances.
+
+\subsubsection{Initialisation}
+
+Maintenant, on veut pouvoir initialiser automatiquement des variables. Définir la taille des mondes après leur création n'est pas gênant pour l'instant, mais quand l'initialisation comprend de nombreux attributs, cela devient fastidieux. On crée pour cela une fonction dans la classe appelée initialiseur.
+
+\begin{minted}{python3}
+class Monde:
+    def __init__(self, hauteur, largeur):
+        """Initialiseur de la classe Monde."""
+        self.hauteur = hauteur
+        self.largeur = largeur
+\end{minted}
+
+On peut alors passer directement la hauteur et la largeur lors de l'appel de la classe pour l'instanciation. Ces arguments sont automatiquement passés à \mintinline{python3}{__init__()}:
+
+\begin{minted}{pycon}
+>>> monde1 = Monde(32, 32)
+>>> monde2 = Monde(largeur=64, hauteur=128)
+>>> vars(monde1)
+{'hauteur': 32, 'largeur': 32}
+>>> vars(monde2)
+{'hauteur': 128, 'largeur': 64}
+\end{minted}
+
+\subsubsection{Méthodes}
+
+Les fonctions définies dans les classes sont appelées méthodes, c'est le cas de l'initialiseur \mintinline{python3}{__init__()}. On peut en définir d'autres pour implémenter des comportements aux instances.
+
+\begin{minted}{python3}
+class Fourmi:
+    def __init__(self, role, x, y):
+        self.role = role
+        self.x = x
+        self.y = y
+    
+    def move(self, x, y):
+        self.x += x
+        self.y += y
+\end{minted}
+
+Une méthode s'utilise comme ceci:
+
+\begin{minted}{pycon}
+>>> fourmi = Fourmi('ouvrière', 0, 0)
+>>> fourmi.move(1, 1)
+>>> vars(fourmi)
+{'role: 'ouvrière', 'x': 1, 'y': 1}
+\end{minted}
+
+Lorsque l'on évalue une méthode sur une instance, Python lui passe automatiquement en premier paramètre l'instance en question. Par convention on nomme donc toujours le premier paramètre des méthodes \mintinline{python3}{self} qui fait référence à l'instance en cours.
+
+\subsubsection{Encapsulation : les propriétés}
+
+On a défini une classe Monde et une classe Foumi qui peut se déplacer. Maintenant, on veut que les fourmis ne puissent pas sortir du monde. On serait tenté d'utiliser des getters et setters (ou accesseurs et mutateurs):
+
+\begin{minted}{python3}
+class Fourmi:
+    def __init__(self, role, x, y, monde):
+        self.role = role
+        self.set_x(x)
+        self.set_y(y)
+        self.monde = monde
+
+    def set_x(self, x):
+        if x > self.monde.largeur:
+            raise ValueError("{} est trop grand.".format(x))
+        self.x = x
+    
+    def set_y(self, y):
+        if y > self.monde.hauteur:
+            raise ValueError("{} est trop grand.".format(y))
+        self.y = y
+
+    def move(self, x, y):
+        self.set_x(x)
+        self.set_y(y)
+\end{minted}
+
+Python possède un mécanisme d'encapsulation sympa qui s'appelle les propriétés, elles permettent d'avoir le même genre de comportement, mais de manière transparente car la modification de valeurs d'attributs garde la même syntaxe :
+
+\begin{minted}{python3}
+class Fourmi:
+    def __init__(self, role, x, y, monde):
+        self.role = role
+        self.monde = monde
+        self.x = x
+        self.y = y
+
+    @property
+    def x(self):
+        return self._x
+
+    @x.setter
+    def x(self, value):
+        if not 0 <= value < self.monde.largeur:
+            raise ValueError("{} n'est pas compris entre 0 et {}.".format(value, self.monde.largeur))    
+        self._x = value
+            
+    @property
+    def y(self):
+        return self._y
+
+    @y.setter
+    def y(self, value):
+        if not 0 <= value < self.monde.hauteur:
+            raise ValueError("{} n'est pas compris entre 0 et {}.".format(value, self.monde.hauteur))
+        self._y = value
+
+    def move(self, x, y):
+        self.x = x
+        self.y = y
+\end{minted}
+
+Une mauvaise affectation de \mintinline{text}{x} ou \mintinline{text}{y} engendrera une erreur:
+
+\begin{minted}{pycon}
+>>> monde = Monde(32, 32)
+>>> fourmi = Fourmi('ouvrière', 0, 0, monde)
+>>> fourmi.x = -1
+File "<stdin>", line 1, in <module>
+    fourmi.x = -1
+File "<stdin", line 15, in x
+    raise ValueError("{} est trop grand.".format(value))    
+ValueError: -1 n'est pas compris en tre 0 et 32.
+\end{minted}
+
+On utilise ici les propriétés pour l'encapsulation d'attributs. Mais elles sont également utiles pour des attributs calculés :
+
+\begin{minted}{python3}
+class Fourmi:
+    # contenu précédent
+
+    @property
+    def distance_origine(self):
+        return math.sqrt(self.x**2 + self.y**2)
+\end{minted}
+
+On fait appel à cette propriété comme à un attribut classique :
+
+\begin{minted}{pycon}
+>>> fourmi.move(3, 4)
+>>> fourmi.distance_origine
+5.0
+\end{minted}
+
+
+\subsubsection{Héritage}
+
+On peut créer des fourmis et leur associer un rôle. Cependant, un rôle différent engendrera un comportement différent (donc des méthodes différentes). Pour illustrer cela, on peut utiliser l'héritage:
+
+\begin{minted}{python3}
+class Fourmi:
+    def __init__(self, x, y, monde):
+        self.x = x
+        self.y = y
+        self.monde = monde
+    
+    # le reste de la classe fourmi précédente
+
+
+class Ouvriere(Fourmi):
+    role = "ouvrière"
+
+
+class Reine(Fourmi):
+    role = "reine"
+\end{minted}
+
+Ici, les nouvelles classes \mintinline{python3}{Ouvriere} et \mintinline{python3}{Reine} héritent de la classe \mintinline{python3}{Fourmi}: elles héritent donc de tout le contenu de cette dernière. Autrement dit, tout ce qui est défini dans la classe \mintinline{python3}{Fourmi} l'est aussi pour \mintinline{python3}{Ouvriere} et \mintinline{python3}{Reine}. Comme on sait que le rôle sera le même pour les fourmis instanciées par une même classe, on peut en faire un attribut de classe.
