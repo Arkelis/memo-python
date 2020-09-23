@@ -24,7 +24,7 @@ Mémo regroupant diverses info sur le langage Python écrit en LaTeX. Le PDF ré
 
 ## Compilation en PDF
 
-### Fedora
+### Paquets Fedora
 
 Paquets nécessaires :
 
@@ -38,6 +38,18 @@ Paquets nécessaires :
     linux-libertine-fonts \
     linux-libertine-biolinum-fonts
 ```
+
+### Paquets Solus
+
+Paquets nécessaires :
+
+```
+# eopkg it texlive texlive-fonts-extra
+```
+
+Il faut aussi installer les polices Linux Libertine et Linux Biolinum (manuellement).
+
+### Compilation
 
 Pour compiler :
 
